@@ -113,19 +113,28 @@ _FEEDBACK_SHIM = """
     localStorage.setItem(KEY(bugId), JSON.stringify(list));
   }
 
+  function fmtTs(ts) {
+    // Match server format: '2026-05-31T07:21:42Z' → '2026-05-31 07:21'
+    return (ts || '').slice(0, 16).replace('T', ' ');
+  }
+
   function ensureHost(bugId) {
     let host = document.querySelector('[data-feedback-list="' + bugId + '"]');
     if (host) return host;
-    // No server-rendered list — create one ourselves, inserted right before
-    // the composer form for this bug.
+    // No server-rendered list — create one ourselves, inserted right after
+    // the feedback-status host (matches the server's section position).
     const form = document.querySelector('form[data-feedback-form="' + bugId + '"]');
     if (!form) return null;
     const section = document.createElement('section');
     section.className = 'pending-feedback';
+    section.setAttribute('aria-label', 'Queued feedback for this bug');
     section.innerHTML =
-      '<h4 class="pending-feedback-head">Pending feedback</h4>' +
+      '<p class="pending-feedback-label">Pending feedback (0)</p>' +
       '<ul class="pending-feedback-list" data-feedback-list="' + bugId + '"></ul>';
-    form.parentNode.insertBefore(section, form);
+    // Insert AFTER the form's parent composer wrapper, matching server.
+    const fbStatus = document.getElementById('fbstatus-' + bugId);
+    const anchor = fbStatus || form;
+    anchor.parentNode.insertBefore(section, anchor.nextSibling);
     return section.querySelector('[data-feedback-list]');
   }
 
@@ -133,27 +142,104 @@ _FEEDBACK_SHIM = """
     const list = read(bugId);
     const host = ensureHost(bugId);
     if (!host) return;
+    const section = host.closest('.pending-feedback');
     if (!list.length) {
-      // Hide the whole section when empty so the empty state stays clean.
-      const section = host.closest('.pending-feedback');
       if (section) section.style.display = 'none';
       host.innerHTML = '';
       return;
     }
-    const section = host.closest('.pending-feedback');
-    if (section) section.style.display = '';
+    if (section) {
+      section.style.display = '';
+      const label = section.querySelector('.pending-feedback-label');
+      if (label) label.textContent = 'Pending feedback (' + list.length + ')';
+    }
     host.innerHTML = list.map((fb, i) =>
       '<li class="pending-feedback-item">' +
-        '<span class="pending-feedback-text"></span>' +
-        '<button type="button" class="pending-feedback-remove" ' +
-          'aria-label="Remove" title="Remove" ' +
+        '<span class="pf-ts">' + fmtTs(fb.ts) + '</span>' +
+        '<span class="pf-text"></span>' +
+        '<button type="button" class="pf-remove" ' +
+          'aria-label="Remove this queued feedback" title="Remove" ' +
           'data-feedback-remove="' + bugId + '" data-index="' + i + '">' +
           '\\u2715' +
         '</button>' +
       '</li>'
     ).join('');
-    const items = host.querySelectorAll('.pending-feedback-text');
+    const items = host.querySelectorAll('.pf-text');
     list.forEach((fb, i) => items[i].textContent = fb.text);
+  }
+
+  // ─── queue badge + dropdown render ────────────────────────────────
+  function allFeedback() {
+    const out = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith('triage-demo:feedback:')) continue;
+      const bugId = k.slice('triage-demo:feedback:'.length);
+      try {
+        const list = JSON.parse(localStorage.getItem(k) || '[]');
+        list.forEach(fb => out.push({ bugId, ts: fb.ts, text: fb.text, tab: fb.tab || 'triaged' }));
+      } catch (_) {}
+    }
+    out.sort((a, b) => (b.ts || '').localeCompare(a.ts || ''));
+    return out;
+  }
+
+  function renderQueue() {
+    const items = allFeedback();
+    const count = items.length;
+    document.querySelectorAll('#btn-process-queue .queue-count').forEach(span => {
+      span.textContent = count;
+    });
+    const panel = document.getElementById('queue-dropdown-content');
+    if (!panel) return;
+    if (!count) {
+      panel.innerHTML = '<p class="queue-dropdown-empty">Nothing queued.</p>';
+      return;
+    }
+    const rows = items.map(it => {
+      const tsShort = (it.ts || '').slice(11, 16);
+      const href = it.tab + '-bug-' + it.bugId + '.html';
+      const escText = it.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return (
+        '<li class="queue-dropdown-row queue-dropdown-row--refine">' +
+          '<a class="queue-dropdown-jump" href="' + href + '" data-target-tab="' + it.tab + '">' +
+            '<span class="queue-badge queue-badge--refine">refine</span>' +
+            '<span class="queue-dropdown-bug">' + it.bugId + '</span>' +
+            '<span class="queue-dropdown-detail">' + escText + '</span>' +
+            '<span class="queue-dropdown-ts">' + tsShort + '</span>' +
+          '</a>' +
+          '<button type="button" class="queue-dropdown-remove" ' +
+            'aria-label="Remove" title="Remove" ' +
+            'data-queue-remove-bug="' + it.bugId + '" data-queue-remove-ts="' + (it.ts || '') + '">' +
+            '\\u2715' +
+          '</button>' +
+        '</li>'
+      );
+    }).join('');
+    const word = count === 1 ? 'action' : 'actions';
+    panel.innerHTML =
+      '<p class="queue-dropdown-summary">' + count + ' queued ' + word + '</p>' +
+      '<ul class="queue-dropdown-list">' + rows + '</ul>';
+  }
+
+  // Queue ✕ removes the matching feedback entry.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-queue-remove-bug]');
+    if (!btn) return;
+    e.preventDefault();
+    const bugId = btn.getAttribute('data-queue-remove-bug');
+    const ts = btn.getAttribute('data-queue-remove-ts');
+    const list = read(bugId).filter(fb => fb.ts !== ts);
+    write(bugId, list);
+    render(bugId);
+    renderQueue();
+  });
+
+  function currentTab() {
+    const name = (window.location.pathname.split('/').pop() || 'index.html');
+    const m = name.match(/^([a-z\\-]+)(?:-bug-\\d+)?\\.html$/);
+    if (!m) return 'triaged';
+    return m[1] === 'index' ? 'triaged' : m[1];
   }
 
   document.addEventListener('submit', (e) => {
@@ -165,10 +251,11 @@ _FEEDBACK_SHIM = """
     const text = (ta && ta.value || '').trim();
     if (!text) return;
     const list = read(bugId);
-    list.push({ text, ts: new Date().toISOString() });
+    list.push({ text, ts: new Date().toISOString(), tab: currentTab() });
     write(bugId, list);
     if (ta) ta.value = '';
     render(bugId);
+    renderQueue();
   });
 
   document.addEventListener('click', (e) => {
@@ -181,12 +268,14 @@ _FEEDBACK_SHIM = """
     list.splice(idx, 1);
     write(bugId, list);
     render(bugId);
+    renderQueue();
   });
 
   function initFeedback() {
     document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
       render(form.getAttribute('data-feedback-form'));
     });
+    renderQueue();
   }
   initFeedback();
 
@@ -591,6 +680,32 @@ def disable_mutation_buttons(html: str) -> str:
     return html
 
 
+def reset_queue_state(html: str) -> str:
+    """Zero out the baked-in queue count + dropdown so the demo starts clean.
+
+    The shim then populates both as the visitor adds feedback. Without this,
+    leftover real claude-queue.jsonl entries from the dev machine leak into
+    the snapshot.
+    """
+    # Topbar queue count
+    html = re.sub(
+        r'(<span class="queue-count">)\d+(</span>)',
+        r'\g<1>0\g<2>',
+        html,
+    )
+    # Dropdown content — replace the whole queue-dropdown-content div with
+    # the empty-state markup so add/remove rows render cleanly via the shim.
+    html = re.sub(
+        r'<div class="queue-dropdown-content" id="queue-dropdown-content">[\s\S]*?</div>(\s*</div>\s*</details>)',
+        '<div class="queue-dropdown-content" id="queue-dropdown-content">'
+        '<p class="queue-dropdown-empty">Nothing queued.</p>'
+        '</div>\\1',
+        html,
+        count=1,
+    )
+    return html
+
+
 def fix_static_paths(html: str) -> str:
     """Convert /static/foo to static/foo so it works under GH Pages subpaths."""
     html = re.sub(r'(src|href)="/static/', r'\1="static/', html)
@@ -640,6 +755,7 @@ def transform(html: str, current_tab: str, bug_id: int | None) -> str:
     html = strip_sse(html)
     html = rewire_feedback(html)
     html = disable_mutation_buttons(html)
+    html = reset_queue_state(html)
     html = fix_static_paths(html)
     html = inject_head_and_banner(html)
     html = per_bug_fixups(html, bug_id)
