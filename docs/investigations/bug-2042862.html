@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Bug 2042862 investigation</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <style>
+    body { background: #fafafa; color: #1a1a1a; font-family: -apple-system, system-ui, sans-serif; line-height: 1.55; }
+    .inv-shell { max-width: 880px; margin: 0 auto; padding: 24px 32px 60px; }
+    .inv-back { display: inline-block; margin: 8px 0 16px; color: #555; text-decoration: none; font-size: 13px; }
+    .inv-back:hover { color: #111; }
+    .inv-fm { background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; padding: 14px 18px; margin: 8px 0 24px; font-size: 13px; }
+    .inv-fm dt { font-weight: 600; color: #555; }
+    .inv-fm dd { margin: 0 0 8px; }
+    .inv-body h1 { font-size: 22px; margin: 18px 0 12px; }
+    .inv-body h2 { font-size: 18px; margin: 22px 0 10px; }
+    .inv-body h3 { font-size: 15px; margin: 18px 0 8px; }
+    .inv-body code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 90%; }
+    .inv-body pre { background: #1f2330; color: #f0f0f0; padding: 12px; border-radius: 6px; overflow-x: auto; }
+    .inv-body pre code { background: none; color: inherit; padding: 0; }
+    .inv-body a { color: #1a5cb8; }
+    .inv-body ul, .inv-body ol { padding-left: 22px; }
+    .demo-banner { background: #fff7d6; color: #5b4a00; border-bottom: 1px solid #e8d27a; padding: 6px 14px; font: 13px/1.5 -apple-system, system-ui, sans-serif; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Static demo &middot; investigation rendered from markdown</div>
+  <div class="inv-shell">
+    <a class="inv-back" href="../triaged-bug-2042862.html">&larr; back to dashboard</a>
+    <dl class="inv-fm"><dt>bug_id</dt><dd>2042862</dd><dt>investigated_at</dt><dd>2026-05-30T00:00:00Z</dd><dt>status</dt><dd>investigated</dd><dt>depth</dt><dd>triage</dd><dt>root_cause</dt><dd>AutoplayPolicy::IsAllowedToPlay(AudioContext&amp;) early-returns true whenever media.autoplay.blocking_policy != sPOLICY_STICKY_ACTIVATION, so Web Audio bypasses all permission/activation checks under the transient-activation and click-to-play policies.</dd><dt>regression_range</dt><dd>null</dd><dt>related_bugs</dt><dd>[1511117, 2023365]</dd><dt>complexity</dt><dd>low</dd><dt>notes</dt><dd>Only triggered when the user sets a non-default media.autoplay.blocking_policy. The HTMLMediaElement path uses a distinct helper (IsAllowedToPlayByBlockingModel) that handles all three policies — the Web Audio path is the outlier.</dd><dt>affected_files</dt><dd><ul><li>dom/media/autoplay/AutoplayPolicy.cpp#L297-L299</li></ul></dd></dl>
+    <div class="inv-body"><h1>Bug 2042862 Investigation (triage mode)</h1>
+<h2>Summary</h2>
+<ul><li><strong>Bug</strong>: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2042862" target="_blank" rel="noopener">Bug 2042862</a></li><li><strong>Title</strong>: Autoplay policy ineffective when not <code>sPOLICY_STICKY_ACTIVATION</code></li><li><strong>Component</strong>: Core :: Audio/Video: Playback</li><li><strong>Current Severity/Priority</strong>: -- / --</li><li><strong>Status</strong>: UNCONFIRMED</li></ul>
+<p>Web Audio autoplay blocking is fully short-circuited when <code>media.autoplay.blocking_policy</code> is set to anything other than <code>0</code> (sticky activation). The gating helper <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#158" target="_blank" rel="noopener"><code>IsEnableBlockingWebAudioByUserGesturePolicy()</code></a> only returns <code>true</code> for sticky activation, so any other policy makes <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#281" target="_blank" rel="noopener"><code>AutoplayPolicy::IsAllowedToPlay(AudioContext&amp;)</code></a> return <code>true</code> immediately at line 297, skipping the site-permission and activation checks. This is an oversight in the original Web Audio autoplay block design (bug 1511117), not a regression — the HTMLMediaElement path handles all three policies correctly via a separate helper.</p>
+<h2>Findings</h2>
+<h3>Root cause</h3>
+<p><strong>Verified.</strong> At <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#297" target="_blank" rel="noopener"><code>AutoplayPolicy.cpp:297-299</code></a> the AudioContext autoplay check does:</p>
+<pre><code class="lang-cpp">if (!IsEnableBlockingWebAudioByUserGesturePolicy()) {
+  return true;
+}</code></pre>
+<p>And <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#158" target="_blank" rel="noopener"><code>IsEnableBlockingWebAudioByUserGesturePolicy()</code></a> is literally:</p>
+<pre><code class="lang-cpp">static bool IsEnableBlockingWebAudioByUserGesturePolicy() {
+  return StaticPrefs::media_autoplay_blocking_policy() ==
+         sPOLICY_STICKY_ACTIVATION;
+}</code></pre>
+<p>So for <code>media.autoplay.blocking_policy == 1</code> (transient activation) or <code>== 2</code> (click-to-play), the function returns <code>false</code>, the early-return fires, and Web Audio is unconditionally allowed to play regardless of user-gesture state or site permissions. By contrast, the HTMLMediaElement path uses <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#163" target="_blank" rel="noopener"><code>IsAllowedToPlayByBlockingModel()</code></a> which has explicit branches for all three policies. The wiki entry at <code>~/firefox-wiki/components/AutoplayPolicy.md</code> line 39 already documents this as a known sticky-activation-only behavior.</p>
+<h3>Affected files</h3>
+<ul><li><a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp" target="_blank" rel="noopener"><code>dom/media/autoplay/AutoplayPolicy.cpp</code></a></li></ul>
+<h3>Regression range</h3>
+<p>None identified — this is the original Web Audio autoplay block design from bug 1511117 (the <code>[meta] block autoplay for web audio</code> tracker). The behavior has always been sticky-activation-only.</p>
+<h3>Related context</h3>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1511117" target="_blank" rel="noopener">Bug 1511117</a> — <code>[meta] block autoplay for web audio</code> — original meta where this Web Audio gating was implemented.</li><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2023365" target="_blank" rel="noopener">Bug 2023365</a> — <code>[meta] Auto Play Issues Meta</code> — A/V triage tracker for autoplay bugs.</li><li>Reporter also notes <code>IsAllowedToPlay(AudioContext&amp;)</code> has no <code>AUTOPLAY_LOG</code> traces, which made debugging unnecessarily hard — adding logging is a worthwhile cleanup alongside the fix.</li></ul>
+<h2>Proposed Solution</h2>
+<p><strong>Hypothesis</strong> — deep verification not yet performed. The Web Audio path should mirror the HTMLMediaElement path: replace the <code>IsEnableBlockingWebAudioByUserGesturePolicy()</code> gate at <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#297" target="_blank" rel="noopener">line 297</a> with a check that uses the same activation semantics as <code>IsAllowedToPlayByBlockingModel()</code> for each of the three policy values (sticky / transient / user-input-depth). Concretely, when <code>media.autoplay.block-webaudio</code> is enabled, all three policies should require an appropriate user activation before allowing the AudioContext to start; only <code>nsIAutoplay::ALLOWED</code> and an <code>ALLOW_ACTION</code> site permission should bypass it. Also add <code>AUTOPLAY_LOG</code> traces in <code>IsAllowedToPlay(AudioContext&amp;)</code> so the decision can be diagnosed from a media log. Deep mode should confirm the exact semantics intended for Web Audio under the transient-activation policy (per-element vs. per-window activation requirement) before writing the patch.</p>
+<h2>Notes</h2>
+<ul><li>The bug is only observable when the user changes <code>media.autoplay.blocking_policy</code> from its default of <code>0</code>, so user-visible impact is limited. Suggested triage: S3 / P3.</li><li>Deep mode needs to confirm: (1) whether the transient-activation policy for Web Audio should check <code>HasValidTransientUserGestureActivation()</code> on the owner document (mirroring the HTMLMediaElement branch at lines 179-185) or whether AudioContext lacks the per-element &quot;blessed&quot; notion entirely; (2) whether the click-to-play policy (<code>sPOLICY_USER_INPUT_DEPTH</code>, value 2) is meaningful for AudioContext since there is no synchronous play() event handler. Both questions affect the exact shape of the replacement gate.</li><li>Suggested test approach (deep mode): mochitest that pushes <code>media.autoplay.blocking_policy = 1</code> + <code>media.autoplay.default = 1</code> and asserts an AudioContext stays in <code>suspended</code> state without a user gesture, then resumes after a simulated click.</li></ul>
+<p>--- <em>Triage-mode investigation. Re-run <code>/bug-start 2042862</code> (deep mode) when ready to implement.</em></p></div>
+  </div>
+</body>
+</html>

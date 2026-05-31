@@ -13,6 +13,7 @@ sec-* keywords, to prevent accidentally publishing a security bug.
 
 from __future__ import annotations
 
+import html as html_mod
 import json
 import re
 import shutil
@@ -98,8 +99,9 @@ _DEMO_BANNER = (
 )
 _FEEDBACK_SHIM = """
 <script>
-// Static-demo feedback shim — per-bug feedback persisted in localStorage,
-// scoped to this browser only. No server, no shared state.
+// Static-demo shims: localStorage-backed feedback + fetch+swap navigation.
+// Together they preserve the htmx feel (no full-page repaint when switching
+// tabs / focused cards) while running entirely client-side.
 (function () {
   const KEY = (bugId) => 'triage-demo:feedback:' + bugId;
 
@@ -181,10 +183,82 @@ _FEEDBACK_SHIM = """
     render(bugId);
   });
 
-  // Initial render: for every composer form on the page, render the
-  // associated feedback list (creating it lazily if needed).
-  document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
-    render(form.getAttribute('data-feedback-form'));
+  function initFeedback() {
+    document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
+      render(form.getAttribute('data-feedback-form'));
+    });
+  }
+  initFeedback();
+
+  // ─── fetch+swap navigation shim ───────────────────────────────────
+  // Intercept clicks on .tab / .rail-item / .queue-dropdown-jump / .deck-prev
+  // / .deck-next and swap only #tab-content, mirroring what the live htmx
+  // app does. Hotkeys (arrow keys, j/k, /, a) keep working because their
+  // handler just calls .click() on these same elements.
+  const NAV_PATTERN = /^[a-z\\-]+(?:-bug-\\d+)?\\.html$/;
+
+  function parseFilename(name) {
+    const m = (name || '').match(/^([a-z\\-]+)(?:-bug-(\\d+))?\\.html$/);
+    if (!m) return null;
+    const tab = m[1] === 'index' ? 'triaged' : m[1];
+    return { tab, bug: m[2] || null };
+  }
+
+  function syncActiveStates(parsed) {
+    document.querySelectorAll('.tab').forEach((t) => {
+      const p = parseFilename(t.getAttribute('href') || '');
+      const isActive = !!(p && p.tab === parsed.tab);
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    if (parsed.bug) {
+      document.querySelectorAll('.rail-item').forEach((el) => {
+        el.classList.toggle('is-active', el.dataset.bugId === parsed.bug);
+      });
+    }
+  }
+
+  async function navigate(href, push, swapSel) {
+    const parsed = parseFilename(href);
+    if (!parsed) return false;
+    const sel = swapSel || '#tab-content';
+    try {
+      const resp = await fetch(href);
+      if (!resp.ok) return false;
+      const html = await resp.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const newNode = doc.querySelector(sel);
+      const curNode = document.querySelector(sel);
+      if (!newNode || !curNode) return false;
+      curNode.innerHTML = newNode.innerHTML;
+
+      if (push !== false) history.pushState({}, '', href);
+      syncActiveStates(parsed);
+      initFeedback();
+      // Let any existing afterSwap/afterSettle handlers in base.html run
+      // (autosizeAll, etc).
+      document.dispatchEvent(new CustomEvent('htmx:afterSwap'));
+      document.dispatchEvent(new CustomEvent('htmx:afterSettle'));
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || (e.button && e.button !== 0)) return;
+    const el = e.target.closest('a[href], [data-nav-target]');
+    if (!el) return;
+    const target = el.getAttribute('data-nav-target') || el.getAttribute('href');
+    if (!target || !NAV_PATTERN.test(target)) return;
+    const swapSel = el.getAttribute('data-nav-swap');
+    e.preventDefault();
+    navigate(target, true, swapSel);
+  });
+
+  window.addEventListener('popstate', () => {
+    const name = (window.location.pathname.split('/').pop() || 'index.html');
+    navigate(name, false);
   });
 })();
 </script>
@@ -220,36 +294,237 @@ def disable_button(match: re.Match[str]) -> str:
 
 
 def rewrite_tab_links(html: str, current_tab: str) -> str:
-    """Rewrite tab nav from `?tab=X` to static file links."""
-    def repl(m: re.Match[str]) -> str:
-        tab = m.group(1)
-        return f'href="{url_to_filename(tab, None)}"'
+    """Rewrite tab/queue/rail href + hx-get from `?tab=...` to static files.
 
-    html = re.sub(r'href="\?tab=([a-z\-]+)"', repl, html)
-    # Strip hx-get on tab links (no server)
-    html = re.sub(r'\s+hx-get="\?tab=[^"]+"', "", html)
-    html = re.sub(r'\s+hx-(target|swap|push-url)="[^"]*"', "", html)
+    href becomes `X.html` or `X-bug-Y.html`; hx-get is converted to
+    `data-nav-target="..."` so buttons that only had hx-get (deck-prev,
+    deck-next) keep a navigable destination for the JS nav shim.
+    """
+    # href="?tab=X&bug=Y" → href="X-bug-Y.html"   (must come before tab-only)
+    html = re.sub(
+        r'href="\?tab=([a-z\-]+)&(?:amp;)?bug=(\d+)"',
+        lambda m: f'href="{url_to_filename(m.group(1), int(m.group(2)))}"',
+        html,
+    )
+    # href="?tab=X" → href="X.html"
+    html = re.sub(
+        r'href="\?tab=([a-z\-]+)"',
+        lambda m: f'href="{url_to_filename(m.group(1), None)}"',
+        html,
+    )
+    # hx-get="?tab=X&bug=Y" → data-nav-target="X-bug-Y.html"
+    html = re.sub(
+        r'hx-get="\?tab=([a-z\-]+)&(?:amp;)?bug=(\d+)"',
+        lambda m: f'data-nav-target="{url_to_filename(m.group(1), int(m.group(2)))}"',
+        html,
+    )
+    # hx-get="?tab=X" → data-nav-target="X.html"
+    html = re.sub(
+        r'hx-get="\?tab=([a-z\-]+)"',
+        lambda m: f'data-nav-target="{url_to_filename(m.group(1), None)}"',
+        html,
+    )
+    # Preserve the swap target so deck-prev/next can swap #deck-area only
+    # (keeping the rail mounted) while tab clicks swap the full #tab-content.
+    html = re.sub(
+        r'hx-target="(#[a-zA-Z0-9\-_]+)"',
+        lambda m: f'data-nav-swap="{m.group(1)}"',
+        html,
+    )
+    # Strip the remaining htmx co-attributes.
+    html = re.sub(r'\s+hx-(swap|push-url|vals|select)="[^"]*"', "", html)
+    html = re.sub(r'\s+hx-on::?[a-zA-Z\-]+="[^"]*"', "", html)
     return html
 
 
 def rewrite_bug_links(html: str) -> str:
-    """Rewrite rail bug links from `?tab=X&bug=Y` to static file links."""
-    def repl(m: re.Match[str]) -> str:
-        tab, bug = m.group(1), int(m.group(2))
-        return f'href="{url_to_filename(tab, bug)}"'
-
-    html = re.sub(r'href="\?tab=([a-z\-]+)&(?:amp;)?bug=(\d+)"', repl, html)
-    html = re.sub(r'\s+hx-get="\?tab=[^"]+&(?:amp;)?bug=\d+"', "", html)
+    """No-op now — folded into rewrite_tab_links to share the regex set."""
     return html
 
 
 def rewrite_investigation_links(html: str) -> str:
-    """Rewrite real-investigation links to the demo repo's investigations/ dir."""
+    """Point investigation links at the locally-rendered HTML pages."""
     return re.sub(
         r'href="https://github\.com/alastor0325/firefox-bug-investigation/blob/main/bug-(\d+)-investigation\.md"',
-        r'href="https://github.com/alastor0325/firefox-triage-dashboard-demo/blob/main/investigations/bug-\1-investigation.md"',
+        r'href="investigations/bug-\1.html"',
         html,
     )
+
+
+# ─── Minimal markdown renderer for investigation pages ────────────────
+
+
+def _inline_md(text: str) -> str:
+    text = html_mod.escape(text)
+    text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
+    text = re.sub(
+        r'\[([^\]]+)\]\(([^)]+)\)',
+        r'<a href="\2" target="_blank" rel="noopener">\1</a>',
+        text,
+    )
+    text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', text)
+    return text
+
+
+def _parse_frontmatter(md: str) -> tuple[dict[str, str], str]:
+    lines = md.split("\n")
+    if not lines or lines[0].strip() != "---":
+        return {}, md
+    fm: dict[str, str] = {}
+    i = 1
+    while i < len(lines) and lines[i].strip() != "---":
+        line = lines[i]
+        if line.startswith("  - ") or line.startswith("  -"):
+            fm.setdefault("_listitems", "")
+            fm["_listitems"] += line.strip()[2:].strip() + "\n"
+        elif ":" in line:
+            k, v = line.split(":", 1)
+            fm[k.strip()] = v.strip()
+        i += 1
+    return fm, "\n".join(lines[i + 1:])
+
+
+def _render_body(body: str) -> str:
+    out: list[str] = []
+    lines = body.split("\n")
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("```"):
+            lang = line[3:].strip()
+            i += 1
+            code: list[str] = []
+            while i < len(lines) and not lines[i].startswith("```"):
+                code.append(lines[i])
+                i += 1
+            i += 1  # skip closing ```
+            cls = f' class="lang-{html_mod.escape(lang)}"' if lang else ""
+            out.append(
+                f"<pre><code{cls}>" + html_mod.escape("\n".join(code)) + "</code></pre>"
+            )
+            continue
+        m = re.match(r"^(#{1,6})\s+(.*)$", line)
+        if m:
+            level = len(m.group(1))
+            out.append(f"<h{level}>{_inline_md(m.group(2))}</h{level}>")
+            i += 1
+            continue
+        if re.match(r"^\s*[-*]\s+", line):
+            items: list[str] = []
+            while i < len(lines) and re.match(r"^\s*[-*]\s+", lines[i]):
+                stripped = re.sub(r"^\s*[-*]\s+", "", lines[i])
+                items.append("<li>" + _inline_md(stripped) + "</li>")
+                i += 1
+            out.append("<ul>" + "".join(items) + "</ul>")
+            continue
+        if re.match(r"^\s*\d+\.\s+", line):
+            items = []
+            while i < len(lines) and re.match(r"^\s*\d+\.\s+", lines[i]):
+                stripped = re.sub(r"^\s*\d+\.\s+", "", lines[i])
+                items.append("<li>" + _inline_md(stripped) + "</li>")
+                i += 1
+            out.append("<ol>" + "".join(items) + "</ol>")
+            continue
+        if not line.strip():
+            i += 1
+            continue
+        paras = [line]
+        i += 1
+        while (
+            i < len(lines)
+            and lines[i].strip()
+            and not lines[i].startswith(("#", "```", "- ", "* "))
+            and not re.match(r"^\s*\d+\.\s+", lines[i])
+        ):
+            paras.append(lines[i])
+            i += 1
+        out.append("<p>" + _inline_md(" ".join(paras)) + "</p>")
+    return "\n".join(out)
+
+
+_INV_PAGE_TEMPLATE = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>{title}</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <style>
+    body {{ background: #fafafa; color: #1a1a1a; font-family: -apple-system, system-ui, sans-serif; line-height: 1.55; }}
+    .inv-shell {{ max-width: 880px; margin: 0 auto; padding: 24px 32px 60px; }}
+    .inv-back {{ display: inline-block; margin: 8px 0 16px; color: #555; text-decoration: none; font-size: 13px; }}
+    .inv-back:hover {{ color: #111; }}
+    .inv-fm {{ background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; padding: 14px 18px; margin: 8px 0 24px; font-size: 13px; }}
+    .inv-fm dt {{ font-weight: 600; color: #555; }}
+    .inv-fm dd {{ margin: 0 0 8px; }}
+    .inv-body h1 {{ font-size: 22px; margin: 18px 0 12px; }}
+    .inv-body h2 {{ font-size: 18px; margin: 22px 0 10px; }}
+    .inv-body h3 {{ font-size: 15px; margin: 18px 0 8px; }}
+    .inv-body code {{ background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 90%; }}
+    .inv-body pre {{ background: #1f2330; color: #f0f0f0; padding: 12px; border-radius: 6px; overflow-x: auto; }}
+    .inv-body pre code {{ background: none; color: inherit; padding: 0; }}
+    .inv-body a {{ color: #1a5cb8; }}
+    .inv-body ul, .inv-body ol {{ padding-left: 22px; }}
+    .demo-banner {{ background: #fff7d6; color: #5b4a00; border-bottom: 1px solid #e8d27a; padding: 6px 14px; font: 13px/1.5 -apple-system, system-ui, sans-serif; text-align: center; }}
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Static demo &middot; investigation rendered from markdown</div>
+  <div class="inv-shell">
+    <a class="inv-back" href="../{back_href}">&larr; back to dashboard</a>
+    {frontmatter_html}
+    <div class="inv-body">{body_html}</div>
+  </div>
+</body>
+</html>
+"""
+
+
+_FM_FIELDS = (
+    "bug_id", "investigated_at", "status", "depth", "root_cause",
+    "regression_range", "related_bugs", "complexity", "notes",
+)
+
+
+def _format_frontmatter(fm: dict[str, str]) -> str:
+    if not fm:
+        return ""
+    rows: list[str] = []
+    for key in _FM_FIELDS:
+        if key in fm and fm[key]:
+            rows.append(
+                f"<dt>{html_mod.escape(key)}</dt>"
+                f"<dd>{_inline_md(fm[key])}</dd>"
+            )
+    listitems = fm.get("_listitems")
+    if listitems:
+        items = [li for li in listitems.strip().split("\n") if li]
+        rows.append("<dt>affected_files</dt><dd><ul>" + "".join(
+            f"<li>{_inline_md(li)}</li>" for li in items) + "</ul></dd>")
+    if not rows:
+        return ""
+    return f'<dl class="inv-fm">{"".join(rows)}</dl>'
+
+
+def render_investigations(triaged_ids: list[int]) -> None:
+    """Render each available investigation MD into docs/investigations/bug-N.html."""
+    dest = DOCS / "investigations"
+    dest.mkdir(parents=True, exist_ok=True)
+    for bug_id in triaged_ids:
+        src = INV_DIR / f"bug-{bug_id}-investigation.md"
+        if not src.exists():
+            continue
+        md = src.read_text()
+        fm, body = _parse_frontmatter(md)
+        page = _INV_PAGE_TEMPLATE.format(
+            title=f"Bug {bug_id} investigation",
+            back_href=f"triaged-bug-{bug_id}.html",
+            frontmatter_html=_format_frontmatter(fm),
+            body_html=_render_body(body),
+        )
+        (dest / f"bug-{bug_id}.html").write_text(page)
+        print(f"  inv: bug-{bug_id}.html")
 
 
 def rewrite_brand_title(html: str) -> str:
@@ -418,6 +693,11 @@ def main() -> None:
     per_tab = bug_ids_per_tab()
     for tab, ids in per_tab.items():
         print(f"  {tab}: {len(ids)} bug(s)")
+
+    # Render investigation MDs for analyzed-tab bugs to HTML pages so the
+    # "Open full investigation →" link works locally and on GH Pages
+    # without needing a separate repo to land first.
+    render_investigations(per_tab.get("triaged", []))
 
     pages_written = 0
 

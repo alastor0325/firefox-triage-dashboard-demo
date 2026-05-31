@@ -62,6 +62,8 @@ button:disabled {
         
         <a class="queue-dropdown-jump"
            href="needs-info-bug-2040169.html"
+           data-nav-target="needs-info-bug-2040169.html"
+           data-nav-swap="#tab-content"
            data-target-tab="needs-info">
         
           <span class="queue-badge queue-badge--apply">apply</span>
@@ -88,6 +90,8 @@ button:disabled {
         
         <a class="queue-dropdown-jump"
            href="needs-info-bug-2040169.html"
+           data-nav-target="needs-info-bug-2040169.html"
+           data-nav-swap="#tab-content"
            data-target-tab="needs-info">
         
           <span class="queue-badge queue-badge--bug-start">bug-start</span>
@@ -133,7 +137,9 @@ button:disabled {
         <a class="tab  "
            href="triaged.html"
            role="tab"
-           aria-selected="false">
+           aria-selected="false"
+           data-nav-target="triaged.html"
+           data-nav-swap="#tab-content">
           <span class="label">Analyzed</span>
           <span class="count">2</span>
         </a>
@@ -142,7 +148,9 @@ button:disabled {
         <a class="tab tab--active "
            href="needs-info.html"
            role="tab"
-           aria-selected="true">
+           aria-selected="true"
+           data-nav-target="needs-info.html"
+           data-nav-swap="#tab-content">
           <span class="label">Needs Info</span>
           <span class="count">9</span>
         </a>
@@ -151,7 +159,9 @@ button:disabled {
         <a class="tab  "
            href="close.html"
            role="tab"
-           aria-selected="false">
+           aria-selected="false"
+           data-nav-target="close.html"
+           data-nav-swap="#tab-content">
           <span class="label">Close / Reassign</span>
           <span class="count">2</span>
         </a>
@@ -160,7 +170,9 @@ button:disabled {
         <a class="tab  tab--empty"
            href="watching.html"
            role="tab"
-           aria-selected="false">
+           aria-selected="false"
+           data-nav-target="watching.html"
+           data-nav-swap="#tab-content">
           <span class="label">Awaiting reply</span>
           <span class="count">0</span>
         </a>
@@ -205,7 +217,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2040167"
            href="needs-info-bug-2040167.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2040167.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2040167</span>
             
@@ -220,7 +233,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2040169"
            href="needs-info-bug-2040169.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2040169.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2040169</span>
             
@@ -235,7 +249,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2040219"
            href="needs-info-bug-2040219.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2040219.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2040219</span>
             
@@ -250,7 +265,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2041202"
            href="needs-info-bug-2041202.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2041202.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2041202</span>
             
@@ -265,7 +281,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2041545"
            href="needs-info-bug-2041545.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2041545.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2041545</span>
             
@@ -280,7 +297,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2041883"
            href="needs-info-bug-2041883.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2041883.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2041883</span>
             
@@ -295,7 +313,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2042323"
            href="needs-info-bug-2042323.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2042323.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2042323</span>
             
@@ -310,7 +329,8 @@ button:disabled {
         <a class="rail-item"
            data-bug-id="2042812"
            href="needs-info-bug-2042812.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2042812.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2042812</span>
             
@@ -325,7 +345,8 @@ button:disabled {
         <a class="rail-item is-active"
            data-bug-id="2043826"
            href="needs-info-bug-2043826.html"
-           hx-select="#deck-area">
+           data-nav-target="needs-info-bug-2043826.html"
+           data-nav-swap="#deck-area">
           <div class="rail-item-row1">
             <span class="rail-bug-id">2043826</span>
             
@@ -346,7 +367,9 @@ button:disabled {
              aria-label="Bug navigation"
              title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
           <button type="button" class="deck-kbd-btn deck-prev"
-                  hx-select="#deck-area"
+                  
+                  data-nav-target="needs-info-bug-2042812.html"
+                  data-nav-swap="#deck-area"
                   
                   aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
           <span class="deck-pos">
@@ -529,7 +552,7 @@ button:disabled {
 
   <form class="composer"
         data-feedback-form="2043826"
-        hx-on::after-request="if(event.detail.successful) { this.reset(); this.querySelector('.composer-send').disabled = true; }">
+        data-nav-swap="#fbstatus-2043826">
     <div class="composer-frame">
       <textarea name="feedback" class="composer-input" rows="2"
                 aria-label="Feedback for the AI"
@@ -560,7 +583,8 @@ button:disabled {
     </div>
     <div class="actions">
       
-        <button disabled title="demo — actions disabled" class="btn btn-primary">Apply</button>
+        <button disabled title="demo — actions disabled" class="btn btn-primary"
+                data-nav-swap="#apply-status-2043826">Apply</button>
       
     </div>
   </div>
@@ -772,8 +796,9 @@ button:disabled {
 </script>
 
 <script>
-// Static-demo feedback shim — per-bug feedback persisted in localStorage,
-// scoped to this browser only. No server, no shared state.
+// Static-demo shims: localStorage-backed feedback + fetch+swap navigation.
+// Together they preserve the htmx feel (no full-page repaint when switching
+// tabs / focused cards) while running entirely client-side.
 (function () {
   const KEY = (bugId) => 'triage-demo:feedback:' + bugId;
 
@@ -855,10 +880,82 @@ button:disabled {
     render(bugId);
   });
 
-  // Initial render: for every composer form on the page, render the
-  // associated feedback list (creating it lazily if needed).
-  document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
-    render(form.getAttribute('data-feedback-form'));
+  function initFeedback() {
+    document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
+      render(form.getAttribute('data-feedback-form'));
+    });
+  }
+  initFeedback();
+
+  // ─── fetch+swap navigation shim ───────────────────────────────────
+  // Intercept clicks on .tab / .rail-item / .queue-dropdown-jump / .deck-prev
+  // / .deck-next and swap only #tab-content, mirroring what the live htmx
+  // app does. Hotkeys (arrow keys, j/k, /, a) keep working because their
+  // handler just calls .click() on these same elements.
+  const NAV_PATTERN = /^[a-z\-]+(?:-bug-\d+)?\.html$/;
+
+  function parseFilename(name) {
+    const m = (name || '').match(/^([a-z\-]+)(?:-bug-(\d+))?\.html$/);
+    if (!m) return null;
+    const tab = m[1] === 'index' ? 'triaged' : m[1];
+    return { tab, bug: m[2] || null };
+  }
+
+  function syncActiveStates(parsed) {
+    document.querySelectorAll('.tab').forEach((t) => {
+      const p = parseFilename(t.getAttribute('href') || '');
+      const isActive = !!(p && p.tab === parsed.tab);
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    if (parsed.bug) {
+      document.querySelectorAll('.rail-item').forEach((el) => {
+        el.classList.toggle('is-active', el.dataset.bugId === parsed.bug);
+      });
+    }
+  }
+
+  async function navigate(href, push, swapSel) {
+    const parsed = parseFilename(href);
+    if (!parsed) return false;
+    const sel = swapSel || '#tab-content';
+    try {
+      const resp = await fetch(href);
+      if (!resp.ok) return false;
+      const html = await resp.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const newNode = doc.querySelector(sel);
+      const curNode = document.querySelector(sel);
+      if (!newNode || !curNode) return false;
+      curNode.innerHTML = newNode.innerHTML;
+
+      if (push !== false) history.pushState({}, '', href);
+      syncActiveStates(parsed);
+      initFeedback();
+      // Let any existing afterSwap/afterSettle handlers in base.html run
+      // (autosizeAll, etc).
+      document.dispatchEvent(new CustomEvent('htmx:afterSwap'));
+      document.dispatchEvent(new CustomEvent('htmx:afterSettle'));
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || (e.button && e.button !== 0)) return;
+    const el = e.target.closest('a[href], [data-nav-target]');
+    if (!el) return;
+    const target = el.getAttribute('data-nav-target') || el.getAttribute('href');
+    if (!target || !NAV_PATTERN.test(target)) return;
+    const swapSel = el.getAttribute('data-nav-swap');
+    e.preventDefault();
+    navigate(target, true, swapSel);
+  });
+
+  window.addEventListener('popstate', () => {
+    const name = (window.location.pathname.split('/').pop() || 'index.html');
+    navigate(name, false);
   });
 })();
 </script>
