@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  
+<style>
+.demo-banner {
+  background: #fff7d6;
+  color: #5b4a00;
+  border-bottom: 1px solid #e8d27a;
+  padding: 6px 14px;
+  font: 13px/1.5 -apple-system, system-ui, sans-serif;
+  text-align: center;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+</style>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Triage · A/V</title>
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780209848">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600;9..144,700;9..144,800&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/style.css?v=1780209848">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+<div class="demo-banner" role="note">Static demo &middot; interactions simulated &middot; bug data from public Bugzilla A/V bugs</div>
+
+
+<header class="topbar">
+  <div class="brand">
+    <h1 class="brand-title">Triage</h1>
+    <span class="brand-sub"><strong>Audio/Video</strong> · Sunday, May 31</span>
+  </div>
+  <div class="topbar-right">
+    <div class="stats">
+      <span class="stat stat--primary"><span class="num">13</span><span class="lbl">pending</span></span>
+    </div>
+    <details id="process-queue-dropdown" class="process-queue-dropdown">
+      <summary id="btn-process-queue" class="btn-process-queue"
+               aria-haspopup="true">
+        Process queue · <span class="queue-count">2</span>
+        <span class="dropdown-caret" aria-hidden="true">▾</span>
+      </summary>
+      <div class="queue-dropdown-panel" id="queue-dropdown-panel">
+        
+<div class="queue-dropdown-content" id="queue-dropdown-content">
+  
+    <p class="queue-dropdown-summary">
+      2 queued actions
+    </p>
+    <ul class="queue-dropdown-list">
+      
+      
+      <li class="queue-dropdown-row queue-dropdown-row--apply">
+        
+        
+        <a class="queue-dropdown-jump"
+           href="needs-info-bug-2040169.html"
+           data-target-tab="needs-info">
+        
+          <span class="queue-badge queue-badge--apply">apply</span>
+          <span class="queue-dropdown-bug">2040169</span>
+          <span class="queue-dropdown-detail">
+            
+              <em>bugzilla-cli apply</em>
+            
+          </span>
+          <span class="queue-dropdown-ts">20:38</span>
+        
+        </a>
+        
+        <button disabled title="demo — actions disabled" type="button"
+                class="queue-dropdown-remove"
+                aria-label="Remove this entry"
+                title="Remove"
+                hx-vals='{"action": "apply", "bug_id": 2040169, "ts": "2026-05-30T20:38:13.594852+00:00"}'>✕</button>
+      </li>
+      
+      
+      <li class="queue-dropdown-row queue-dropdown-row--bug-start">
+        
+        
+        <a class="queue-dropdown-jump"
+           href="needs-info-bug-2040169.html"
+           data-target-tab="needs-info">
+        
+          <span class="queue-badge queue-badge--bug-start">bug-start</span>
+          <span class="queue-dropdown-bug">2040169</span>
+          <span class="queue-dropdown-detail">
+            
+              <em>/bug-start</em>
+            
+          </span>
+          <span class="queue-dropdown-ts">20:38</span>
+        
+        </a>
+        
+        <button disabled title="demo — actions disabled" type="button"
+                class="queue-dropdown-remove"
+                aria-label="Remove this entry"
+                title="Remove"
+                hx-vals='{"action": "bug-start", "bug_id": 2040169, "ts": "2026-05-30T20:38:13.596758+00:00"}'>✕</button>
+      </li>
+      
+    </ul>
+  
+  <div class="queue-dropdown-footer">
+    <button type="button"
+            class="btn-copy-prompt"
+            id="btn-copy-prompt"
+            onclick="copyDrainPrompt(this)"
+            >
+      Copy prompt → paste into Claude
+    </button>
+  </div>
+</div>
+      </div>
+    </details>
+  </div>
+</header>
+
+<div class="layout">
+  <main>
+    <nav class="tabs" role="tablist">
+      
+        
+        <a class="tab  "
+           href="triaged.html"
+           role="tab"
+           aria-selected="false">
+          <span class="label">Analyzed</span>
+          <span class="count">2</span>
+        </a>
+      
+        
+        <a class="tab tab--active "
+           href="needs-info.html"
+           role="tab"
+           aria-selected="true">
+          <span class="label">Needs Info</span>
+          <span class="count">9</span>
+        </a>
+      
+        
+        <a class="tab  "
+           href="close.html"
+           role="tab"
+           aria-selected="false">
+          <span class="label">Close / Reassign</span>
+          <span class="count">2</span>
+        </a>
+      
+        
+        <a class="tab  tab--empty"
+           href="watching.html"
+           role="tab"
+           aria-selected="false">
+          <span class="label">Awaiting reply</span>
+          <span class="count">0</span>
+        </a>
+      
+    </nav>
+
+    <div id="tab-content">
+      
+
+  
+    <div class="workspace">
+      <div id="rail-host">
+        
+
+<aside class="rail">
+  <div class="rail-head">
+    <span class="rail-head-title">
+      Needs Info
+      
+      
+      <span class="info-icon"
+            tabindex="0"
+            aria-label="About this tab"
+            aria-describedby="tab-info-needs-info">ⓘ</span>
+      <span role="tooltip"
+            id="tab-info-needs-info"
+            class="info-tooltip">Bugs missing critical info from the reporter. The draft is the needinfo question. Apply queues bugzilla-cli apply (you confirm [y/N] at the terminal) to set NI on Bugzilla and post the question.</span>
+      
+    </span>
+    <span class="count">9 bugs</span>
+  </div>
+  
+  <input type="search" class="rail-search"
+         placeholder="Filter by title or bug id…"
+         aria-label="Filter bugs in this tab">
+  
+  
+  <div class="rail-list-scroll">
+  <ol>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040167"
+           href="needs-info-bug-2040167.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2040167</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">Twitch player show rapid play/pause until clicked</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040169"
+           href="needs-info-bug-2040169.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2040169</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">Continuous memory growth on Twitch when autoplay is blocked</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040219"
+           href="needs-info-bug-2040219.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2040219</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">does not play some amazon videos</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041202"
+           href="needs-info-bug-2041202.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2041202</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041545"
+           href="needs-info-bug-2041545.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2041545</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item is-active"
+           data-bug-id="2041883"
+           href="needs-info-bug-2041883.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2041883</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042323"
+           href="needs-info-bug-2042323.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2042323</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">Total audio loss on video streams with file:/// security error in console on build 20260525212335</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042812"
+           href="needs-info-bug-2042812.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2042812</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">Video corruption on YouTube</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2043826"
+           href="needs-info-bug-2043826.html"
+           hx-select="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-bug-id">2043826</span>
+            
+            
+            
+          </div>
+          <div class="rail-title">RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)</div>
+        </a>
+      </li>
+    
+  </ol>
+  </div>
+</aside>
+      </div>
+      <div id="deck-area">
+        
+        <nav class="deck-nav"
+             aria-label="Bug navigation"
+             title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+          <button type="button" class="deck-kbd-btn deck-prev"
+                  hx-select="#deck-area"
+                  
+                  aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+          <span class="deck-pos">
+            bug <strong>6</strong> of <strong>9</strong>
+          </span>
+          <div class="deck-bar" aria-hidden="true">
+            <div class="deck-bar-fill" style="width: 66.0%"></div>
+          </div>
+          <button type="button" class="deck-kbd-btn deck-next"
+                  hx-select="#deck-area"
+                  
+                  aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+        </nav>
+        
+        <div class="deck-stage">
+          
+          
+<article class="card" id="card-2041883">
+  <div class="card-head">
+    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041883" target="_blank" rel="noopener">2041883</a></span>
+    
+    
+    
+    
+    
+    
+    
+    <span class="sep">·</span>
+    <span class="badge-level badge-level--unknown">S?</span>
+    <span class="badge-level badge-level--unknown">P?</span>
+  </div>
+
+  <h3 class="card-title">
+    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041883" target="_blank" rel="noopener">On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?</a>
+  </h3>
+
+  
+    
+    
+    
+      
+    
+    
+      
+    
+    
+    <p class="card-byline">
+      
+        Reported by <strong>Mayank Bansal</strong>
+      
+       <span class="dot">·</span> <strong>Windows (inferred from profile)</strong>
+       <span class="dot">·</span> Firefox <strong>(not specified; profile is recent Firefox-main build)</strong>
+       <span class="dot">·</span> last activity 2026-05-24
+    </p>
+    
+
+    
+    <ul class="inventory">
+      <li class="present">Firefox Profiler link (parent process, startup window)</li><li class="present">developer comment with code reference (aosmond)</li>
+      <li class="missing">about:support</li><li class="missing">site(s) / tabs open at the time</li><li class="missing">number of concurrent AV1 videos</li><li class="missing">media log (about:logging media preset) showing DAV1DDecoder init/shutdown lifecycle</li><li class="missing">exact Firefox version</li>
+    </ul>
+    
+
+    
+    
+    
+
+    
+    <div class="more">
+      
+      
+      <details>
+        <summary>Bug description (excerpt)</summary>
+        <div class="body description-body">
+          
+          
+          
+          
+          
+            <p>Profile: <a href="https://share.firefox.dev/3PTxDGK" target="_blank" rel="noopener">https://share.firefox.dev/3PTxDGK</a>
+
+Reporter observed 50+ &#34;dav1d-worker&#34; threads at Firefox startup and questions whether this is intentional.</p>
+          
+        </div>
+      </details>
+      
+      
+      
+      <details>
+        <summary>2 key comments</summary>
+        <div class="body">
+          
+          <div class="comment-snippet">
+            <span class="author">mayankleoboy1@gmail.com</span>
+            <span class="ts">2026-05-23 08:04</span>
+            <p>Profile: <a href="https://share.firefox.dev/3PTxDGK" target="_blank" rel="noopener">https://share.firefox.dev/3PTxDGK</a></p>
+          </div>
+          
+          <div class="comment-snippet">
+            <span class="author">aosmond@mozilla.com</span>
+            <span class="ts">2026-05-24 14:42</span>
+            <p>Looks like the new thread strategy is turned off by default (media.av1.new_thread_count_strategy). Each DAV1DDecoder gets up to 8 threads on init. 50+ implies either decoders were not closed properly, or there are multiple videos running simultaneously. This appears to be happening in a content process.</p>
+          </div>
+          
+        </div>
+      </details>
+      
+      
+      <details>
+        <summary>Attachments (1)</summary>
+        <div class="body">
+          
+            <div><a href="https://share.firefox.dev/3PTxDGK" target="_blank" rel="noopener"><code>Firefox Profiler capture</code></a></div>
+          
+        </div>
+      </details>
+      
+      
+    </div>
+    
+  
+
+  
+
+  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the report, and thanks to :aosmond for the initial pointer.</p>
+<p><strong>Analysis</strong></p>
+<p>As :aosmond noted in comment 1, each <code>DAV1DDecoder</code> instance spawns its own pool of worker threads (typically up to 8 per decoder on a modern machine, see <a href="https://searchfox.org/firefox-main/rev/44371c526236a49753f58a21482cbd0b2bbe413b/dom/media/platforms/agnostic/DAV1DDecoder.cpp#86-101">DAV1DDecoder.cpp</a>). 50+ <code>dav1d-worker</code> threads in a content process therefore implies either roughly six or more AV1 decoders alive simultaneously, or decoders that were not torn down properly. The shared profile is from the parent process and does not show the AV1 decode work or decoder lifecycle, so we cannot yet tell these two cases apart.</p>
+<p><strong>Next Steps</strong></p>
+<ul>
+<li>Which content process was this captured in, and what site(s) were open at the time? (&#34;On startup&#34; suggests session restore — could you share the tab(s) / URL(s) that were restored?)</li>
+<li>Roughly how many AV1 videos were playing or visible at the moment you observed 50+ threads?</li>
+<li>Please attach the contents of <code>about:support</code> (Help → More troubleshooting information → Copy text to clipboard).</li>
+<li>To distinguish &#34;too many concurrent decoders&#34; from &#34;decoders not closed properly&#34;, please capture a media log: please follow the <a href="https://www.loom.com/share/24ea3a8e3a054c478de94643a0ea8620?sid=87b0ffaa-c4ea-43ce-8107-639f24b747a8">instruction video</a> to capture one using <code>about:logging</code> with the &#34;media&#34; preset. Start the log, reproduce the 50+ thread state, then save and attach it here. If you have any privacy concerns about sharing the log publicly, please email it to media-alerts@mozilla.com instead.</li>
+</ul></div>
+
+  <form class="composer"
+        data-feedback-form="2041883"
+        hx-on::after-request="if(event.detail.successful) { this.reset(); this.querySelector('.composer-send').disabled = true; }">
+    <div class="composer-frame">
+      <textarea name="feedback" class="composer-input" rows="2"
+                aria-label="Feedback for the AI"
+                placeholder="What should change about this draft? e.g. drop the about:support ask, make the tone more direct…"></textarea>
+      <button type="submit" class="composer-send" disabled>Revise draft</button>
+    </div>
+  </form>
+  <div id="fbstatus-2041883" class="feedback-status" aria-live="polite"></div>
+
+  
+
+  <div class="card-foot">
+    <div class="diff">
+      
+      
+      
+      
+      
+      
+        <span class="sep">·</span>
+        <span><span class="plus">+</span>ni mayankleoboy1@gmail.com</span>
+      
+      
+        <span class="sep">·</span>
+        <span><span class="plus">+</span>cc alwu@mozilla.com</span>
+      
+      
+    </div>
+    <div class="actions">
+      
+        <button disabled title="demo — actions disabled" class="btn btn-primary">Apply</button>
+      
+    </div>
+  </div>
+  <div id="apply-status-2041883" class="apply-status-host" aria-live="polite"></div>
+</article>
+        </div>
+      </div>
+    </div>
+  
+
+    </div>
+  </main>
+</div>
+
+
+<script>
+  function autosize(el) {
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight + 2) + 'px';
+  }
+  function autosizeAll() {
+    document.querySelectorAll('.composer-input').forEach(autosize);
+  }
+  document.addEventListener('input', (e) => {
+    if (e.target.classList.contains('composer-input')) {
+      autosize(e.target);
+      const send = e.target.closest('.composer-frame')?.querySelector('.composer-send');
+      if (send) send.disabled = !e.target.value.trim();
+    }
+    if (e.target.classList.contains('rail-search')) {
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.rail-item').forEach(el => {
+        const bugId = (el.dataset.bugId || '').toLowerCase();
+        const title = (el.querySelector('.rail-title')?.textContent || '').toLowerCase();
+        const match = !q || bugId.includes(q) || title.includes(q);
+        el.parentElement.style.display = match ? '' : 'none';
+      });
+    }
+  });
+  // Keyboard shortcuts for power users.
+  // Ignored when any input/textarea is focused so typing isn't hijacked.
+  document.addEventListener('keydown', (e) => {
+    const tag = (document.activeElement?.tagName || '').toLowerCase();
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (['input', 'textarea', 'select'].includes(tag) && e.key !== 'Escape') return;
+    const clickIfActive = sel => {
+      const btn = document.querySelector(sel);
+      if (btn && !btn.disabled) { btn.click(); e.preventDefault(); }
+    };
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'j':
+        clickIfActive('.deck-next');
+        break;
+      case 'ArrowUp':
+      case 'k':
+        clickIfActive('.deck-prev');
+        break;
+      case 'ArrowLeft':
+      case 'ArrowRight': {
+        // Switch to prev/next topbar tab. No wrap at edges.
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        const idx = tabs.findIndex(t => t.classList.contains('tab--active'));
+        if (idx < 0) break;
+        const target = e.key === 'ArrowLeft' ? idx - 1 : idx + 1;
+        if (target >= 0 && target < tabs.length) {
+          tabs[target].click();
+          e.preventDefault();
+        }
+        break;
+      }
+      case '/':
+        {
+          const search = document.querySelector('.rail-search');
+          if (search) { search.focus(); search.select(); e.preventDefault(); }
+        }
+        break;
+      case 'a':
+        clickIfActive('.deck-stage .btn-primary, .deck-stage .btn-reassign');
+        break;
+      case 'Escape':
+        if (document.activeElement && 'blur' in document.activeElement) {
+          document.activeElement.blur();
+        }
+        break;
+    }
+  });
+  // Move active state instantly on tab click so the UI feels responsive
+  // even before the htmx response arrives.
+  document.addEventListener('click', (e) => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tab.classList.add('tab--active');
+    tab.setAttribute('aria-selected', 'true');
+  });
+  autosizeAll();
+  document.addEventListener('htmx:afterSettle', autosizeAll);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(autosizeAll);
+  }
+
+  // After an htmx swap (tab click, rail click, queue-dropdown row click),
+  // only #tab-content / #deck-area changes — the topbar tabs aren't
+  // re-rendered. Sync the active tab indicator and the rail highlight
+  // from the URL so the chrome reflects where we just landed.
+  document.addEventListener('htmx:afterSwap', () => {
+    const params = new URLSearchParams(window.location.search);
+    const activeTab = params.get('tab');
+    if (activeTab) {
+      document.querySelectorAll('.tab').forEach(t => {
+        const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
+        const isActive = slug === activeTab;
+        t.classList.toggle('tab--active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+    }
+    const activeBug = params.get('bug');
+    if (!activeBug) return;
+    document.querySelectorAll('.rail-item').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.bugId === activeBug);
+    });
+  });
+
+  // Snappy tab indicator update when clicking a queue-dropdown row,
+  // before the htmx response arrives. (The afterSwap handler above is
+  // the source of truth; this just removes the perceived lag.)
+  document.addEventListener('click', (e) => {
+    const jump = e.target.closest('.queue-dropdown-jump');
+    if (!jump || !jump.dataset.targetTab) return;
+    const slug = jump.dataset.targetTab;
+    document.querySelectorAll('.tab').forEach(t => {
+      const tSlug = new URL(t.href, window.location.origin).searchParams.get('tab');
+      const isActive = tSlug === slug;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  });
+
+  // SSE: re-fetch the current tab content when the dashboard's data
+  // directory changes (e.g. terminal /triage writes a new pending JSON,
+  // a Claude session drains the queue, or anything else touches the files).
+  (function () {
+    if (typeof EventSource === 'undefined' || typeof htmx === 'undefined') return;
+    /* SSE disabled in static demo */ return;
+    const refresh = () => {
+      const url = window.location.pathname + window.location.search;
+      htmx.ajax('GET', url, { target: '#tab-content', swap: 'innerHTML' });
+    };
+    ['draft-changed', 'draft-deleted', 'watch-changed',
+     'investigation-changed'].forEach((evt) => {
+      es.addEventListener(evt, refresh);
+    });
+    // queue-changed: just update the topbar button's count, no full refresh.
+    es.addEventListener('queue-changed', async () => {
+      try {
+        // Refresh the topbar count span.
+        const r = await fetch('/queue/count');
+        const { count } = await r.json();
+        const span = document.querySelector('#btn-process-queue .queue-count');
+        if (span) span.textContent = count;
+        // Refresh the dropdown contents so the open dropdown stays in
+        // sync with the JSONL (e.g. external append/remove or a drain
+        // truncating the file).
+        const panel = document.getElementById('queue-dropdown-panel');
+        if (panel) {
+          htmx.ajax('GET', '/queue/dropdown', {
+            target: '#queue-dropdown-panel', swap: 'innerHTML',
+          });
+        }
+      } catch (_) { /* ignore */ }
+    });
+  })();
+
+  // Explicit copy from the Process queue dropdown.
+  async function copyDrainPrompt(btn) {
+    if (!btn || btn.disabled) return;
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Copying…';
+    try {
+      const r = await fetch('/queue/prepare', { method: 'POST' });
+      const data = await r.json();
+      if (!r.ok || !data.prompt) {
+        btn.textContent = 'Nothing to drain';
+        setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1500);
+        return;
+      }
+      await navigator.clipboard.writeText(data.prompt);
+      btn.textContent = 'Copied · paste into Claude';
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 2000);
+    } catch (e) {
+      btn.textContent = 'Failed';
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1500);
+    }
+  }
+
+  // Close the Process queue dropdown when clicking outside it.
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('process-queue-dropdown');
+    if (!dropdown || !dropdown.open) return;
+    if (!dropdown.contains(e.target)) {
+      dropdown.open = false;
+    }
+  });
+</script>
+
+<script>
+// Static-demo feedback shim — per-bug feedback persisted in localStorage,
+// scoped to this browser only. No server, no shared state.
+(function () {
+  const KEY = (bugId) => 'triage-demo:feedback:' + bugId;
+
+  function read(bugId) {
+    try { return JSON.parse(localStorage.getItem(KEY(bugId)) || '[]'); }
+    catch (_) { return []; }
+  }
+  function write(bugId, list) {
+    localStorage.setItem(KEY(bugId), JSON.stringify(list));
+  }
+
+  function ensureHost(bugId) {
+    let host = document.querySelector('[data-feedback-list="' + bugId + '"]');
+    if (host) return host;
+    // No server-rendered list — create one ourselves, inserted right before
+    // the composer form for this bug.
+    const form = document.querySelector('form[data-feedback-form="' + bugId + '"]');
+    if (!form) return null;
+    const section = document.createElement('section');
+    section.className = 'pending-feedback';
+    section.innerHTML =
+      '<h4 class="pending-feedback-head">Pending feedback</h4>' +
+      '<ul class="pending-feedback-list" data-feedback-list="' + bugId + '"></ul>';
+    form.parentNode.insertBefore(section, form);
+    return section.querySelector('[data-feedback-list]');
+  }
+
+  function render(bugId) {
+    const list = read(bugId);
+    const host = ensureHost(bugId);
+    if (!host) return;
+    if (!list.length) {
+      // Hide the whole section when empty so the empty state stays clean.
+      const section = host.closest('.pending-feedback');
+      if (section) section.style.display = 'none';
+      host.innerHTML = '';
+      return;
+    }
+    const section = host.closest('.pending-feedback');
+    if (section) section.style.display = '';
+    host.innerHTML = list.map((fb, i) =>
+      '<li class="pending-feedback-item">' +
+        '<span class="pending-feedback-text"></span>' +
+        '<button type="button" class="pending-feedback-remove" ' +
+          'aria-label="Remove" title="Remove" ' +
+          'data-feedback-remove="' + bugId + '" data-index="' + i + '">' +
+          '\u2715' +
+        '</button>' +
+      '</li>'
+    ).join('');
+    const items = host.querySelectorAll('.pending-feedback-text');
+    list.forEach((fb, i) => items[i].textContent = fb.text);
+  }
+
+  document.addEventListener('submit', (e) => {
+    const form = e.target.closest('form[data-feedback-form]');
+    if (!form) return;
+    e.preventDefault();
+    const bugId = form.getAttribute('data-feedback-form');
+    const ta = form.querySelector('textarea');
+    const text = (ta && ta.value || '').trim();
+    if (!text) return;
+    const list = read(bugId);
+    list.push({ text, ts: new Date().toISOString() });
+    write(bugId, list);
+    if (ta) ta.value = '';
+    render(bugId);
+  });
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-feedback-remove]');
+    if (!btn) return;
+    e.preventDefault();
+    const bugId = btn.getAttribute('data-feedback-remove');
+    const idx = parseInt(btn.getAttribute('data-index'), 10);
+    const list = read(bugId);
+    list.splice(idx, 1);
+    write(bugId, list);
+    render(bugId);
+  });
+
+  // Initial render: for every composer form on the page, render the
+  // associated feedback list (creating it lazily if needed).
+  document.querySelectorAll('form[data-feedback-form]').forEach((form) => {
+    render(form.getAttribute('data-feedback-form'));
+  });
+})();
+</script>
+
+</body>
+</html>
