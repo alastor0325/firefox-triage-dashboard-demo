@@ -955,12 +955,16 @@ FIX DIRECTION: gate MFMediaEngineDecoderModule::SupportInternal (and RemoteMedia
       curNode.innerHTML = newNode.innerHTML;
 
       if (push !== false) history.pushState({}, '', href);
-      syncActiveStates(parsed);
       initFeedback();
       // Let any existing afterSwap/afterSettle handlers in base.html run
-      // (autosizeAll, etc).
+      // (autosizeAll, etc). base.html's afterSwap re-derives the active tab
+      // from the URL's ?tab= query string, which is always absent in the
+      // static demo (filename routing) — so it marks every tab active
+      // (null === null). Run our filename-based syncActiveStates LAST so it
+      // overrides that and only the navigated tab stays active.
       document.dispatchEvent(new CustomEvent('htmx:afterSwap'));
       document.dispatchEvent(new CustomEvent('htmx:afterSettle'));
+      syncActiveStates(parsed);
       return true;
     } catch (_) {
       return false;
@@ -1061,6 +1065,14 @@ FIX DIRECTION: gate MFMediaEngineDecoderModule::SupportInternal (and RemoteMedia
   box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
   if (box.value) run(box.value);
 })();
+</script>
+<script>
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  e.stopImmediatePropagation();
+}, true);
 </script>
 </body>
 </html>

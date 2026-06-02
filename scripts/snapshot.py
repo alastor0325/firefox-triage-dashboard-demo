@@ -389,12 +389,16 @@ _FEEDBACK_SHIM = """
       curNode.innerHTML = newNode.innerHTML;
 
       if (push !== false) history.pushState({}, '', href);
-      syncActiveStates(parsed);
       initFeedback();
       // Let any existing afterSwap/afterSettle handlers in base.html run
-      // (autosizeAll, etc).
+      // (autosizeAll, etc). base.html's afterSwap re-derives the active tab
+      // from the URL's ?tab= query string, which is always absent in the
+      // static demo (filename routing) — so it marks every tab active
+      // (null === null). Run our filename-based syncActiveStates LAST so it
+      // overrides that and only the navigated tab stays active.
       document.dispatchEvent(new CustomEvent('htmx:afterSwap'));
       document.dispatchEvent(new CustomEvent('htmx:afterSettle'));
+      syncActiveStates(parsed);
       return true;
     } catch (_) {
       return false;
@@ -500,6 +504,23 @@ _SEARCH_SHIM = """
   box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
   if (box.value) run(box.value);
 })();
+</script>"""
+
+
+# Disable ArrowLeft/ArrowRight tab switching in the static demo only.
+# The live app's base.html maps those keys to tab nav (works there via
+# htmx hx-sync), but in the static demo it misbehaves, so the demo is
+# click-to-select-tab only. A capture-phase listener stops the keys before
+# base.html's bubble-phase handler runs. ArrowUp/Down (deck nav) and typing
+# inside inputs are untouched.
+_DISABLE_ARROW_TAB_NAV = """
+<script>
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  e.stopImmediatePropagation();
+}, true);
 </script>"""
 
 _DEMO_CSS = """
@@ -880,7 +901,7 @@ def inject_head_and_banner(html: str) -> str:
     )
     html = html.replace(
         "</body>",
-        _FEEDBACK_SHIM + index_script + _SEARCH_SHIM + "\n</body>",
+        _FEEDBACK_SHIM + index_script + _SEARCH_SHIM + _DISABLE_ARROW_TAB_NAV + "\n</body>",
         1,
     )
     return html
