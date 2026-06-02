@@ -384,6 +384,15 @@ code, kbd {
   transition: color 0.12s, border-color 0.12s;
 }
 .tab:hover { color: var(--ink); text-decoration: none; }
+/* Keyboard focus visibility — tabs, rail items, and the search box show a
+   clear accent ring when focused (e.g. via arrow-key tab nav or Tab). */
+.tab:focus-visible,
+.rail-item:focus-visible,
+.global-search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
 .tab .marker {
   font-weight: 700;
   color: var(--ink-4);
@@ -954,6 +963,18 @@ code, kbd {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  /* Subtle fade-in on tab switch. The workspace is re-created whenever
+     #tab-content swaps — by htmx in the live app and by the nav shim in
+     the static demo — so this plays on every tab change in both. Bug
+     focus only swaps #deck-area, so it isn't re-triggered there. */
+  animation: content-fade-in 0.14s ease-out;
+}
+@keyframes content-fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace { animation: none; }
 }
 #rail-host {
   min-height: 0;
