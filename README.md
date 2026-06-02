@@ -15,9 +15,15 @@ demo surfaces.
 The demo lets you:
 
 - Browse the four tab states: `analyzed`, `needs info`, `close / reassign`,
-  `awaiting reply`
+  `awaiting reply` — cards are ordered newest-filed-first
+- **Search across all bugs** by id, title, or tag (e.g. type `new`) from the
+  box in the tab row; results are a flat list spanning every section, each
+  badged with its section (client-side, runs entirely in your browser)
 - Click between cards in the rail to focus on different bugs
-- Read the per-card draft comment and the proposed Bugzilla actions
+- Read the per-card draft comment, the version line (`Platform` / `Found` /
+  `Affected` chips), and the proposed Bugzilla actions
+- See per-bug signal tags on the rail: `New` (filed within the last 7 days),
+  `regression`, `emergency`
 - View the embedded investigation findings for analyzed bugs
 - Add and remove fake pending feedback on a card (stored only in your
   browser's `localStorage`; each visitor's feedback is private to their
@@ -29,6 +35,9 @@ What's disabled (no backend exists):
 - Process-queue drain actions
 - Watch-list mutations
 - Server-pushed live updates
+
+(Search and tab/card navigation are re-implemented client-side, so they work
+without a backend.)
 
 ## Layout
 

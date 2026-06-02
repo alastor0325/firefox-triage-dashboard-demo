@@ -21,11 +21,11 @@ button:disabled {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Triage · A/V</title>
-  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780209848">
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780353828">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600;9..144,700;9..144,800&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/style.css?v=1780209848">
+  <link rel="stylesheet" href="static/style.css?v=1780353828">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
 <body>
@@ -35,11 +35,11 @@ button:disabled {
 <header class="topbar">
   <div class="brand">
     <h1 class="brand-title">Triage</h1>
-    <span class="brand-sub"><strong>Audio/Video</strong> · Sunday, May 31</span>
+    <span class="brand-sub"><strong>Audio/Video</strong> · Last updated Jun 1, 2026 17:59 PDT</span>
   </div>
   <div class="topbar-right">
     <div class="stats">
-      <span class="stat stat--primary"><span class="num">13</span><span class="lbl">pending</span></span>
+      <span class="stat stat--primary"><span class="num">16</span><span class="lbl">pending</span></span>
     </div>
     <details id="process-queue-dropdown" class="process-queue-dropdown">
       <summary id="btn-process-queue" class="btn-process-queue"
@@ -57,64 +57,77 @@ button:disabled {
 
 <div class="layout">
   <main>
-    <nav class="tabs" role="tablist">
-      
+    <div class="tabbar">
+      <nav class="tabs" role="tablist">
         
-        <a class="tab  "
-           href="triaged.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="triaged.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Analyzed</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="triaged.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="triaged.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Analyzed</span>
+            <span class="count">3</span>
+          </a>
         
-        <a class="tab tab--active "
-           href="needs-info.html"
-           role="tab"
-           aria-selected="true"
-           data-nav-target="needs-info.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Needs Info</span>
-          <span class="count">9</span>
-        </a>
-      
+          
+          <a class="tab tab--active "
+             href="needs-info.html"
+             role="tab"
+             aria-selected="true"
+             data-nav-target="needs-info.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Needs Info</span>
+            <span class="count">11</span>
+          </a>
         
-        <a class="tab  "
-           href="close.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="close.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Close / Reassign</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="close.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="close.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Close / Reassign</span>
+            <span class="count">2</span>
+          </a>
         
-        <a class="tab  tab--empty"
-           href="watching.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="watching.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Awaiting reply</span>
-          <span class="count">0</span>
-        </a>
+          
+          <a class="tab  tab--empty"
+             href="watching.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="watching.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Awaiting reply</span>
+            <span class="count">0</span>
+          </a>
+        
+      </nav>
       
-    </nav>
+      <input class="global-search" type="search" name="q"
+             value=""
+             placeholder="Search id, title, or tag (e.g. new)…"
+             aria-label="Search all bugs by id, title, or tag">
+    </div>
 
     <div id="tab-content">
       
 
   
-    <div class="workspace">
-      <div id="rail-host">
-        
+    
+<div class="workspace">
+  <div id="rail-host">
+    
 
 <aside class="rail">
   <div class="rail-head">
+    
     <span class="rail-head-title">
       Needs Info
       
@@ -128,142 +141,33 @@ button:disabled {
             class="info-tooltip">Bugs missing critical info from the reporter. The draft is the needinfo question. Apply queues bugzilla-cli apply (you confirm [y/N] at the terminal) to set NI on Bugzilla and post the question.</span>
       
     </span>
-    <span class="count">9 bugs</span>
+    <span class="count">11 bugs</span>
+    
   </div>
-  
-  <input type="search" class="rail-search"
-         placeholder="Filter by title or bug id…"
-         aria-label="Filter bugs in this tab">
-  
   
   <div class="rail-list-scroll">
   <ol>
     
       <li>
         <a class="rail-item"
-           data-bug-id="2040167"
-           href="needs-info-bug-2040167.html"
-           data-nav-target="needs-info-bug-2040167.html"
+           data-bug-id="2043943"
+           href="needs-info-bug-2043943.html"
+           data-nav-target="needs-info-bug-2043943.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2040167</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043943</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
-          <div class="rail-title">Twitch player show rapid play/pause until clicked</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item is-active"
-           data-bug-id="2040169"
-           href="needs-info-bug-2040169.html"
-           data-nav-target="needs-info-bug-2040169.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2040169</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">Continuous memory growth on Twitch when autoplay is blocked</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2040219"
-           href="needs-info-bug-2040219.html"
-           data-nav-target="needs-info-bug-2040219.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2040219</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">does not play some amazon videos</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2041202"
-           href="needs-info-bug-2041202.html"
-           data-nav-target="needs-info-bug-2041202.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2041202</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2041545"
-           href="needs-info-bug-2041545.html"
-           data-nav-target="needs-info-bug-2041545.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2041545</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2041883"
-           href="needs-info-bug-2041883.html"
-           data-nav-target="needs-info-bug-2041883.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2041883</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2042323"
-           href="needs-info-bug-2042323.html"
-           data-nav-target="needs-info-bug-2042323.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2042323</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">Total audio loss on video streams with file:/// security error in console on build 20260525212335</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
-           data-bug-id="2042812"
-           href="needs-info-bug-2042812.html"
-           data-nav-target="needs-info-bug-2042812.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2042812</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">Video corruption on YouTube</div>
+          <div class="rail-title">Defective video processing</div>
         </a>
       </li>
     
@@ -274,47 +178,261 @@ button:disabled {
            data-nav-target="needs-info-bug-2043826.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2043826</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043826</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
           <div class="rail-title">RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042812"
+           href="needs-info-bug-2042812.html"
+           data-nav-target="needs-info-bug-2042812.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042812</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Video corruption on YouTube</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042323"
+           href="needs-info-bug-2042323.html"
+           data-nav-target="needs-info-bug-2042323.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042323</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Total audio loss on video streams with file:/// security error in console on build 20260525212335</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041904"
+           href="needs-info-bug-2041904.html"
+           data-nav-target="needs-info-bug-2041904.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041904</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Music controls in the notification drawer STILL fail to work on Android 15</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041883"
+           href="needs-info-bug-2041883.html"
+           data-nav-target="needs-info-bug-2041883.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041883</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041545"
+           href="needs-info-bug-2041545.html"
+           data-nav-target="needs-info-bug-2041545.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041545</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041202"
+           href="needs-info-bug-2041202.html"
+           data-nav-target="needs-info-bug-2041202.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041202</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040219"
+           href="needs-info-bug-2040219.html"
+           data-nav-target="needs-info-bug-2040219.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040219</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">does not play some amazon videos</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item is-active"
+           data-bug-id="2040169"
+           href="needs-info-bug-2040169.html"
+           data-nav-target="needs-info-bug-2040169.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040169</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Continuous memory growth on Twitch when autoplay is blocked</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040167"
+           href="needs-info-bug-2040167.html"
+           data-nav-target="needs-info-bug-2040167.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040167</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Twitch player show rapid play/pause until clicked</div>
         </a>
       </li>
     
   </ol>
   </div>
 </aside>
+  </div>
+  <div id="deck-area">
+    
+    <nav class="deck-nav"
+         aria-label="Bug navigation"
+         title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+      <button type="button" class="deck-kbd-btn deck-prev"
+              
+              data-nav-target="needs-info-bug-2040219.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+      <span class="deck-pos">
+        bug <strong>10</strong> of <strong>11</strong>
+      </span>
+      <div class="deck-bar" aria-hidden="true">
+        <div class="deck-bar-fill" style="width: 90.0%"></div>
       </div>
-      <div id="deck-area">
-        
-        <nav class="deck-nav"
-             aria-label="Bug navigation"
-             title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
-          <button type="button" class="deck-kbd-btn deck-prev"
-                  
-                  data-nav-target="needs-info-bug-2040167.html"
-                  data-nav-swap="#deck-area"
-                  
-                  aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
-          <span class="deck-pos">
-            bug <strong>2</strong> of <strong>9</strong>
-          </span>
-          <div class="deck-bar" aria-hidden="true">
-            <div class="deck-bar-fill" style="width: 22.0%"></div>
-          </div>
-          <button type="button" class="deck-kbd-btn deck-next"
-                  
-                  data-nav-target="needs-info-bug-2040219.html"
-                  data-nav-swap="#deck-area"
-                  
-                  aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
-        </nav>
-        
-        <div class="deck-stage">
-          
-          
+      <button type="button" class="deck-kbd-btn deck-next"
+              
+              data-nav-target="needs-info-bug-2040167.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+    </nav>
+    
+    <div class="deck-stage">
+      
+      
 <article class="card" id="card-2040169">
   <div class="card-head">
     <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2040169" target="_blank" rel="noopener">2040169</a></span>
@@ -348,9 +466,16 @@ button:disabled {
       
         Reported by <strong>Almtst</strong>
       
-       <span class="dot">·</span> <strong>Windows 10 x64</strong>
-       <span class="dot">·</span> Firefox <strong>151.0</strong>
+       <span class="dot">·</span> filed 2026-05-16
        <span class="dot">·</span> last activity 2026-05-28
+    </p>
+    
+    
+    
+    <p class="card-version">
+      <span class="ver-chip ver-chip--platform"><span class="ver-chip-key">Platform</span>Windows 10 x64</span>
+      <span class="ver-chip ver-chip--found"><span class="ver-chip-key">Found</span>151.0</span>
+      
     </p>
     
 
@@ -459,9 +584,9 @@ button:disabled {
   </div>
   <div id="apply-status-2040169" class="apply-status-host" aria-live="polite"></div>
 </article>
-        </div>
-      </div>
     </div>
+  </div>
+</div>
   
 
     </div>
@@ -514,20 +639,25 @@ button:disabled {
         break;
       case 'ArrowLeft':
       case 'ArrowRight': {
-        // Switch to prev/next topbar tab. No wrap at edges.
+        // Switch to prev/next topbar tab. No wrap at edges. We own the key
+        // whenever a tab is active, so preventDefault even at the edges so
+        // the arrow never scrolls the page instead. hx-sync on the tabs
+        // makes a new request abort any in-flight one, so rapid presses
+        // can't land out of order (which made selection skip / feel
+        // unstable).
         const tabs = Array.from(document.querySelectorAll('.tab'));
         const idx = tabs.findIndex(t => t.classList.contains('tab--active'));
         if (idx < 0) break;
+        e.preventDefault();
         const target = e.key === 'ArrowLeft' ? idx - 1 : idx + 1;
         if (target >= 0 && target < tabs.length) {
           tabs[target].click();
-          e.preventDefault();
         }
         break;
       }
       case '/':
         {
-          const search = document.querySelector('.rail-search');
+          const search = document.querySelector('.global-search');
           if (search) { search.focus(); search.select(); e.preventDefault(); }
         }
         break;
@@ -535,6 +665,17 @@ button:disabled {
         clickIfActive('.deck-stage .btn-primary, .deck-stage .btn-reassign');
         break;
       case 'Escape':
+        {
+          const search = document.querySelector('.global-search');
+          // Esc in the search box clears it and returns to the tab view.
+          if (search && document.activeElement === search && search.value) {
+            search.value = '';
+            search.dispatchEvent(new Event('search', { bubbles: true }));
+            search.blur();
+            e.preventDefault();
+            break;
+          }
+        }
         if (document.activeElement && 'blur' in document.activeElement) {
           document.activeElement.blur();
         }
@@ -565,15 +706,20 @@ button:disabled {
   // from the URL so the chrome reflects where we just landed.
   document.addEventListener('htmx:afterSwap', () => {
     const params = new URLSearchParams(window.location.search);
-    const activeTab = params.get('tab');
-    if (activeTab) {
-      document.querySelectorAll('.tab').forEach(t => {
-        const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
-        const isActive = slug === activeTab;
-        t.classList.toggle('tab--active', isActive);
-        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
+    const searching = !!params.get('q');
+    // Keep the search box value in sync (e.g. after back/forward nav).
+    const search = document.querySelector('.global-search');
+    if (search && document.activeElement !== search) {
+      search.value = params.get('q') || '';
     }
+    const activeTab = params.get('tab');
+    // In search mode no tab is active; otherwise reflect the URL's tab.
+    document.querySelectorAll('.tab').forEach(t => {
+      const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
+      const isActive = !searching && slug === activeTab;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
     const activeBug = params.get('bug');
     if (!activeBug) return;
     document.querySelectorAll('.rail-item').forEach(el => {
@@ -915,8 +1061,85 @@ button:disabled {
     const name = (window.location.pathname.split('/').pop() || 'index.html');
     navigate(name, false);
   });
+
+  // Exposed so the search shim can restore the rail when the query clears.
+  window.__demoNavigate = navigate;
+  window.__demoCurrentFile = () =>
+    (window.location.pathname.split('/').pop() || 'index.html');
 })();
 </script>
 
+<script>window.__TRIAGE_SEARCH__ = [{"id": 2043943, "title": "Defective video processing", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043943.html", "filed": "2026-05-31T21:24:12Z"}, {"id": 2043895, "title": "mediaCapabilities.decodingInfo is still slow", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043895.html", "filed": "2026-05-31T11:15:55Z"}, {"id": 2043826, "title": "RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043826.html", "filed": "2026-05-30T13:12:14Z"}, {"id": 2043087, "title": "Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043087.html", "filed": "2026-05-28T01:35:40Z"}, {"id": 2042862, "title": "Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2042862.html", "filed": "2026-05-27T15:22:48Z"}, {"id": 2042812, "title": "Video corruption on YouTube", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042812.html", "filed": "2026-05-27T13:57:20Z"}, {"id": 2042323, "title": "Total audio loss on video streams with file:/// security error in console on build 20260525212335", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042323.html", "filed": "2026-05-26T08:57:13Z"}, {"id": 2042320, "title": "10bit h264 fails to play on Windows", "tags": ["new"], "label": "Close / Reassign", "file": "close-bug-2042320.html", "filed": "2026-05-26T08:52:53Z"}, {"id": 2041904, "title": "Music controls in the notification drawer STILL fail to work on Android 15", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041904.html", "filed": "2026-05-23T10:54:38Z"}, {"id": 2041883, "title": "On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041883.html", "filed": "2026-05-23T08:04:42Z"}, {"id": 2041545, "title": "wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041545.html", "filed": "2026-05-22T03:26:24Z"}, {"id": 2041202, "title": "When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041202.html", "filed": "2026-05-21T04:55:05Z"}, {"id": 2041039, "title": "Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs", "tags": [], "label": "Close / Reassign", "file": "close-bug-2041039.html", "filed": "2026-05-20T16:55:09Z"}, {"id": 2040219, "title": "does not play some amazon videos", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040219.html", "filed": "2026-05-17T12:21:45Z"}, {"id": 2040169, "title": "Continuous memory growth on Twitch when autoplay is blocked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040169.html", "filed": "2026-05-16T22:31:25Z"}, {"id": 2040167, "title": "Twitch player show rapid play/pause until clicked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040167.html", "filed": "2026-05-16T22:19:29Z"}];</script>
+<script>
+(function () {
+  const idx = window.__TRIAGE_SEARCH__ || [];
+  const box = document.querySelector('.global-search');
+  if (!box) return;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"]/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function tagSpans(tags) {
+    return (tags || []).map(t =>
+      '<span class="rail-tag rail-tag--' + t + '">' +
+      (t === 'new' ? 'New' : t) + '</span>').join('');
+  }
+  function matches(item, q) {
+    const ql = q.toLowerCase();
+    return String(item.id).includes(q)
+      || (item.title || '').toLowerCase().includes(ql)
+      || (item.tags || []).some(t => t.startsWith(ql));
+  }
+  function resultsRail(hits) {
+    const lis = hits.map(it =>
+      '<li><a class="rail-item" data-bug-id="' + it.id + '" ' +
+        'href="' + it.file + '" data-nav-target="' + it.file + '">' +
+        '<div class="rail-item-row1">' +
+          '<span class="rail-id-group">' +
+            '<span class="rail-bug-id">' + it.id + '</span>' +
+            '<span class="rail-badge">' + esc(it.label) + '</span>' +
+          '</span>' +
+          '<span class="rail-tag-group">' + tagSpans(it.tags) + '</span>' +
+        '</div>' +
+        '<div class="rail-title">' + esc(it.title) + '</div>' +
+      '</a></li>').join('');
+    return '<aside class="rail"><div class="rail-head">' +
+      '<span class="rail-head-title">Results</span>' +
+      '<span class="count">' + hits.length + ' found</span></div>' +
+      '<div class="rail-list-scroll"><ol>' + lis + '</ol></div></aside>';
+  }
+
+  function run(q) {
+    q = (q || '').trim();
+    const host = document.getElementById('rail-host');
+    if (!q) {
+      // Restore the normal rail by reloading the current page's content.
+      if (window.__demoNavigate) window.__demoNavigate(window.__demoCurrentFile(), false);
+      return;
+    }
+    if (!host) return;
+    const hits = idx.filter(it => matches(it, q));
+    if (!hits.length) {
+      const tc = document.getElementById('tab-content');
+      if (tc) tc.innerHTML = '<p class="empty">No bugs match \u201c' + esc(q) + '\u201d.</p>';
+    } else {
+      host.innerHTML = resultsRail(hits);
+    }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+  }
+
+  let timer = null;
+  box.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(box.value), 200);
+  });
+  box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
+  if (box.value) run(box.value);
+})();
+</script>
 </body>
 </html>

@@ -21,11 +21,11 @@ button:disabled {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Triage · A/V</title>
-  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780209848">
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780353828">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600;9..144,700;9..144,800&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/style.css?v=1780209848">
+  <link rel="stylesheet" href="static/style.css?v=1780353828">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
 <body>
@@ -35,11 +35,11 @@ button:disabled {
 <header class="topbar">
   <div class="brand">
     <h1 class="brand-title">Triage</h1>
-    <span class="brand-sub"><strong>Audio/Video</strong> · Sunday, May 31</span>
+    <span class="brand-sub"><strong>Audio/Video</strong> · Last updated Jun 1, 2026 17:59 PDT</span>
   </div>
   <div class="topbar-right">
     <div class="stats">
-      <span class="stat stat--primary"><span class="num">13</span><span class="lbl">pending</span></span>
+      <span class="stat stat--primary"><span class="num">16</span><span class="lbl">pending</span></span>
     </div>
     <details id="process-queue-dropdown" class="process-queue-dropdown">
       <summary id="btn-process-queue" class="btn-process-queue"
@@ -57,64 +57,77 @@ button:disabled {
 
 <div class="layout">
   <main>
-    <nav class="tabs" role="tablist">
-      
+    <div class="tabbar">
+      <nav class="tabs" role="tablist">
         
-        <a class="tab tab--active "
-           href="triaged.html"
-           role="tab"
-           aria-selected="true"
-           data-nav-target="triaged.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Analyzed</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab tab--active "
+             href="triaged.html"
+             role="tab"
+             aria-selected="true"
+             data-nav-target="triaged.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Analyzed</span>
+            <span class="count">3</span>
+          </a>
         
-        <a class="tab  "
-           href="needs-info.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="needs-info.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Needs Info</span>
-          <span class="count">9</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="needs-info.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="needs-info.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Needs Info</span>
+            <span class="count">11</span>
+          </a>
         
-        <a class="tab  "
-           href="close.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="close.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Close / Reassign</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="close.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="close.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Close / Reassign</span>
+            <span class="count">2</span>
+          </a>
         
-        <a class="tab  tab--empty"
-           href="watching.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="watching.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Awaiting reply</span>
-          <span class="count">0</span>
-        </a>
+          
+          <a class="tab  tab--empty"
+             href="watching.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="watching.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Awaiting reply</span>
+            <span class="count">0</span>
+          </a>
+        
+      </nav>
       
-    </nav>
+      <input class="global-search" type="search" name="q"
+             value=""
+             placeholder="Search id, title, or tag (e.g. new)…"
+             aria-label="Search all bugs by id, title, or tag">
+    </div>
 
     <div id="tab-content">
       
 
   
-    <div class="workspace">
-      <div id="rail-host">
-        
+    
+<div class="workspace">
+  <div id="rail-host">
+    
 
 <aside class="rail">
   <div class="rail-head">
+    
     <span class="rail-head-title">
       Analyzed
       
@@ -128,30 +141,33 @@ button:disabled {
             class="info-tooltip">Bugs you have triaged. The draft is the public Bugzilla comment with your analysis, plus the severity/priority you set. Apply queues bugzilla-cli apply (you confirm [y/N] at the terminal) and a /bug-start handoff to kick off investigation.</span>
       
     </span>
-    <span class="count">2 bugs</span>
+    <span class="count">3 bugs</span>
+    
   </div>
-  
-  <input type="search" class="rail-search"
-         placeholder="Filter by title or bug id…"
-         aria-label="Filter bugs in this tab">
-  
   
   <div class="rail-list-scroll">
   <ol>
     
       <li>
         <a class="rail-item"
-           data-bug-id="2042862"
-           href="triaged-bug-2042862.html"
-           data-nav-target="triaged-bug-2042862.html"
+           data-bug-id="2043895"
+           href="triaged-bug-2043895.html"
+           data-nav-target="triaged-bug-2043895.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2042862</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043895</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
-          <div class="rail-title">Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`</div>
+          <div class="rail-title">mediaCapabilities.decodingInfo is still slow</div>
         </a>
       </li>
     
@@ -162,44 +178,77 @@ button:disabled {
            data-nav-target="triaged-bug-2043087.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2043087</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043087</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
           <div class="rail-title">Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042862"
+           href="triaged-bug-2042862.html"
+           data-nav-target="triaged-bug-2042862.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042862</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`</div>
         </a>
       </li>
     
   </ol>
   </div>
 </aside>
+  </div>
+  <div id="deck-area">
+    
+    <nav class="deck-nav"
+         aria-label="Bug navigation"
+         title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+      <button type="button" class="deck-kbd-btn deck-prev"
+              
+              data-nav-target="triaged-bug-2043895.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+      <span class="deck-pos">
+        bug <strong>2</strong> of <strong>3</strong>
+      </span>
+      <div class="deck-bar" aria-hidden="true">
+        <div class="deck-bar-fill" style="width: 66.0%"></div>
       </div>
-      <div id="deck-area">
-        
-        <nav class="deck-nav"
-             aria-label="Bug navigation"
-             title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
-          <button type="button" class="deck-kbd-btn deck-prev"
-                  
-                  data-nav-target="triaged-bug-2042862.html"
-                  data-nav-swap="#deck-area"
-                  
-                  aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
-          <span class="deck-pos">
-            bug <strong>2</strong> of <strong>2</strong>
-          </span>
-          <div class="deck-bar" aria-hidden="true">
-            <div class="deck-bar-fill" style="width: 100.0%"></div>
-          </div>
-          <button type="button" class="deck-kbd-btn deck-next"
-                  disabled aria-disabled="true"
-                  aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
-        </nav>
-        
-        <div class="deck-stage">
-          
-          
+      <button type="button" class="deck-kbd-btn deck-next"
+              
+              data-nav-target="triaged-bug-2042862.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+    </nav>
+    
+    <div class="deck-stage">
+      
+      
 <article class="card" id="card-2043087">
   <div class="card-head">
     <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2043087" target="_blank" rel="noopener">2043087</a></span>
@@ -233,9 +282,16 @@ button:disabled {
       
         Reported by <strong>Donald Seder</strong>
       
-       <span class="dot">·</span> <strong>Windows 10/11 x64</strong>
-       <span class="dot">·</span> Firefox <strong>151.0</strong>
+       <span class="dot">·</span> filed 2026-05-28
        <span class="dot">·</span> last activity 2026-05-28
+    </p>
+    
+    
+    
+    <p class="card-version">
+      <span class="ver-chip ver-chip--platform"><span class="ver-chip-key">Platform</span>Windows 10/11 x64</span>
+      <span class="ver-chip ver-chip--found"><span class="ver-chip-key">Found</span>151.0</span>
+      <span class="ver-chip ver-chip--affected"><span class="ver-chip-key">Affected</span>all</span>
     </p>
     
 
@@ -320,7 +376,15 @@ button:disabled {
       
       <details>
         <summary>AI reasoning</summary>
-        <div class="body md-body"><p>MFMediaEngineDecoderModule::SupportInternal (dom/media/platforms/wmf/MFMediaEngineDecoderModule.cpp:97) reports HEVC HardwareDecode whenever media.wmf.media-engine.enabled is non-zero, without gating on EME / mMediaEngineId. PDMFactory::CreateContentPDMs (dom/media/platforms/PDMFactory.cpp:662) then registers the UtilityProcess_MFMediaEngineCDM RemoteDecoderModule for pref=2, and RemoteMediaManagerChild::CreateVideoDecoder (dom/media/ipc/RemoteMediaManagerChild.cpp:413) emits the observed 0x806e0003 because mMediaEngineId is empty for non-DRM playback. ExternalEngineStateMachine.cpp:342 already handles the analogous pref==2 + non-encrypted case at the state-machine layer but not the decoder-module layer. S3/P2: confirmed reproducible non-DRM HEVC MSE failure on Windows with a clear code-level routing fix; partial workaround (set pref to 0) exists, so not S2.</p></div>
+        <div class="body md-body"><p>Deeper investigation (gecko-navigator, mozilla-central rev e28b34ab33db):
+ROOT CAUSE CONFIRMED: MFMediaEngineDecoderModule::SupportInternal (dom/media/platforms/wmf/MFMediaEngineDecoderModule.cpp#97-121) gates ONLY on media_wmf_media_engine_enabled() truthiness + HW availability + CanCreateMFTDecoder; it never consults the 0/1/2/3 pref semantics and never checks EME context / mMediaEngineId. So at pref=2 (encrypted-only, the default) it reports clear/non-DRM HEVC as supported. Same truthiness-only gate in RemoteMediaManagerChild::GetTrackSupport (#926-934). PDMFactory::CheckAndMaybeCreateDecoder (PDMFactory.cpp#349-385) picks the first PDM whose Supports() is non-empty; the UtilityProcess_MFMediaEngineCDM module is registered for any non-zero pref (PDMFactory.cpp#662). When it wins, RemoteMediaManagerChild::CreateVideoDecoder (#413-421) rejects with NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR 0x806e0003 because mMediaEngineId is empty. The state-machine/EME layers DO honor ==2 (ExternalEngineStateMachine.cpp#343, EMEUtils.cpp#55) -&gt; the PDM/IPC layer is the deviation. Intermittency = Supports() eligibility + per-load module-ordering/async-fallback variance, not a count limit.
+MAINTAINER QUESTION ANSWERED (decoder limit): NOT the cause. The only count cap in this path is media.wmf.dxva.max-videos (default 8, StaticPrefList.yaml#12492), enforced inside DXVA2Manager::CreateD3D11DXVA (DXVA2Manager.cpp#1203-1221) via the process-global sDXVAVideosCount. It protects GPU/HW resources (&#39;DXVA processing takes up a lot of GPU resources&#39;); exceeding it returns &#39;Too many DXVA videos playing&#39; and falls back to software -- it does NOT emit 0x806e0003 and does NOT reroute to MFMediaEngineCDM. Raising it is &#39;safe&#39; in the no-crash sense (soft cap, graceful SW fallback) but trades robustness for VRAM/decode-session pressure, and is NOT the lever for this bug. No pref limiting MF Media Engine instances or remote-decoder count was found.
+FIX DIRECTION: gate MFMediaEngineDecoderModule::SupportInternal (and RemoteMediaManagerChild::GetTrackSupport) on EME/mMediaEngineId, or honor the 1/3 (clear-allowed) vs 2 (encrypted-only) pref semantics instead of bare truthiness, mirroring EMEUtils.cpp#55. S3/P2 retained: confirmed code-level routing fix, partial pref=0 workaround exists.</p>
+<p>REFINE (alwu, DXVA question): the comment now explicitly addresses the DXVA limit. Answers: (a) Correct — if the cause were the DXVA limit, media.wmf.media-engine.enabled=0 would NOT fix it; since it does fix it, the cause is the media-engine routing gate, not DXVA. (b) DXVA wasn&#39;t mentioned originally because it is not the cause; now added a paragraph distinguishing media.wmf.media-engine.enabled (the workaround) from media.wmf.dxva.max-videos (the GPU concurrency cap). (c) No, do not raise media.wmf.dxva.max-videos — it produces a different failure (&#39;Too many DXVA videos playing&#39; -&gt; SW fallback), never 0x806e0003, never reroutes. Also fixed bot-voice: replaced &#39;I&#39;ll take a look&#39; with a neutral statement of the fix direction.</p>
+<p>REFINE (alwu): simplified the POSTED comment for the reporter — plain-language one-line cause + a clear numbered workaround (set media.wmf.media-engine.enabled=0, restart). Removed the engineer-facing detail from the public comment (root-cause code paths, the DXVA paragraph, and the &#39;gate Supports() on EME&#39; fix direction) — all of that is retained here in ai_reasoning for the implementer. The self-NI on alwu continues to signal the bug is ready for investigation.</p>
+<p>REFINE (alwu, round 4): REVERTED the round-3 over-correction. The root-cause Analysis (routing gap, 0x806e0003, DXVA-not-the-cause, fix direction) is RESTORED in the posted comment — the user did not ask to delete the findings, only to make the user&#39;s next step clear. The comment now keeps the full Analysis for developers AND a clear numbered workaround under Next Steps. Also corrected the wrong /triage skill rule from last round.</p>
+<p>REFINE (alwu, follow-up): added the DXVA-cap angle. HEVC has NO software fallback on Windows — WMFVideoMFTManager.cpp ~#308-322 returns NS_ERROR_DOM_MEDIA_FATAL_ERR (&#39;Use VP8/VP9/AV1 MFT only if HW acceleration is available&#39;) for HEVC/VP8/VP9/AV1 when !mUseHwAccel; WMFDecoderModule.cpp#255 gates HEVC on sDXVAEnabled. So if media.wmf.dxva.max-videos (default 8, DXVA2Manager::CreateD3D11DXVA) is reached, HEVC fails outright regardless of the media-engine setting (different error: &#39;Too many DXVA videos playing&#39; / fatal) — plausible for Frigate&#39;s many simultaneous streams, and disabling the media engine routes ALL HEVC through the single DXVA path (CONFIRMED: sDXVAVideosCount is touched only by the DXVA2Manager ctor/dtor (DXVA2Manager.cpp:1223/:1225, checked :1211); DXVA2Manager is created only by WMFVideoMFTManager and FFmpegVideoDecoder; no MFMediaEngine* file references DXVA2Manager/sDXVAVideosCount, so the MFMediaEngine path does NOT consume Firefox&#39;s counter -- disabling the media engine routes all HEVC through the counted DXVA path. The OS Media Engine still uses DXVA internally, just untracked by our counter.). RESEARCH (general-purpose agent): the 8-cap is Firefox-specific. Chromium has NO fixed concurrent-HW-decoder cap (verified d3d11_video_decoder.cc — only GetMaxDecodeRequests()=4 per instance; dxva_video_decode_accelerator_win.cc — only kNumPictureBuffers=5 per decoder); relies on driver limits + per-decoder SW fallback. MSDN documents no max instance count (CreateVideoDecoder; &#39;Supporting D3D11 Video Decoding in MF&#39; — driver-capability-dependent, SW fallback when no config; numeric guidance is only surface counts 3-32). Comment now gives TWO reporter tests: (A) media.wmf.media-engine.enabled=0 (routing), (B) temporarily raise media.wmf.dxva.max-videos to 32 (concurrent-decoder cap). Implication for the eventual fix: raising/removing the 8-cap is defensible since competitors don&#39;t impose one (tradeoff = GPU memory). Kept self-NI alwu.</p>
+<p>ADDED H.264-vs-HEVC explanation per alwu: H.264 is NOT in the WMFVideoMFTManager !mUseHwAccel fatal-error list (VP9/VP8/AV1/HEVC are) -&gt; H.264 falls back to the built-in MS H.264 software MFT (Msmpeg2vdec.dll, MSDN-confirmed via bug 2042320); WMFDecoderModule.cpp#255 gates only HEVC on sDXVAEnabled. So under DXVA exhaustion H.264 degrades to SW while HEVC fails outright.</p></div>
       </details>
       
     </div>
@@ -387,11 +451,19 @@ button:disabled {
   </details>
   
 
-  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the detailed report and the media profile — that&#39;s exactly what was needed.</p>
+  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the detailed report and the media profile.</p>
 <p><strong>Analysis</strong></p>
-<p>The profile (https://share.firefox.dev/4wS0c8h) shows that <code>ExternalEngineStateMachine</code> enters <code>ReadingMetadata</code> for your non-DRM HEVC MSE stream and then the decoder side fails with <code>NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003) - Utility MF Media Engine CDM only support for media engine playback</code>. The root cause looks like a routing gap in <code>MFMediaEngineDecoderModule::Supports()</code>: it reports HEVC as supported on Windows whenever <code>media.wmf.media-engine.enabled</code> is non-zero (including the encrypted-only value <code>2</code>) without checking whether the caller actually has a media-engine id / EME context. When <code>PDMFactory</code> then selects the <code>UtilityProcess_MFMediaEngineCDM</code> location for non-DRM HEVC, <code>RemoteMediaManagerChild::CreateVideoDecoder</code> rejects because <code>mMediaEngineId</code> is empty. The intermittency is consistent with PDM ordering: when the WMF/GPU HEVC path wins the <code>Supports()</code> race, playback succeeds; when the MFMediaEngineCDM module wins, it fails. The existing <code>ExternalEngineStateMachine</code> pref==2 + non-encrypted bailout fires on the state-machine path, but decoder-module selection is a separate path that needs the same gate.</p>
-<p><strong>Next Steps</strong></p>
-<p>This is enough information to investigate; I&#39;ll take a look. As a temporary workaround on your end, setting <code>media.wmf.media-engine.enabled</code> to <code>0</code> in <code>about:config</code> should keep MFMediaEngineCDM out of the picture entirely (you will still need to fully close and restart Firefox for the change to take effect). Please let us know if that workaround restores consistent playback.</p></div>
+<p>The profile (https://share.firefox.dev/4wS0c8h) shows <code>ExternalEngineStateMachine</code> entering <code>ReadingMetadata</code> for the non-DRM HEVC MSE stream, after which the decoder side fails with <code>NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003) - Utility MF Media Engine CDM only support for media engine playback</code>. Root cause: a routing gap in <code>MFMediaEngineDecoderModule::Supports()</code> — it reports HEVC as supported whenever <code>media.wmf.media-engine.enabled</code> is non-zero (including the encrypted-only default <code>2</code>) without checking for an EME / media-engine context, so <code>PDMFactory</code> can route non-DRM HEVC to the <code>UtilityProcess_MFMediaEngineCDM</code>, which rejects it because <code>mMediaEngineId</code> is empty. The intermittency is PDM ordering — whether the WMF/GPU HEVC path or the MFMediaEngineCDM module wins the <code>Supports()</code> race on a given load. The fix on our side is to gate the decoder-module <code>Supports()</code> check on the EME / media-engine context (or honor the pref&#39;s clear-vs-encrypted semantics).</p>
+<p>There is likely a <strong>second, independent factor</strong> specific to a Frigate setup. Firefox caps concurrent hardware (DXVA) video decode sessions at <strong>8</strong> (<code>media.wmf.dxva.max-videos</code>), and HEVC on Windows has <strong>no software fallback</strong> (<code>WMFVideoMFTManager</code> returns a fatal error for HEVC/VP8/VP9/AV1 when HW accel is unavailable). So once that cap is reached, further HEVC streams fail outright — a different failure than <code>0x806e0003</code>, and very easy to hit when many camera feeds play at once. Worth noting that the 8-stream cap is a <strong>Firefox-specific heuristic</strong>: Chromium has no equivalent fixed cap (per <a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/media/gpu/windows/d3d11_video_decoder.cc"><code>d3d11_video_decoder.cc</code></a> and <a href="https://chromium.googlesource.com/chromium/src/+/f71098198f9adbb2d7eb2eed350e864d81bf77fd/media/gpu/windows/dxva_video_decode_accelerator_win.cc"><code>dxva_video_decode_accelerator_win.cc</code></a>), and Microsoft documents no maximum decoder-instance count (<a href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11videodevice-createvideodecoder">ID3D11VideoDevice::CreateVideoDecoder</a>, <a href="https://learn.microsoft.com/en-us/windows/win32/medfound/supporting-direct3d-11-video-decoding-in-media-foundation">Supporting Direct3D 11 Video Decoding in Media Foundation</a>) — both rely on the driver&#39;s own resource limits and fall back when decoder creation fails.</p>
+<p><strong>Why H.264 streams keep working but HEVC fails:</strong> H.264 has a built-in Windows software decoder (the Media Foundation H.264 MFT, <code>Msmpeg2vdec.dll</code>), so when the hardware path is unavailable — including when the 8-stream DXVA cap is hit — H.264 transparently falls back to software and keeps playing. HEVC has <strong>no</strong> software fallback in Firefox&#39;s Windows path: <code>WMFVideoMFTManager</code> returns a fatal error for HEVC/VP8/VP9/AV1 when HW acceleration isn&#39;t available, and <code>WMFDecoderModule</code> gates HEVC on DXVA being enabled. So under the same DXVA exhaustion, H.264 degrades gracefully to software while HEVC fails outright.</p>
+<p><strong>Next Steps — two things to try (please tell us which, if either, makes playback consistent):</strong></p>
+<p>A. Address the <code>0x806e0003</code> routing error:
+   1. Open <code>about:config</code> and set <code>media.wmf.media-engine.enabled</code> to <code>0</code>.
+   2. Completely close and restart Firefox, then replay.</p>
+<p>B. Test the concurrent-decoder cap (relevant because Frigate plays many streams at once):
+   1. Open <code>about:config</code> and raise <code>media.wmf.dxva.max-videos</code> from <code>8</code> to, say, <code>32</code>.
+   2. Completely close and restart Firefox, then replay.
+   (This is a temporary diagnostic — it trades more GPU memory for more simultaneous hardware decodes, not a permanent recommendation.)</p></div>
 
   <form class="composer"
         data-feedback-form="2043087"
@@ -433,9 +505,9 @@ button:disabled {
   </div>
   <div id="apply-status-2043087" class="apply-status-host" aria-live="polite"></div>
 </article>
-        </div>
-      </div>
     </div>
+  </div>
+</div>
   
 
     </div>
@@ -488,20 +560,25 @@ button:disabled {
         break;
       case 'ArrowLeft':
       case 'ArrowRight': {
-        // Switch to prev/next topbar tab. No wrap at edges.
+        // Switch to prev/next topbar tab. No wrap at edges. We own the key
+        // whenever a tab is active, so preventDefault even at the edges so
+        // the arrow never scrolls the page instead. hx-sync on the tabs
+        // makes a new request abort any in-flight one, so rapid presses
+        // can't land out of order (which made selection skip / feel
+        // unstable).
         const tabs = Array.from(document.querySelectorAll('.tab'));
         const idx = tabs.findIndex(t => t.classList.contains('tab--active'));
         if (idx < 0) break;
+        e.preventDefault();
         const target = e.key === 'ArrowLeft' ? idx - 1 : idx + 1;
         if (target >= 0 && target < tabs.length) {
           tabs[target].click();
-          e.preventDefault();
         }
         break;
       }
       case '/':
         {
-          const search = document.querySelector('.rail-search');
+          const search = document.querySelector('.global-search');
           if (search) { search.focus(); search.select(); e.preventDefault(); }
         }
         break;
@@ -509,6 +586,17 @@ button:disabled {
         clickIfActive('.deck-stage .btn-primary, .deck-stage .btn-reassign');
         break;
       case 'Escape':
+        {
+          const search = document.querySelector('.global-search');
+          // Esc in the search box clears it and returns to the tab view.
+          if (search && document.activeElement === search && search.value) {
+            search.value = '';
+            search.dispatchEvent(new Event('search', { bubbles: true }));
+            search.blur();
+            e.preventDefault();
+            break;
+          }
+        }
         if (document.activeElement && 'blur' in document.activeElement) {
           document.activeElement.blur();
         }
@@ -539,15 +627,20 @@ button:disabled {
   // from the URL so the chrome reflects where we just landed.
   document.addEventListener('htmx:afterSwap', () => {
     const params = new URLSearchParams(window.location.search);
-    const activeTab = params.get('tab');
-    if (activeTab) {
-      document.querySelectorAll('.tab').forEach(t => {
-        const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
-        const isActive = slug === activeTab;
-        t.classList.toggle('tab--active', isActive);
-        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
+    const searching = !!params.get('q');
+    // Keep the search box value in sync (e.g. after back/forward nav).
+    const search = document.querySelector('.global-search');
+    if (search && document.activeElement !== search) {
+      search.value = params.get('q') || '';
     }
+    const activeTab = params.get('tab');
+    // In search mode no tab is active; otherwise reflect the URL's tab.
+    document.querySelectorAll('.tab').forEach(t => {
+      const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
+      const isActive = !searching && slug === activeTab;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
     const activeBug = params.get('bug');
     if (!activeBug) return;
     document.querySelectorAll('.rail-item').forEach(el => {
@@ -889,8 +982,85 @@ button:disabled {
     const name = (window.location.pathname.split('/').pop() || 'index.html');
     navigate(name, false);
   });
+
+  // Exposed so the search shim can restore the rail when the query clears.
+  window.__demoNavigate = navigate;
+  window.__demoCurrentFile = () =>
+    (window.location.pathname.split('/').pop() || 'index.html');
 })();
 </script>
 
+<script>window.__TRIAGE_SEARCH__ = [{"id": 2043943, "title": "Defective video processing", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043943.html", "filed": "2026-05-31T21:24:12Z"}, {"id": 2043895, "title": "mediaCapabilities.decodingInfo is still slow", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043895.html", "filed": "2026-05-31T11:15:55Z"}, {"id": 2043826, "title": "RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043826.html", "filed": "2026-05-30T13:12:14Z"}, {"id": 2043087, "title": "Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043087.html", "filed": "2026-05-28T01:35:40Z"}, {"id": 2042862, "title": "Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2042862.html", "filed": "2026-05-27T15:22:48Z"}, {"id": 2042812, "title": "Video corruption on YouTube", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042812.html", "filed": "2026-05-27T13:57:20Z"}, {"id": 2042323, "title": "Total audio loss on video streams with file:/// security error in console on build 20260525212335", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042323.html", "filed": "2026-05-26T08:57:13Z"}, {"id": 2042320, "title": "10bit h264 fails to play on Windows", "tags": ["new"], "label": "Close / Reassign", "file": "close-bug-2042320.html", "filed": "2026-05-26T08:52:53Z"}, {"id": 2041904, "title": "Music controls in the notification drawer STILL fail to work on Android 15", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041904.html", "filed": "2026-05-23T10:54:38Z"}, {"id": 2041883, "title": "On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041883.html", "filed": "2026-05-23T08:04:42Z"}, {"id": 2041545, "title": "wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041545.html", "filed": "2026-05-22T03:26:24Z"}, {"id": 2041202, "title": "When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041202.html", "filed": "2026-05-21T04:55:05Z"}, {"id": 2041039, "title": "Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs", "tags": [], "label": "Close / Reassign", "file": "close-bug-2041039.html", "filed": "2026-05-20T16:55:09Z"}, {"id": 2040219, "title": "does not play some amazon videos", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040219.html", "filed": "2026-05-17T12:21:45Z"}, {"id": 2040169, "title": "Continuous memory growth on Twitch when autoplay is blocked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040169.html", "filed": "2026-05-16T22:31:25Z"}, {"id": 2040167, "title": "Twitch player show rapid play/pause until clicked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040167.html", "filed": "2026-05-16T22:19:29Z"}];</script>
+<script>
+(function () {
+  const idx = window.__TRIAGE_SEARCH__ || [];
+  const box = document.querySelector('.global-search');
+  if (!box) return;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"]/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function tagSpans(tags) {
+    return (tags || []).map(t =>
+      '<span class="rail-tag rail-tag--' + t + '">' +
+      (t === 'new' ? 'New' : t) + '</span>').join('');
+  }
+  function matches(item, q) {
+    const ql = q.toLowerCase();
+    return String(item.id).includes(q)
+      || (item.title || '').toLowerCase().includes(ql)
+      || (item.tags || []).some(t => t.startsWith(ql));
+  }
+  function resultsRail(hits) {
+    const lis = hits.map(it =>
+      '<li><a class="rail-item" data-bug-id="' + it.id + '" ' +
+        'href="' + it.file + '" data-nav-target="' + it.file + '">' +
+        '<div class="rail-item-row1">' +
+          '<span class="rail-id-group">' +
+            '<span class="rail-bug-id">' + it.id + '</span>' +
+            '<span class="rail-badge">' + esc(it.label) + '</span>' +
+          '</span>' +
+          '<span class="rail-tag-group">' + tagSpans(it.tags) + '</span>' +
+        '</div>' +
+        '<div class="rail-title">' + esc(it.title) + '</div>' +
+      '</a></li>').join('');
+    return '<aside class="rail"><div class="rail-head">' +
+      '<span class="rail-head-title">Results</span>' +
+      '<span class="count">' + hits.length + ' found</span></div>' +
+      '<div class="rail-list-scroll"><ol>' + lis + '</ol></div></aside>';
+  }
+
+  function run(q) {
+    q = (q || '').trim();
+    const host = document.getElementById('rail-host');
+    if (!q) {
+      // Restore the normal rail by reloading the current page's content.
+      if (window.__demoNavigate) window.__demoNavigate(window.__demoCurrentFile(), false);
+      return;
+    }
+    if (!host) return;
+    const hits = idx.filter(it => matches(it, q));
+    if (!hits.length) {
+      const tc = document.getElementById('tab-content');
+      if (tc) tc.innerHTML = '<p class="empty">No bugs match \u201c' + esc(q) + '\u201d.</p>';
+    } else {
+      host.innerHTML = resultsRail(hits);
+    }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+  }
+
+  let timer = null;
+  box.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(box.value), 200);
+  });
+  box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
+  if (box.value) run(box.value);
+})();
+</script>
 </body>
 </html>

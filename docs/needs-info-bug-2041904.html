@@ -73,10 +73,10 @@ button:disabled {
           </a>
         
           
-          <a class="tab  "
+          <a class="tab tab--active "
              href="needs-info.html"
              role="tab"
-             aria-selected="false"
+             aria-selected="true"
              data-nav-target="needs-info.html"
              data-nav-swap="#tab-content"
              hx-sync="closest nav:replace">
@@ -97,10 +97,10 @@ button:disabled {
           </a>
         
           
-          <a class="tab tab--active tab--empty"
+          <a class="tab  tab--empty"
              href="watching.html"
              role="tab"
-             aria-selected="true"
+             aria-selected="false"
              data-nav-target="watching.html"
              data-nav-swap="#tab-content"
              hx-sync="closest nav:replace">
@@ -120,9 +120,499 @@ button:disabled {
       
 
   
+    
+<div class="workspace">
+  <div id="rail-host">
+    
 
-  <p class="empty">No bugs being watched. Use <code>watch-add</code> to track replies on a needinfo.</p>
+<aside class="rail">
+  <div class="rail-head">
+    
+    <span class="rail-head-title">
+      Needs Info
+      
+      
+      <span class="info-icon"
+            tabindex="0"
+            aria-label="About this tab"
+            aria-describedby="tab-info-needs-info">ⓘ</span>
+      <span role="tooltip"
+            id="tab-info-needs-info"
+            class="info-tooltip">Bugs missing critical info from the reporter. The draft is the needinfo question. Apply queues bugzilla-cli apply (you confirm [y/N] at the terminal) to set NI on Bugzilla and post the question.</span>
+      
+    </span>
+    <span class="count">11 bugs</span>
+    
+  </div>
+  
+  <div class="rail-list-scroll">
+  <ol>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2043943"
+           href="needs-info-bug-2043943.html"
+           data-nav-target="needs-info-bug-2043943.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043943</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Defective video processing</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2043826"
+           href="needs-info-bug-2043826.html"
+           data-nav-target="needs-info-bug-2043826.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043826</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042812"
+           href="needs-info-bug-2042812.html"
+           data-nav-target="needs-info-bug-2042812.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042812</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Video corruption on YouTube</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042323"
+           href="needs-info-bug-2042323.html"
+           data-nav-target="needs-info-bug-2042323.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042323</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Total audio loss on video streams with file:/// security error in console on build 20260525212335</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item is-active"
+           data-bug-id="2041904"
+           href="needs-info-bug-2041904.html"
+           data-nav-target="needs-info-bug-2041904.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041904</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Music controls in the notification drawer STILL fail to work on Android 15</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041883"
+           href="needs-info-bug-2041883.html"
+           data-nav-target="needs-info-bug-2041883.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041883</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041545"
+           href="needs-info-bug-2041545.html"
+           data-nav-target="needs-info-bug-2041545.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041545</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041202"
+           href="needs-info-bug-2041202.html"
+           data-nav-target="needs-info-bug-2041202.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041202</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040219"
+           href="needs-info-bug-2040219.html"
+           data-nav-target="needs-info-bug-2040219.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040219</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">does not play some amazon videos</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040169"
+           href="needs-info-bug-2040169.html"
+           data-nav-target="needs-info-bug-2040169.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040169</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Continuous memory growth on Twitch when autoplay is blocked</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2040167"
+           href="needs-info-bug-2040167.html"
+           data-nav-target="needs-info-bug-2040167.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2040167</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Twitch player show rapid play/pause until clicked</div>
+        </a>
+      </li>
+    
+  </ol>
+  </div>
+</aside>
+  </div>
+  <div id="deck-area">
+    
+    <nav class="deck-nav"
+         aria-label="Bug navigation"
+         title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+      <button type="button" class="deck-kbd-btn deck-prev"
+              
+              data-nav-target="needs-info-bug-2042323.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+      <span class="deck-pos">
+        bug <strong>5</strong> of <strong>11</strong>
+      </span>
+      <div class="deck-bar" aria-hidden="true">
+        <div class="deck-bar-fill" style="width: 45.0%"></div>
+      </div>
+      <button type="button" class="deck-kbd-btn deck-next"
+              
+              data-nav-target="needs-info-bug-2041883.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+    </nav>
+    
+    <div class="deck-stage">
+      
+      
+<article class="card" id="card-2041904">
+  <div class="card-head">
+    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041904" target="_blank" rel="noopener">2041904</a></span>
+    
+    
+    
+    
+    
+    
+    
+    <span class="sep">·</span>
+    <span class="badge-level badge-level--unknown">S?</span>
+    <span class="badge-level badge-level--unknown">P?</span>
+  </div>
 
+  <h3 class="card-title">
+    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041904" target="_blank" rel="noopener">Music controls in the notification drawer STILL fail to work on Android 15</a>
+  </h3>
+
+  
+    
+    
+    
+      
+    
+    
+      
+    
+    
+    <p class="card-byline">
+      
+        Reported by <strong>Dan</strong>
+      
+       <span class="dot">·</span> filed 2026-05-23
+       <span class="dot">·</span> last activity 2026-06-01
+    </p>
+    
+    
+    
+    <p class="card-version">
+      <span class="ver-chip ver-chip--platform"><span class="ver-chip-key">Platform</span>Android 15</span>
+      
+      
+    </p>
+    
+
+    
+    <ul class="inventory">
+      <li class="present">platform (Android 15)</li><li class="present">STR</li><li class="present">See Also bug 2017451 (prior VERIFIED FIXED version, identical STR)</li>
+      <li class="missing">about:support</li><li class="missing">media log</li><li class="missing">exact Firefox for Android version</li><li class="missing">non-YouTube reproduction</li>
+    </ul>
+    
+
+    
+    
+    
+    <details open class="similar-details">
+      <summary>Similar (2)</summary>
+      <div class="see-also similar-list">
+        
+          <a class="see-also-pill"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=2017451"
+             target="_blank" rel="noopener">
+            bug 2017451<span class="lbl">prior identical bug, VERIFIED FIXED in 150</span>
+          </a>
+        
+          <a class="see-also-pill"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=2028121"
+             target="_blank" rel="noopener">
+            bug 2028121<span class="lbl">follow-up: notification still shown after pause on Pixel</span>
+          </a>
+        
+      </div>
+    </details>
+    
+
+    
+    <div class="more">
+      
+      
+      <details>
+        <summary>Bug description (excerpt)</summary>
+        <div class="body description-body">
+          
+          
+          
+          
+          
+            <p>STR: 1) Open a youtube video page, press play. (Music starts) 2) Press the Android home button, minimizing Firefox. (Music stops) 3) Pull the upper phone notification shade down. There should be a media control visible with a play button and youtube artist info. 4) Press play. Issue: Play button not changing into a pause button and video audio not playing, hinting at the mechanic failing entirely.</p>
+          
+        </div>
+      </details>
+      
+      
+      
+      <details>
+        <summary>2 key comments</summary>
+        <div class="body">
+          
+          <div class="comment-snippet">
+            <span class="author">e412byoy7@relay.firefox.com</span>
+            <span class="ts">2026-05-23 10:54</span>
+            <p>STR identical to bug 2017451. Issue: Play button not changing into a pause button and video audio not playing on Android 15.</p>
+          </div>
+          
+          <div class="comment-snippet">
+            <span class="author">tthibaud@mozilla.com</span>
+            <span class="ts">2026-05-27 10:29</span>
+            <p>On bug 2017451: original STR doesn&#39;t reproduce; could be YouTube A/B testing. Noted bug 2041904 was opened.</p>
+          </div>
+          
+        </div>
+      </details>
+      
+      
+      
+      <details>
+        <summary>AI reasoning</summary>
+        <div class="body md-body"><p>No diagnostic artifacts (no profiler/log/crash ID/about:support). Identical STR to bug 2017451 (VERIFIED FIXED 150). Prior investigation (jolin@, karlt@ comments 2-3) established YouTube intentionally breaks background play for non-Premium accounts; TikTok worked. Mozilla testers cannot reproduce original STR (tthibaud@ comment 45). Need non-YouTube repro + about:support + media log to distinguish a real Firefox media-control bug from YouTube&#39;s anti-feature before investigation can start. Classified §1a, P/S unchanged.</p></div>
+      </details>
+      
+    </div>
+    
+  
+
+  
+
+  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the follow-up report. The original bug (bug 2017451) was verified fixed on Firefox 149/150, and our testers cannot reproduce the original steps on current builds, so the behavior you are seeing on Android 15 may be a different issue.</p>
+<p>One important data point from the earlier investigation: YouTube intentionally stops background playback for non-Premium accounts, which is a YouTube-side behavior rather than a Firefox bug. Sites such as TikTok kept playing and the notification controls kept working in the same scenario. To tell apart a genuine Firefox media-control bug from YouTube&#39;s own background-play restriction, could you help with the following:</p>
+<ul>
+<li>Does the same problem happen on a non-YouTube site (for example a plain <code>&amp;lt;video&amp;gt;</code>/<code>&amp;lt;audio&amp;gt;</code> page, or TikTok), or only on YouTube?</li>
+<li>The exact Firefox for Android version and build (Settings &gt; About Firefox).</li>
+<li>Your full <code>about:support</code> (open <code>about:support</code>, tap &#34;Copy text to clipboard&#34;, and paste it here).</li>
+</ul>
+<p>Please capture a media log: please follow the <a href="https://www.loom.com/share/24ea3a8e3a054c478de94643a0ea8620?sid=87b0ffaa-c4ea-43ce-8107-639f24b747a8">instruction video</a> to capture one using <code>about:logging</code> with the &#34;media&#34; preset. After reproducing the issue, save the log file and attach it here. If you have any privacy concerns about sharing the log or the media content publicly, please email it to media-alerts@mozilla.com instead.</p></div>
+
+  <form class="composer"
+        data-feedback-form="2041904"
+        data-nav-swap="#fbstatus-2041904">
+    <div class="composer-frame">
+      <textarea name="feedback" class="composer-input" rows="2"
+                aria-label="Feedback for the AI"
+                placeholder="What should change about this draft? e.g. drop the about:support ask, make the tone more direct…"></textarea>
+      <button type="submit" class="composer-send" disabled>Revise draft</button>
+    </div>
+  </form>
+  <div id="fbstatus-2041904" class="feedback-status" aria-live="polite"></div>
+
+  
+
+  <div class="card-foot">
+    <div class="diff">
+      
+      
+      
+      
+      
+      
+        <span class="sep">·</span>
+        <span><span class="plus">+</span>ni e412byoy7@relay.firefox.com</span>
+      
+      
+        <span class="sep">·</span>
+        <span><span class="plus">+</span>cc alwu@mozilla.com</span>
+      
+      
+    </div>
+    <div class="actions">
+      
+        <button disabled title="demo — actions disabled" class="btn btn-primary"
+                data-nav-swap="#apply-status-2041904">Apply</button>
+      
+    </div>
+  </div>
+  <div id="apply-status-2041904" class="apply-status-host" aria-live="polite"></div>
+</article>
+    </div>
+  </div>
+</div>
+  
 
     </div>
   </main>

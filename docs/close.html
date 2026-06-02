@@ -21,11 +21,11 @@ button:disabled {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Triage · A/V</title>
-  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780209848">
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780353828">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600;9..144,700;9..144,800&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/style.css?v=1780209848">
+  <link rel="stylesheet" href="static/style.css?v=1780353828">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
 <body>
@@ -35,11 +35,11 @@ button:disabled {
 <header class="topbar">
   <div class="brand">
     <h1 class="brand-title">Triage</h1>
-    <span class="brand-sub"><strong>Audio/Video</strong> · Sunday, May 31</span>
+    <span class="brand-sub"><strong>Audio/Video</strong> · Last updated Jun 1, 2026 17:59 PDT</span>
   </div>
   <div class="topbar-right">
     <div class="stats">
-      <span class="stat stat--primary"><span class="num">13</span><span class="lbl">pending</span></span>
+      <span class="stat stat--primary"><span class="num">16</span><span class="lbl">pending</span></span>
     </div>
     <details id="process-queue-dropdown" class="process-queue-dropdown">
       <summary id="btn-process-queue" class="btn-process-queue"
@@ -57,64 +57,77 @@ button:disabled {
 
 <div class="layout">
   <main>
-    <nav class="tabs" role="tablist">
-      
+    <div class="tabbar">
+      <nav class="tabs" role="tablist">
         
-        <a class="tab  "
-           href="triaged.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="triaged.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Analyzed</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="triaged.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="triaged.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Analyzed</span>
+            <span class="count">3</span>
+          </a>
         
-        <a class="tab  "
-           href="needs-info.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="needs-info.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Needs Info</span>
-          <span class="count">9</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="needs-info.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="needs-info.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Needs Info</span>
+            <span class="count">11</span>
+          </a>
         
-        <a class="tab tab--active "
-           href="close.html"
-           role="tab"
-           aria-selected="true"
-           data-nav-target="close.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Close / Reassign</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab tab--active "
+             href="close.html"
+             role="tab"
+             aria-selected="true"
+             data-nav-target="close.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Close / Reassign</span>
+            <span class="count">2</span>
+          </a>
         
-        <a class="tab  tab--empty"
-           href="watching.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="watching.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Awaiting reply</span>
-          <span class="count">0</span>
-        </a>
+          
+          <a class="tab  tab--empty"
+             href="watching.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="watching.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Awaiting reply</span>
+            <span class="count">0</span>
+          </a>
+        
+      </nav>
       
-    </nav>
+      <input class="global-search" type="search" name="q"
+             value=""
+             placeholder="Search id, title, or tag (e.g. new)…"
+             aria-label="Search all bugs by id, title, or tag">
+    </div>
 
     <div id="tab-content">
       
 
   
-    <div class="workspace">
-      <div id="rail-host">
-        
+    
+<div class="workspace">
+  <div id="rail-host">
+    
 
 <aside class="rail">
   <div class="rail-head">
+    
     <span class="rail-head-title">
       Close / Reassign
       
@@ -129,80 +142,90 @@ button:disabled {
       
     </span>
     <span class="count">2 bugs</span>
+    
   </div>
-  
-  <input type="search" class="rail-search"
-         placeholder="Filter by title or bug id…"
-         aria-label="Filter bugs in this tab">
-  
   
   <div class="rail-list-scroll">
   <ol>
     
       <li>
         <a class="rail-item is-active"
-           data-bug-id="2041039"
-           href="close-bug-2041039.html"
-           data-nav-target="close-bug-2041039.html"
-           data-nav-swap="#deck-area">
-          <div class="rail-item-row1">
-            <span class="rail-bug-id">2041039</span>
-            
-            
-            
-          </div>
-          <div class="rail-title">Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs</div>
-        </a>
-      </li>
-    
-      <li>
-        <a class="rail-item"
            data-bug-id="2042320"
            href="close-bug-2042320.html"
            data-nav-target="close-bug-2042320.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2042320</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042320</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
           <div class="rail-title">10bit h264 fails to play on Windows</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2041039"
+           href="close-bug-2041039.html"
+           data-nav-target="close-bug-2041039.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2041039</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs</div>
         </a>
       </li>
     
   </ol>
   </div>
 </aside>
+  </div>
+  <div id="deck-area">
+    
+    <nav class="deck-nav"
+         aria-label="Bug navigation"
+         title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+      <button type="button" class="deck-kbd-btn deck-prev"
+              disabled aria-disabled="true"
+              aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+      <span class="deck-pos">
+        bug <strong>1</strong> of <strong>2</strong>
+      </span>
+      <div class="deck-bar" aria-hidden="true">
+        <div class="deck-bar-fill" style="width: 50.0%"></div>
       </div>
-      <div id="deck-area">
-        
-        <nav class="deck-nav"
-             aria-label="Bug navigation"
-             title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
-          <button type="button" class="deck-kbd-btn deck-prev"
-                  disabled aria-disabled="true"
-                  aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
-          <span class="deck-pos">
-            bug <strong>1</strong> of <strong>2</strong>
-          </span>
-          <div class="deck-bar" aria-hidden="true">
-            <div class="deck-bar-fill" style="width: 50.0%"></div>
-          </div>
-          <button type="button" class="deck-kbd-btn deck-next"
-                  
-                  data-nav-target="close-bug-2042320.html"
-                  data-nav-swap="#deck-area"
-                  
-                  aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
-        </nav>
-        
-        <div class="deck-stage">
-          
-          
-<article class="card" id="card-2041039">
+      <button type="button" class="deck-kbd-btn deck-next"
+              
+              data-nav-target="close-bug-2041039.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+    </nav>
+    
+    <div class="deck-stage">
+      
+      
+<article class="card" id="card-2042320">
   <div class="card-head">
-    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041039" target="_blank" rel="noopener">2041039</a></span>
+    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2042320" target="_blank" rel="noopener">2042320</a></span>
     
     
     
@@ -216,7 +239,7 @@ button:disabled {
   </div>
 
   <h3 class="card-title">
-    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2041039" target="_blank" rel="noopener">Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs</a>
+    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2042320" target="_blank" rel="noopener">10bit h264 fails to play on Windows</a>
   </h3>
 
   
@@ -231,23 +254,49 @@ button:disabled {
     
     <p class="card-byline">
       
-        Reported by <strong>spencerndean@gmail.com</strong>
+        Reported by <strong>Jake Archibald [:jakea]</strong>
       
-       <span class="dot">·</span> <strong>macOS 26.3 (25D125) on iMac20,1 (Intel)</strong>
-       <span class="dot">·</span> Firefox <strong>Firefox 150</strong>
+       <span class="dot">·</span> filed 2026-05-26
        <span class="dot">·</span> last activity 2026-05-28
+    </p>
+    
+    
+    
+    <p class="card-version">
+      <span class="ver-chip ver-chip--platform"><span class="ver-chip-key">Platform</span>Windows</span>
+      
+      
     </p>
     
 
     
     <ul class="inventory">
-      <li class="present">platform / version (Intel iMac20,1, macOS 26.3)</li><li class="present">STR (login auto-launch with media tabs)</li><li class="present">crash report attachment (WindowServer Apple crash log, attachment 9588123)</li><li class="present">workaround identified (media.hardwaremediakeys.enabled=false)</li><li class="present">reporter theory about cause</li>
-      <li class="missing">Apple Feedback Assistant report number</li><li class="missing">reproducibility cross-check with Safari + Apple Music (already asked by spohl)</li><li class="missing">whether crash post-dates macOS 26.3 update specifically</li><li class="missing">whether reproducible with Firefox-only login session</li>
+      <li class="present">platform (Windows)</li><li class="present">repro URL (hosted test page)</li><li class="present">codec identified (10-bit H.264 / High 10 / yuv420p10)</li><li class="present">cross-browser comparison (Edge works, Mac works)</li>
+      <li class="missing">about:support</li><li class="missing">Firefox version</li><li class="missing">media log</li>
     </ul>
     
 
     
     
+    
+    <details open class="similar-details">
+      <summary>Similar (2)</summary>
+      <div class="see-also similar-list">
+        
+          <a class="see-also-pill"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=1711812"
+             target="_blank" rel="noopener">
+            bug 1711812<span class="lbl">duplicate (canonical 10-bit H.264 bug, S3/P3, assigned to bwerth)</span>
+          </a>
+        
+          <a class="see-also-pill"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=1743824"
+             target="_blank" rel="noopener">
+            bug 1743824<span class="lbl">related (10-bit H.264 platform-dependent rendering)</span>
+          </a>
+        
+      </div>
+    </details>
     
 
     
@@ -259,18 +308,14 @@ button:disabled {
         <div class="body description-body">
           
           
-            <div class="desc-section">
-              <span class="desc-label">Steps to reproduce</span>
-              <div class="desc-content">Use an Intel Mac (iMac20,1) running macOS. Ensure Firefox is set to automatically launch or restore a previous session containing media tabs upon user login. Keep media.hardwaremediakeys.enabled set to true (default). Log into the macOS user account, or launch Firefox immediately after a fresh login.</div>
-            </div>
           
           
-            <div class="desc-section">
-              <span class="desc-label">Actual</span>
-              <div class="desc-content">During initialization and session restoration at login, Firefox attempts to register hardware media keys before the system graphics architecture stabilizes. This causes a race condition within the SkyLight framework, triggering a segmentation fault (SIGSEGV) in Thread 0 at CGXRemoveHotKey / unregisterSpecialKey:forProcess:, completely crashing the host OS WindowServer. Workaround: Toggling media.hardwaremediakeys.enabled to false stops the crashes.</div>
-            </div>
           
-          
+            <p><a href="https://random-stuff.jakearchibald.com/bug-repros/10-bit-h264/" target="_blank" rel="noopener">https://random-stuff.jakearchibald.com/bug-repros/10-bit-h264/</a>
+
+Fails to play on Windows. Works fine on Mac.
+
+On machines where it fails, Edge is able to play the same file.</p>
           
         </div>
       </details>
@@ -282,28 +327,20 @@ button:disabled {
         <div class="body">
           
           <div class="comment-snippet">
-            <span class="author">spohl.mozilla.bugs@gmail.com</span>
-            <span class="ts">2026-05-28 21:56</span>
-            <p>This is very likely an Apple bug. I would recommend reporting this to Apple via Feedback Assistant with the attached crash report. ... Does the crash reproduce with Safari open + Apple Music / Podcasts auto-launched at login? Did this start after the macOS 26.3 update specifically? Does it reproduce after a full reboot with Firefox the only app launched at login?</p>
+            <span class="author">padenot@mozilla.com</span>
+            <span class="ts">2026-05-26 14:53</span>
+            <p>This is 10-bit high h264, which we should be able to play provided the hw can play it, but our 10-bit support isn&#39;t the most proven thing yet.</p>
           </div>
           
         </div>
       </details>
       
       
-      <details>
-        <summary>Attachments (1)</summary>
-        <div class="body">
-          
-            <div><a href="https://bugzilla.mozilla.org/attachment.cgi?id=9588123" target="_blank" rel="noopener"><code>crash-report.txt.rtf</code></a></div>
-          
-        </div>
-      </details>
-      
       
       <details>
         <summary>AI reasoning</summary>
-        <div class="body md-body"><p>Wrong-component routing (§1c). Crashing process is WindowServer, not Firefox; entire crashing stack is in Apple SkyLight (CGXRemoveHotKey → CPXSpecialKeyEventProcessor::unregisterSpecialKey:forProcess: → cleanupForProcessDeath: → WhackProcess), the per-process hot-key cleanup path. Firefox&#39;s media-key handling in widget/cocoa/MediaHardwareKeysEventSourceMac.mm uses CGEventTapCreate / kCGSessionEventTap with CGEventMaskBit(NX_SYSDEFINED), not the CGXRegisterHotKey / CGSSetSymbolicHotKey SPI that the crashing CPXSpecialKeyEventProcessor path manages — so the reporter&#39;s mechanism theory does not match Firefox&#39;s implementation. Bugbug already suggested Core::Widget: Cocoa, Steve Pohl (Cocoa team) has already commented and set NI on reporter asking about Safari + Apple Music reproducibility (which would confirm an OS bug). Right home is Widget: Cocoa; no NI from us (reporter already has spohl&#39;s NI), no P/S from us (let Cocoa team set them). Likely outcome there is INVALID/INCOMPLETE pending reporter&#39;s responses + Apple Feedback Assistant filing.</p></div>
+        <div class="body md-body"><p>Duplicate of bug 1711812 (10-bit/High 10 / yuv420p10 H.264 fails on Windows; bwerth@mozilla.com). MAINTAINER QUESTION ANSWERED (gecko-navigator, rev 302a821d49e9): the 10-bit limit is NOT an artificial cap and is NOT pref-controllable. WHERE: the only explicit H.264 color-depth gate is D3D11DXVA2Manager::SupportsConfig, MFVideoFormat_H264 branch -&gt; NS_ENSURE_TRUE(mColorDepth==ColorDepth::COLOR_8) at DXVA2Manager.cpp#479 (VP9/AV1 allow COLOR_10 in the same function; H.264 does not, because there is no DXVA2 decode GUID for High 10 H.264 -- the H.264 GUIDs are 8-bit 4:2:0 only). WMFDecoderModule::SupportsColorDepth returns true unconditionally (defers to DXVA). PREF: none. No 10bit/color-depth key in StaticPrefList.yaml. media.wmf.force.allow-p010-format governs HDR P010 output-surface selection, not this gate. REMOVING THE GATE WON&#39;T HELP: all three Windows H.264 paths are 8-bit-only by construction -- DXVA (no High 10 GUID), WMF software MFT (8-bit 4:2:0 only), and ffvpx (H.264 decoder compiled OUT: CONFIG_H264_DECODER 0 in media/ffvpx/config_components_audio_video.h#130; FFmpegDecoderModule routes H.264 only for Linux-system-ffmpeg &amp; Android). Removing line 479 just defers the failure. EDGE: Chromium bundles a full software H.264 decoder with High 10 support (Firefox deliberately strips H.264 from ffvpx for licensing) [speculation on exact Edge internals]. REAL FIX SCOPE: bundle/enable a software High 10 H.264 decoder (e.g. ffvpx CONFIG_H264_DECODER) -&gt; a licensing/policy decision, not a code/pref flip. Resolution stays DUPLICATE of 1711812; this bug adds no new diagnostic info. P/S untouched.</p>
+<p>MSDN VERIFICATION (per alwu request): the official Microsoft &#39;H.264 Video Decoder&#39; MFT doc (https://learn.microsoft.com/en-us/windows/win32/medfound/h-264-video-decoder) confirms the 8-bit-only claim: Output Types are only I420/IYUV/NV12/YUY2/YV12 (no P010/P016 10-bit format); Format Constraints state &#39;4:2:0 chroma or monochrome&#39;; and supported profiles are Baseline, Main, and High up to level 5.1 -- High 10 is NOT listed. So the WMF software H.264 MFT cannot emit 10-bit output, confirming that removing the DXVA2Manager.cpp#479 COLOR_8 gate would not enable 10-bit H.264 playback. Finding stands.</p></div>
       </details>
       
     </div>
@@ -312,15 +349,13 @@ button:disabled {
 
   
 
-  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the detailed report and the attached crash log. Re-routing this to <strong>Core :: Widget: Cocoa</strong>, since the closest Firefox code (<code>MediaHardwareKeysEventSourceMac</code> in <code>widget/cocoa/</code>) is owned by that team and Steve has already engaged here.</p>
-<p>A quick observation on the crash itself for context:</p>
-<p>The crashing process is <strong>WindowServer</strong>, not Firefox — the entire crashing stack is inside Apple&#39;s SkyLight framework (<code>CGXRemoveHotKey</code> → <code>-[CPXSpecialKeyEventProcessor unregisterSpecialKey:forProcess:]</code> → <code>cleanupForProcessDeath:</code> → <code>WhackProcess</code>). That&#39;s WindowServer&#39;s per-process hot-key cleanup path firing when a client process exits, and it null-derefs inside WindowServer&#39;s own internal hot-key list. There is no Firefox frame on the crashing stack.</p>
-<p>Also worth noting: Firefox&#39;s hardware media-key support uses <code>CGEventTapCreate(kCGSessionEventTap, ..., CGEventMaskBit(NX_SYSDEFINED), ...)</code> to listen for system-defined media key events (<code>widget/cocoa/MediaHardwareKeysEventSourceMac.mm</code>). It does <strong>not</strong> call the <code>CGXRegisterHotKey</code> / <code>CGSSetSymbolicHotKey</code> SPI that the crashing <code>CPXSpecialKeyEventProcessor</code> path manages — those are different macOS keyboard APIs. So while toggling <code>media.hardwaremediakeys.enabled</code> may change the timing of when Firefox starts/stops its event tap (and thereby change whether the WindowServer race fires), the immediate null deref is in WindowServer&#39;s own state, not in anything Firefox controls.</p>
-<p>This looks like an Apple OS bug; please do file it via Feedback Assistant as Steve suggested, and share the FB# here for tracking. The Widget: Cocoa folks can decide from there whether there&#39;s a Firefox-side workaround worth pursuing.</p></div>
+  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the report, Jake. This is the same issue as bug 1711812 (yuv420p10 (10-bit) H.264 fails to play), which is already being investigated by :bwerth.</p>
+<p>The underlying limitation is that the platform H.264 decoders on Windows (Media Foundation) and macOS (VideoToolbox) do not support the 10-bit (High 10 / yuv420p10) profile — they only support 8-bit. On Windows specifically, our DXVA path explicitly requires <code>ColorDepth::COLOR_8</code> for H.264, and the WMF software H.264 MFT also doesn&#39;t produce a usable 10-bit output. Edge can play this because Microsoft Edge has additional codec support beyond what&#39;s exposed through the public Media Foundation H.264 MFT. macOS appears to work for you, but on other reporters&#39; macOS systems the bottom of the frame glitches (bug 1743824) — VideoToolbox technically accepts the stream but doesn&#39;t decode it cleanly.</p>
+<p>Closing this as a duplicate of bug 1711812 so all the discussion stays in one place. Please follow that bug for updates.</p></div>
 
   <form class="composer"
-        data-feedback-form="2041039"
-        data-nav-swap="#fbstatus-2041039">
+        data-feedback-form="2042320"
+        data-nav-swap="#fbstatus-2042320">
     <div class="composer-frame">
       <textarea name="feedback" class="composer-input" rows="2"
                 aria-label="Feedback for the AI"
@@ -328,7 +363,7 @@ button:disabled {
       <button type="submit" class="composer-send" disabled>Revise draft</button>
     </div>
   </form>
-  <div id="fbstatus-2041039" class="feedback-status" aria-live="polite"></div>
+  <div id="fbstatus-2042320" class="feedback-status" aria-live="polite"></div>
 
   
 
@@ -336,9 +371,7 @@ button:disabled {
     <div class="diff">
       
       
-      
-      
-        <span>move to <span class="pill pill-reassign">Core :: Widget: Cocoa</span></span>
+      <span>resolve <span class="pill pill-resolve">DUPLICATE</span> of <a class="meta" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1711812" target="_blank" rel="noopener">bug 1711812</a></span>
       
       
       
@@ -350,16 +383,16 @@ button:disabled {
     </div>
     <div class="actions">
       
-        <button disabled title="demo — actions disabled" class="btn btn-reassign"
-                data-nav-swap="#apply-status-2041039">Reassign</button>
+        <button disabled title="demo — actions disabled" class="btn btn-primary"
+                data-nav-swap="#apply-status-2042320">Apply &amp; close</button>
       
     </div>
   </div>
-  <div id="apply-status-2041039" class="apply-status-host" aria-live="polite"></div>
+  <div id="apply-status-2042320" class="apply-status-host" aria-live="polite"></div>
 </article>
-        </div>
-      </div>
     </div>
+  </div>
+</div>
   
 
     </div>
@@ -412,20 +445,25 @@ button:disabled {
         break;
       case 'ArrowLeft':
       case 'ArrowRight': {
-        // Switch to prev/next topbar tab. No wrap at edges.
+        // Switch to prev/next topbar tab. No wrap at edges. We own the key
+        // whenever a tab is active, so preventDefault even at the edges so
+        // the arrow never scrolls the page instead. hx-sync on the tabs
+        // makes a new request abort any in-flight one, so rapid presses
+        // can't land out of order (which made selection skip / feel
+        // unstable).
         const tabs = Array.from(document.querySelectorAll('.tab'));
         const idx = tabs.findIndex(t => t.classList.contains('tab--active'));
         if (idx < 0) break;
+        e.preventDefault();
         const target = e.key === 'ArrowLeft' ? idx - 1 : idx + 1;
         if (target >= 0 && target < tabs.length) {
           tabs[target].click();
-          e.preventDefault();
         }
         break;
       }
       case '/':
         {
-          const search = document.querySelector('.rail-search');
+          const search = document.querySelector('.global-search');
           if (search) { search.focus(); search.select(); e.preventDefault(); }
         }
         break;
@@ -433,6 +471,17 @@ button:disabled {
         clickIfActive('.deck-stage .btn-primary, .deck-stage .btn-reassign');
         break;
       case 'Escape':
+        {
+          const search = document.querySelector('.global-search');
+          // Esc in the search box clears it and returns to the tab view.
+          if (search && document.activeElement === search && search.value) {
+            search.value = '';
+            search.dispatchEvent(new Event('search', { bubbles: true }));
+            search.blur();
+            e.preventDefault();
+            break;
+          }
+        }
         if (document.activeElement && 'blur' in document.activeElement) {
           document.activeElement.blur();
         }
@@ -463,15 +512,20 @@ button:disabled {
   // from the URL so the chrome reflects where we just landed.
   document.addEventListener('htmx:afterSwap', () => {
     const params = new URLSearchParams(window.location.search);
-    const activeTab = params.get('tab');
-    if (activeTab) {
-      document.querySelectorAll('.tab').forEach(t => {
-        const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
-        const isActive = slug === activeTab;
-        t.classList.toggle('tab--active', isActive);
-        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
+    const searching = !!params.get('q');
+    // Keep the search box value in sync (e.g. after back/forward nav).
+    const search = document.querySelector('.global-search');
+    if (search && document.activeElement !== search) {
+      search.value = params.get('q') || '';
     }
+    const activeTab = params.get('tab');
+    // In search mode no tab is active; otherwise reflect the URL's tab.
+    document.querySelectorAll('.tab').forEach(t => {
+      const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
+      const isActive = !searching && slug === activeTab;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
     const activeBug = params.get('bug');
     if (!activeBug) return;
     document.querySelectorAll('.rail-item').forEach(el => {
@@ -813,8 +867,85 @@ button:disabled {
     const name = (window.location.pathname.split('/').pop() || 'index.html');
     navigate(name, false);
   });
+
+  // Exposed so the search shim can restore the rail when the query clears.
+  window.__demoNavigate = navigate;
+  window.__demoCurrentFile = () =>
+    (window.location.pathname.split('/').pop() || 'index.html');
 })();
 </script>
 
+<script>window.__TRIAGE_SEARCH__ = [{"id": 2043943, "title": "Defective video processing", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043943.html", "filed": "2026-05-31T21:24:12Z"}, {"id": 2043895, "title": "mediaCapabilities.decodingInfo is still slow", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043895.html", "filed": "2026-05-31T11:15:55Z"}, {"id": 2043826, "title": "RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043826.html", "filed": "2026-05-30T13:12:14Z"}, {"id": 2043087, "title": "Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043087.html", "filed": "2026-05-28T01:35:40Z"}, {"id": 2042862, "title": "Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2042862.html", "filed": "2026-05-27T15:22:48Z"}, {"id": 2042812, "title": "Video corruption on YouTube", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042812.html", "filed": "2026-05-27T13:57:20Z"}, {"id": 2042323, "title": "Total audio loss on video streams with file:/// security error in console on build 20260525212335", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042323.html", "filed": "2026-05-26T08:57:13Z"}, {"id": 2042320, "title": "10bit h264 fails to play on Windows", "tags": ["new"], "label": "Close / Reassign", "file": "close-bug-2042320.html", "filed": "2026-05-26T08:52:53Z"}, {"id": 2041904, "title": "Music controls in the notification drawer STILL fail to work on Android 15", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041904.html", "filed": "2026-05-23T10:54:38Z"}, {"id": 2041883, "title": "On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041883.html", "filed": "2026-05-23T08:04:42Z"}, {"id": 2041545, "title": "wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041545.html", "filed": "2026-05-22T03:26:24Z"}, {"id": 2041202, "title": "When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041202.html", "filed": "2026-05-21T04:55:05Z"}, {"id": 2041039, "title": "Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs", "tags": [], "label": "Close / Reassign", "file": "close-bug-2041039.html", "filed": "2026-05-20T16:55:09Z"}, {"id": 2040219, "title": "does not play some amazon videos", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040219.html", "filed": "2026-05-17T12:21:45Z"}, {"id": 2040169, "title": "Continuous memory growth on Twitch when autoplay is blocked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040169.html", "filed": "2026-05-16T22:31:25Z"}, {"id": 2040167, "title": "Twitch player show rapid play/pause until clicked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040167.html", "filed": "2026-05-16T22:19:29Z"}];</script>
+<script>
+(function () {
+  const idx = window.__TRIAGE_SEARCH__ || [];
+  const box = document.querySelector('.global-search');
+  if (!box) return;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"]/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function tagSpans(tags) {
+    return (tags || []).map(t =>
+      '<span class="rail-tag rail-tag--' + t + '">' +
+      (t === 'new' ? 'New' : t) + '</span>').join('');
+  }
+  function matches(item, q) {
+    const ql = q.toLowerCase();
+    return String(item.id).includes(q)
+      || (item.title || '').toLowerCase().includes(ql)
+      || (item.tags || []).some(t => t.startsWith(ql));
+  }
+  function resultsRail(hits) {
+    const lis = hits.map(it =>
+      '<li><a class="rail-item" data-bug-id="' + it.id + '" ' +
+        'href="' + it.file + '" data-nav-target="' + it.file + '">' +
+        '<div class="rail-item-row1">' +
+          '<span class="rail-id-group">' +
+            '<span class="rail-bug-id">' + it.id + '</span>' +
+            '<span class="rail-badge">' + esc(it.label) + '</span>' +
+          '</span>' +
+          '<span class="rail-tag-group">' + tagSpans(it.tags) + '</span>' +
+        '</div>' +
+        '<div class="rail-title">' + esc(it.title) + '</div>' +
+      '</a></li>').join('');
+    return '<aside class="rail"><div class="rail-head">' +
+      '<span class="rail-head-title">Results</span>' +
+      '<span class="count">' + hits.length + ' found</span></div>' +
+      '<div class="rail-list-scroll"><ol>' + lis + '</ol></div></aside>';
+  }
+
+  function run(q) {
+    q = (q || '').trim();
+    const host = document.getElementById('rail-host');
+    if (!q) {
+      // Restore the normal rail by reloading the current page's content.
+      if (window.__demoNavigate) window.__demoNavigate(window.__demoCurrentFile(), false);
+      return;
+    }
+    if (!host) return;
+    const hits = idx.filter(it => matches(it, q));
+    if (!hits.length) {
+      const tc = document.getElementById('tab-content');
+      if (tc) tc.innerHTML = '<p class="empty">No bugs match \u201c' + esc(q) + '\u201d.</p>';
+    } else {
+      host.innerHTML = resultsRail(hits);
+    }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+  }
+
+  let timer = null;
+  box.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(box.value), 200);
+  });
+  box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
+  if (box.value) run(box.value);
+})();
+</script>
 </body>
 </html>

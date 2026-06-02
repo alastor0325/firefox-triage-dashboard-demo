@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Bug 2043895 investigation</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <style>
+    body { background: #fafafa; color: #1a1a1a; font-family: -apple-system, system-ui, sans-serif; line-height: 1.55; }
+    .inv-shell { max-width: 880px; margin: 0 auto; padding: 24px 32px 60px; }
+    .inv-back { display: inline-block; margin: 8px 0 16px; color: #555; text-decoration: none; font-size: 13px; }
+    .inv-back:hover { color: #111; }
+    .inv-fm { background: #fff; border: 1px solid #e6e6e6; border-radius: 8px; padding: 14px 18px; margin: 8px 0 24px; font-size: 13px; }
+    .inv-fm dt { font-weight: 600; color: #555; }
+    .inv-fm dd { margin: 0 0 8px; }
+    .inv-body h1 { font-size: 22px; margin: 18px 0 12px; }
+    .inv-body h2 { font-size: 18px; margin: 22px 0 10px; }
+    .inv-body h3 { font-size: 15px; margin: 18px 0 8px; }
+    .inv-body code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 90%; }
+    .inv-body pre { background: #1f2330; color: #f0f0f0; padding: 12px; border-radius: 6px; overflow-x: auto; }
+    .inv-body pre code { background: none; color: inherit; padding: 0; }
+    .inv-body a { color: #1a5cb8; }
+    .inv-body ul, .inv-body ol { padding-left: 22px; }
+    .demo-banner { background: #fff7d6; color: #5b4a00; border-bottom: 1px solid #e8d27a; padding: 6px 14px; font: 13px/1.5 -apple-system, system-ui, sans-serif; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Static demo &middot; investigation rendered from markdown</div>
+  <div class="inv-shell">
+    <a class="inv-back" href="../triaged-bug-2043895.html">&larr; back to dashboard</a>
+    <dl class="inv-fm"><dt>bug_id</dt><dd>2043895</dd><dt>investigated_at</dt><dd>2026-06-01T00:00:00Z</dd><dt>status</dt><dd>investigated</dd><dt>depth</dt><dd>triage</dd><dt>root_cause</dt><dd>navigator.mediaCapabilities.decodingInfo() instantiates a real MediaDataDecoder (create + Init + Shutdown) on every non-DRM video query, with no result caching, so each call costs ~17 ms on Windows (WMF/RDD setup) regardless of repetition.</dd><dt>regression_range</dt><dd>null</dd><dt>related_bugs</dt><dd>[1676902, 1758786]</dd><dt>complexity</dt><dd>medium</dd><dt>notes</dt><dd>Reporter&#x27;s own benchmark shows cached == uncached == ~17 ms/call, which directly confirms there is no result cache. Bug 1676902 (closed WORKSFORME) addressed earlier regressions but the steady-state per-call cost remains.</dd><dt>affected_files</dt><dd><ul><li>dom/media/mediacapabilities/MediaCapabilities.cpp#L1059</li><li>dom/media/mediacapabilities/MediaCapabilities.cpp#L854</li><li>dom/media/mediacapabilities/MediaCapabilities.cpp#L1093</li></ul></dd></dl>
+    <div class="inv-body"><h1>Bug 2043895 Investigation (triage mode)</h1>
+<h2>Summary</h2>
+<ul><li><strong>Bug</strong>: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2043895" target="_blank" rel="noopener">Bug 2043895</a></li><li><strong>Title</strong>: mediaCapabilities.decodingInfo is still slow</li><li><strong>Component</strong>: Audio/Video</li><li><strong>Current Severity/Priority</strong>: -- / -- (unset)</li><li><strong>Status</strong>: UNCONFIRMED</li></ul>
+<p><code>navigator.mediaCapabilities.decodingInfo()</code> is ~17 ms/call on Firefox Nightly 153 (Windows) vs ~0.09 ms on Chromium. The reporter&#x27;s benchmark shows cold, uncached, and cached (identical-config) calls all cost the same ~17 ms, proving there is no result caching. The cost comes from Firefox actually creating, initializing, and shutting down a real <code>MediaDataDecoder</code> per query (a heavyweight WMF/RDD round-trip on Windows), whereas Chromium answers from a static capability table. This delays Shaka-player startup by tens of seconds when many stream variants must be probed.</p>
+<h2>Findings</h2>
+<h3>Root cause</h3>
+<p><strong>Verified</strong>: For a non-DRM video config, <code>decodingInfo()</code> calls <code>CheckVideoDecodingInfo</code>, which on a fresh per-call <code>TaskQueue</code> runs <code>AllocationWrapper::CreateDecoder</code> → <code>decoder-&gt;Init()</code> → <code>IsHardwareAccelerated()</code> → <code>decoder-&gt;Shutdown()</code> for every query — see <a href="https://searchfox.org/mozilla-central/source/dom/media/mediacapabilities/MediaCapabilities.cpp#1093" target="_blank" rel="noopener"><code>MediaCapabilities.cpp:1093-1136</code></a>. On Windows the H.264 (<code>avc1.640028</code>) decoder is a Media Foundation decoder that must be created on an MTA thread and set up across the RDD/utility process, which is the bulk of the ~17 ms. The result is <strong>not cached</strong>: there is no lookup keyed on the configuration before the decoder is built, and the reporter&#x27;s &quot;cached&quot; run (same config N times) measuring identical to &quot;uncached&quot; confirms this empirically.</p>
+<h3>Affected files</h3>
+<ul><li><a href="https://searchfox.org/mozilla-central/source/dom/media/mediacapabilities/MediaCapabilities.cpp#L1059" target="_blank" rel="noopener"><code>dom/media/mediacapabilities/MediaCapabilities.cpp</code></a> — <code>CheckVideoDecodingInfo</code> creates/inits/shuts down a real decoder per call (lines 1093, 1106, 1127)</li><li><a href="https://searchfox.org/mozilla-central/source/dom/media/mediacapabilities/MediaCapabilities.cpp#L854" target="_blank" rel="noopener"><code>dom/media/mediacapabilities/MediaCapabilities.cpp</code></a> — <code>CreateNonWebRTCDecodingInfo</code> builds a brand-new <code>TaskQueue</code> for each query</li></ul>
+<h3>Regression range</h3>
+<p>None identified. Bug 1676902 comment 3 notes large improvements landed up to Firefox 135 (471 ms → 7 ms for VP8/WebM), but those did not address the steady-state decoder-instantiation cost on the Windows H.264/WMF path that this bug measures.</p>
+<h3>Related context</h3>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1676902" target="_blank" rel="noopener">Bug 1676902</a> — &quot;Poor performance comparatively with navigator.mediaCapabilities.decodingInfo&quot;, closed WORKSFORME 2025-09; this bug is effectively its reopening for the remaining slow case.</li><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1758786" target="_blank" rel="noopener">Bug 1758786</a> — blocked by 1676902 (related decodingInfo work).</li><li>Firefox Knowledge Wiki <code>components/MediaCapabilities.md</code> documents the <code>WMFDecoderModule::Supports()</code> path but not the per-call decoder-instantiation cost — this investigation adds that.</li></ul>
+<h2>Proposed Solution</h2>
+<p>(Hypothesis — deep verification did not run.) Two complementary directions: (1) <strong>Cache</strong> <code>decodingInfo</code> results keyed on the normalized configuration, so repeated/identical queries (the common Shaka-player case of probing many variants) skip decoder instantiation entirely — this alone would collapse the &quot;cached&quot; path toward Chromium numbers. (2) For the <strong>uncached/cold</strong> path, avoid creating and initializing a full <code>MediaDataDecoder</code> just to read <code>smooth</code>/<code>powerEfficient</code>; prefer a lighter capability query (the audio path already uses <code>PDMFactory::Supports</code> without building a decoder — see <a href="https://searchfox.org/mozilla-central/source/dom/media/mediacapabilities/MediaCapabilities.cpp#987" target="_blank" rel="noopener"><code>MediaCapabilities.cpp:987-999</code></a>) and derive <code>powerEfficient</code>/<code>smooth</code> from static decoder metadata where possible, reserving full decoder init for cases that genuinely need runtime probing.</p>
+<h2>Notes</h2>
+<ul><li>Open question for deep mode: confirm the ~17 ms is dominated by WMF/RDD decoder <code>Init()</code> (instrument <code>CheckVideoDecodingInfo</code>), and whether a config-keyed cache is safe given that <code>powerEfficient</code> can depend on dynamic GPU state (the wiki notes <code>Supports()</code> does not reflect runtime DXVA slot count — a cache must decide how long results stay valid).</li><li>The benchmark uses <code>type: &#x27;media-source&#x27;</code> H.264 1080p30 — a very common Shaka/DASH probe, so user impact is broad on Windows.</li><li>No Firefox Profiler link, media log, or about:support in the bug; none needed — the reporter&#x27;s self-contained benchmark plus the code path are sufficient to localize the cost.</li></ul>
+<p>--- <em>Triage-mode investigation. Re-run <code>/bug-start 2043895</code> (deep mode) when ready to implement.</em></p></div>
+  </div>
+</body>
+</html>

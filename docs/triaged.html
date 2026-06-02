@@ -21,11 +21,11 @@ button:disabled {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Triage · A/V</title>
-  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780209848">
+  <link rel="icon" type="image/svg+xml" href="static/favicon.svg?v=1780353828">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600;9..144,700;9..144,800&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/style.css?v=1780209848">
+  <link rel="stylesheet" href="static/style.css?v=1780353828">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
 <body>
@@ -35,11 +35,11 @@ button:disabled {
 <header class="topbar">
   <div class="brand">
     <h1 class="brand-title">Triage</h1>
-    <span class="brand-sub"><strong>Audio/Video</strong> · Sunday, May 31</span>
+    <span class="brand-sub"><strong>Audio/Video</strong> · Last updated Jun 1, 2026 17:59 PDT</span>
   </div>
   <div class="topbar-right">
     <div class="stats">
-      <span class="stat stat--primary"><span class="num">13</span><span class="lbl">pending</span></span>
+      <span class="stat stat--primary"><span class="num">16</span><span class="lbl">pending</span></span>
     </div>
     <details id="process-queue-dropdown" class="process-queue-dropdown">
       <summary id="btn-process-queue" class="btn-process-queue"
@@ -57,64 +57,77 @@ button:disabled {
 
 <div class="layout">
   <main>
-    <nav class="tabs" role="tablist">
-      
+    <div class="tabbar">
+      <nav class="tabs" role="tablist">
         
-        <a class="tab tab--active "
-           href="triaged.html"
-           role="tab"
-           aria-selected="true"
-           data-nav-target="triaged.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Analyzed</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab tab--active "
+             href="triaged.html"
+             role="tab"
+             aria-selected="true"
+             data-nav-target="triaged.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Analyzed</span>
+            <span class="count">3</span>
+          </a>
         
-        <a class="tab  "
-           href="needs-info.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="needs-info.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Needs Info</span>
-          <span class="count">9</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="needs-info.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="needs-info.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Needs Info</span>
+            <span class="count">11</span>
+          </a>
         
-        <a class="tab  "
-           href="close.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="close.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Close / Reassign</span>
-          <span class="count">2</span>
-        </a>
-      
+          
+          <a class="tab  "
+             href="close.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="close.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Close / Reassign</span>
+            <span class="count">2</span>
+          </a>
         
-        <a class="tab  tab--empty"
-           href="watching.html"
-           role="tab"
-           aria-selected="false"
-           data-nav-target="watching.html"
-           data-nav-swap="#tab-content">
-          <span class="label">Awaiting reply</span>
-          <span class="count">0</span>
-        </a>
+          
+          <a class="tab  tab--empty"
+             href="watching.html"
+             role="tab"
+             aria-selected="false"
+             data-nav-target="watching.html"
+             data-nav-swap="#tab-content"
+             hx-sync="closest nav:replace">
+            <span class="label">Awaiting reply</span>
+            <span class="count">0</span>
+          </a>
+        
+      </nav>
       
-    </nav>
+      <input class="global-search" type="search" name="q"
+             value=""
+             placeholder="Search id, title, or tag (e.g. new)…"
+             aria-label="Search all bugs by id, title, or tag">
+    </div>
 
     <div id="tab-content">
       
 
   
-    <div class="workspace">
-      <div id="rail-host">
-        
+    
+<div class="workspace">
+  <div id="rail-host">
+    
 
 <aside class="rail">
   <div class="rail-head">
+    
     <span class="rail-head-title">
       Analyzed
       
@@ -128,30 +141,33 @@ button:disabled {
             class="info-tooltip">Bugs you have triaged. The draft is the public Bugzilla comment with your analysis, plus the severity/priority you set. Apply queues bugzilla-cli apply (you confirm [y/N] at the terminal) and a /bug-start handoff to kick off investigation.</span>
       
     </span>
-    <span class="count">2 bugs</span>
+    <span class="count">3 bugs</span>
+    
   </div>
-  
-  <input type="search" class="rail-search"
-         placeholder="Filter by title or bug id…"
-         aria-label="Filter bugs in this tab">
-  
   
   <div class="rail-list-scroll">
   <ol>
     
       <li>
         <a class="rail-item is-active"
-           data-bug-id="2042862"
-           href="triaged-bug-2042862.html"
-           data-nav-target="triaged-bug-2042862.html"
+           data-bug-id="2043895"
+           href="triaged-bug-2043895.html"
+           data-nav-target="triaged-bug-2043895.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2042862</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043895</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
-          <div class="rail-title">Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`</div>
+          <div class="rail-title">mediaCapabilities.decodingInfo is still slow</div>
         </a>
       </li>
     
@@ -162,47 +178,77 @@ button:disabled {
            data-nav-target="triaged-bug-2043087.html"
            data-nav-swap="#deck-area">
           <div class="rail-item-row1">
-            <span class="rail-bug-id">2043087</span>
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2043087</span>
+              
+              
+            </span>
             
-            
-            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
           </div>
           <div class="rail-title">Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)</div>
+        </a>
+      </li>
+    
+      <li>
+        <a class="rail-item"
+           data-bug-id="2042862"
+           href="triaged-bug-2042862.html"
+           data-nav-target="triaged-bug-2042862.html"
+           data-nav-swap="#deck-area">
+          <div class="rail-item-row1">
+            <span class="rail-id-group">
+              <span class="rail-bug-id">2042862</span>
+              
+              
+            </span>
+            
+            <span class="rail-tag-group">
+              <span class="rail-tag rail-tag--new">New</span>
+              
+              
+            </span>
+          </div>
+          <div class="rail-title">Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`</div>
         </a>
       </li>
     
   </ol>
   </div>
 </aside>
+  </div>
+  <div id="deck-area">
+    
+    <nav class="deck-nav"
+         aria-label="Bug navigation"
+         title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
+      <button type="button" class="deck-kbd-btn deck-prev"
+              disabled aria-disabled="true"
+              aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
+      <span class="deck-pos">
+        bug <strong>1</strong> of <strong>3</strong>
+      </span>
+      <div class="deck-bar" aria-hidden="true">
+        <div class="deck-bar-fill" style="width: 33.0%"></div>
       </div>
-      <div id="deck-area">
-        
-        <nav class="deck-nav"
-             aria-label="Bug navigation"
-             title="Keyboard: ↑/↓ prev/next · / search · a apply · s skip · Esc unfocus">
-          <button type="button" class="deck-kbd-btn deck-prev"
-                  disabled aria-disabled="true"
-                  aria-label="Previous bug (Up arrow)"><kbd>↑</kbd></button>
-          <span class="deck-pos">
-            bug <strong>1</strong> of <strong>2</strong>
-          </span>
-          <div class="deck-bar" aria-hidden="true">
-            <div class="deck-bar-fill" style="width: 50.0%"></div>
-          </div>
-          <button type="button" class="deck-kbd-btn deck-next"
-                  
-                  data-nav-target="triaged-bug-2043087.html"
-                  data-nav-swap="#deck-area"
-                  
-                  aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
-        </nav>
-        
-        <div class="deck-stage">
-          
-          
-<article class="card" id="card-2042862">
+      <button type="button" class="deck-kbd-btn deck-next"
+              
+              data-nav-target="triaged-bug-2043087.html"
+              data-nav-swap="#deck-area"
+              
+              aria-label="Next bug (Down arrow)"><kbd>↓</kbd></button>
+    </nav>
+    
+    <div class="deck-stage">
+      
+      
+<article class="card" id="card-2043895">
   <div class="card-head">
-    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2042862" target="_blank" rel="noopener">2042862</a></span>
+    <span class="bug-id"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2043895" target="_blank" rel="noopener">2043895</a></span>
     
     
     
@@ -216,7 +262,7 @@ button:disabled {
   </div>
 
   <h3 class="card-title">
-    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2042862" target="_blank" rel="noopener">Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`</a>
+    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2043895" target="_blank" rel="noopener">mediaCapabilities.decodingInfo is still slow</a>
   </h3>
 
   
@@ -231,17 +277,24 @@ button:disabled {
     
     <p class="card-byline">
       
-        Reported by <strong>[:Atemu]</strong>
+        Reported by <strong>bugzilla.mozilla.org.wireless475@passmail.net</strong>
       
-       <span class="dot">·</span> <strong>Linux x86_64</strong>
-       <span class="dot">·</span> Firefox <strong>150.0</strong>
-       <span class="dot">·</span> last activity 2026-05-27
+       <span class="dot">·</span> filed 2026-05-31
+       <span class="dot">·</span> last activity 2026-05-31
+    </p>
+    
+    
+    
+    <p class="card-version">
+      <span class="ver-chip ver-chip--platform"><span class="ver-chip-key">Platform</span>Windows 10 x64</span>
+      <span class="ver-chip ver-chip--found"><span class="ver-chip-key">Found</span>153.0a1</span>
+      <span class="ver-chip ver-chip--affected"><span class="ver-chip-key">Affected</span>all</span>
     </p>
     
 
     
     <ul class="inventory">
-      <li class="present">platform / version</li><li class="present">STR</li><li class="present">public reproducer URL</li><li class="present">reporter source-line analysis (searchfox links)</li>
+      <li class="present">platform / version</li><li class="present">STR (self-contained benchmark)</li><li class="present">cross-browser comparison numbers</li><li class="present">codec/container (avc1.640028, media-source)</li>
       
     </ul>
     
@@ -254,15 +307,15 @@ button:disabled {
       <div class="see-also similar-list">
         
           <a class="see-also-pill"
-             href="https://bugzilla.mozilla.org/show_bug.cgi?id=1511117"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=1676902"
              target="_blank" rel="noopener">
-            bug 1511117<span class="lbl">original meta — block autoplay for web audio</span>
+            bug 1676902<span class="lbl">prior bug, closed WORKSFORME</span>
           </a>
         
           <a class="see-also-pill"
-             href="https://bugzilla.mozilla.org/show_bug.cgi?id=2023365"
+             href="https://bugzilla.mozilla.org/show_bug.cgi?id=1758786"
              target="_blank" rel="noopener">
-            bug 2023365<span class="lbl">autoplay meta blocker</span>
+            bug 1758786<span class="lbl">related decodingInfo work</span>
           </a>
         
       </div>
@@ -278,23 +331,10 @@ button:disabled {
         <div class="body description-body">
           
           
-            <div class="desc-section">
-              <span class="desc-label">Steps to reproduce</span>
-              <div class="desc-content">1. Set `media.autoplay.blocking_policy != 0`. 2. Open <a href="https://mounirlamouri.github.io/sandbox/autoplay/webaudio.html" target="_blank" rel="noopener">https://mounirlamouri.github.io/sandbox/autoplay/webaudio.html</a>.</div>
-            </div>
           
           
-            <div class="desc-section">
-              <span class="desc-label">Actual</span>
-              <div class="desc-content">It autoplays webaudio.</div>
-            </div>
           
-          
-            <div class="desc-section">
-              <span class="desc-label">Expected</span>
-              <div class="desc-content">It should not autoplay webaudio. Reporter follow-up: the gate at AutoplayPolicy.cpp:297-299 reduces to `StaticPrefs::media_autoplay_blocking_policy() != sPOLICY_STICKY_ACTIVATION` and therefore always returns true without checking permissions, with no AUTOPLAY_LOG traces to aid debugging.</div>
-            </div>
-          
+            <p>After triaging an issue for playback starting much slower on Firefox than Chromium with Shaka player. Reporter arrived at bug 1676902, which is closed despite performance still not being usable. Provides a self-contained benchmark of navigator.mediaCapabilities.decodingInfo() for video/mp4 codecs=avc1.640028 1080p30. Chromium: cold 1.60 ms, uncached 0.09 ms/call, cached 0.07 ms/call. Firefox Nightly 153.0a1: cold 16.00 ms, uncached 18.87 ms/call, cached 17.33 ms/call. In some cases playback delayed tens of seconds due to volume of stream types checked.</p>
           
         </div>
       </details>
@@ -306,9 +346,9 @@ button:disabled {
         <div class="body">
           
           <div class="comment-snippet">
-            <span class="author">mozilla.bugzilla@mail.atemu.net</span>
-            <span class="ts">2026-05-27 15:30</span>
-            <p>Looking closer into this, it appears AutoplayPolicy.cpp:297-299 is really just `StaticPrefs::media_autoplay_blocking_policy() != sPOLICY_STICKY_ACTIVATION` according to AutoplayPolicy.cpp:158-161 and therefore always gives back true without even checking permissions etc.</p>
+            <span class="author">bugzilla.mozilla.org.wireless475@passmail.net</span>
+            <span class="ts">2026-05-31 11:15</span>
+            <p>Benchmark: Firefox decodingInfo ~17 ms/call (cold/uncached/cached all similar) vs Chromium ~0.09 ms/call. Playback delayed tens of seconds with Shaka due to many stream types checked.</p>
           </div>
           
         </div>
@@ -318,7 +358,9 @@ button:disabled {
       
       <details>
         <summary>AI reasoning</summary>
-        <div class="body md-body"><p>Reporter pinpointed the exact source lines: IsEnableBlockingWebAudioByUserGesturePolicy() (AutoplayPolicy.cpp:158) returns true only for sPOLICY_STICKY_ACTIVATION, and the AudioContext autoplay check at line 297-299 early-returns true when that helper is false — bypassing all permission/activation checks for the transient-activation and click-to-play policies. The HTMLMediaElement path (IsAllowedToPlayByBlockingModel at line 163) handles all three policies correctly, so the fix is to make the Web Audio path mirror that. S3/P3 because the bug only manifests when the user changes media.autoplay.blocking_policy away from its default of 0.</p></div>
+        <div class="body md-body"><p>Deep investigation (gecko-navigator, mozilla-central rev e28b34ab33db). ROOT CAUSE: MediaCapabilities::CheckVideoDecodingInfo (dom/media/mediacapabilities/MediaCapabilities.cpp#1058) on a fresh per-call TaskQueue (#854) does AllocationWrapper::CreateDecoder + decoder-&gt;Init() (#1106, cross-process WMF/RDD setup) + IsHardwareAccelerated() (#1118) + Shutdown() (#1127), SOLELY to obtain the hardware-accel bool. CreateVideoDecodingInfo (#776) shows mSupported is decided earlier, mSmooth is hardcoded true, and only mPowerEfficient = hwAccel || lowResolution needs the decoder. SingleAllocPolicy (#1084) serializes concurrent queries (compounds Shaka latency); NO result cache. CHEAPER PATH ALREADY EXISTS: WebRTC branch CreateWebRTCDecodingInfo (#622) computes powerEfficient via SupportsVideoMimeDecodeForWebrtc().contains(HardwareDecode) with no Init(). PDMFactory::Supports in content process is a cheap in-memory bitset lookup (RemoteMediaManagerChild::Supports #241, sProcessSupported). CAVEAT (Medium): content-process RemoteDecoderModule::Supports (#84) currently collapses to SoftwareDecode (pending bug 1754239), so a naive Supports().contains(HardwareDecode) would always be false; the lighter query must source HW-accel like the WebRTC path (gfxVars/codec info) or depend on 1754239. PROPOSED FIX: (1) lighter query - compute powerEfficient from capability/HW signal mirroring WebRTC, eliminating per-call Init (primary win); (2) config-keyed per-process result cache (keys: codec string, w/h, framerate, color depth, colorspace/HDR, RFP flag), mutex-guarded, ClearOnShutdown, invalidated on remote-process relaunch / pref changes. Functions: CheckVideoDecodingInfo; factor shared powerEfficient helper with CreateVideoDecodingInfo/CreateWebRTCDecodingInfo. Tests to keep green: dom/media/gtest/TestMediaCapabilities.cpp + wpt media-capabilities. Risk: powerEfficient reflects capability vs negotiated MFT - acceptable (advisory field; WebRTC path already accepts this). S3/P2.</p>
+<p>REFINE (alwu): set NI :az = azebrowski@mozilla.com (Ashley Zebrowski, Media Capabilities owner) to offer the bug; comment notes :alwu (alwu@mozilla.com) as fallback if she lacks bandwidth. Fixed bot-voice slip (&#39;I&#39;ll pursue the above&#39; -&gt; neutral). Kept S3/P2, blocks 1884199, cc alwu.</p>
+<p>REFINE (alwu): severity confirmed S3 (was S3). No other change; priority stays P2.</p></div>
       </details>
       
     </div>
@@ -339,7 +381,7 @@ button:disabled {
     <div class="findings-body">
       
       
-      <p class="findings-root-cause"><strong>Root cause:</strong> AutoplayPolicy::IsAllowedToPlay(AudioContext&amp;) early-returns true whenever media.autoplay.blocking_policy != sPOLICY_STICKY_ACTIVATION, so Web Audio bypasses all permission/activation checks under the transient-activation and click-to-play policies.</p>
+      <p class="findings-root-cause"><strong>Root cause:</strong> navigator.mediaCapabilities.decodingInfo() instantiates a real MediaDataDecoder (create + Init + Shutdown) on every non-DRM video query, with no result caching, so each call costs ~17 ms on Windows (WMF/RDD setup) regardless of repetition.</p>
       
       
       <div class="findings-files">
@@ -347,7 +389,13 @@ button:disabled {
         <ul>
           
           
-          <li><a href="https://searchfox.org/firefox-main/source/dom/media/autoplay/AutoplayPolicy.cpp#297" target="_blank" rel="noopener"><code>dom/media/autoplay/AutoplayPolicy.cpp:297-299</code></a></li>
+          <li><a href="https://searchfox.org/firefox-main/source/dom/media/mediacapabilities/MediaCapabilities.cpp#1059" target="_blank" rel="noopener"><code>dom/media/mediacapabilities/MediaCapabilities.cpp:1059</code></a></li>
+          
+          
+          <li><a href="https://searchfox.org/firefox-main/source/dom/media/mediacapabilities/MediaCapabilities.cpp#854" target="_blank" rel="noopener"><code>dom/media/mediacapabilities/MediaCapabilities.cpp:854</code></a></li>
+          
+          
+          <li><a href="https://searchfox.org/firefox-main/source/dom/media/mediacapabilities/MediaCapabilities.cpp#1093" target="_blank" rel="noopener"><code>dom/media/mediacapabilities/MediaCapabilities.cpp:1093</code></a></li>
           
         </ul>
       </div>
@@ -355,17 +403,17 @@ button:disabled {
       
       
       <p class="findings-related"><strong>Related:</strong>
-        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1511117" target="_blank" rel="noopener">bug 1511117</a>, <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=2023365" target="_blank" rel="noopener">bug 2023365</a>
+        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1676902" target="_blank" rel="noopener">bug 1676902</a>, <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1758786" target="_blank" rel="noopener">bug 1758786</a>
       </p>
       
       
-      <p class="findings-complexity"><strong>Complexity:</strong> low</p>
+      <p class="findings-complexity"><strong>Complexity:</strong> medium</p>
       
       
-      <p class="findings-notes">Only triggered when the user sets a non-default media.autoplay.blocking_policy. The HTMLMediaElement path uses a distinct helper (IsAllowedToPlayByBlockingModel) that handles all three policies — the Web Audio path is the outlier.</p>
+      <p class="findings-notes">Reporter&#39;s own benchmark shows cached == uncached == ~17 ms/call, which directly confirms there is no result cache. Bug 1676902 (closed WORKSFORME) addressed earlier regressions but the steady-state per-call cost remains.</p>
       
       <p class="findings-link">
-        <a href="investigations/bug-2042862.html" target="_blank" rel="noopener">Open full investigation →</a>
+        <a href="investigations/bug-2043895.html" target="_blank" rel="noopener">Open full investigation →</a>
         
         <span class="findings-depth-triage"
               title="This investigation ran in shallow triage mode. Re-run /bug-start without the triage flag for a deeper analysis.">shallow · re-run for deep</span>
@@ -376,12 +424,18 @@ button:disabled {
   </details>
   
 
-  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the detailed analysis and the searchfox citations — you are right, this is a real gap. <code>IsAllowedToPlay(AudioContext&amp;amp;)</code> at <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#297"><code>AutoplayPolicy.cpp:297-299</code></a> gates the rest of the Web Audio autoplay check on <code>IsEnableBlockingWebAudioByUserGesturePolicy()</code>, which only returns <code>true</code> for <code>sPOLICY_STICKY_ACTIVATION</code> (<code>media.autoplay.blocking_policy == 0</code>). For the transient-activation and click-to-play policies, the function short-circuits and Web Audio is allowed to play with no permission or activation check. The HTMLMediaElement path uses <a href="https://searchfox.org/mozilla-central/source/dom/media/autoplay/AutoplayPolicy.cpp#163"><code>IsAllowedToPlayByBlockingModel</code></a>, which has explicit branches for all three policy values — so the Web Audio path is the outlier and the gate needs to be reworked to mirror that. Adding <code>AUTOPLAY_LOG</code> traces in <code>IsAllowedToPlay(AudioContext&amp;amp;)</code> is also worth doing here so this isn&#39;t as painful to diagnose next time.</p>
-<p>Marking S3/P3 since the issue is only triggered when <code>media.autoplay.blocking_policy</code> is set away from its default of <code>0</code>, but the fix scope is small and well-localized.</p></div>
+  <div class="card-comment md-body" aria-label="Proposed comment"><p>Thanks for the detailed benchmark and for tracking this back to bug 1676902.</p>
+<p>I can confirm the cost and I have looked into where it comes from. For a non-DRM video configuration, <code>navigator.mediaCapabilities.decodingInfo()</code> currently instantiates a real <code>MediaDataDecoder</code> for each query -- it creates the decoder, calls <code>Init()</code>, reads the hardware-acceleration status, then shuts it down. On Windows the H.264 decoder is a Media Foundation decoder set up across the RDD/utility process, which dominates the ~17 ms you measured, and the per-call work is serialized, so Shaka&#39;s many parallel probes queue up. The result is not cached, which is why your <code>cached</code> run costs the same as <code>uncached</code>. (Bug 1676902&#39;s earlier improvement was on the codec-agnostic/WebM path, so it never touched this Windows H.264 instantiation cost.)</p>
+<p>The key observation: of the three result fields, <code>supported</code> already comes from a cheap in-process capability lookup and <code>smooth</code> is a constant -- only <code>powerEfficient</code> currently needs the live decoder, and only to read its hardware-accelerated flag. The WebRTC branch of this same API already computes <code>powerEfficient</code> <em>without</em> instantiating a decoder. So the proposed fix is:</p>
+<ol>
+<li>Compute <code>powerEfficient</code> from the capability/HW-decode signal instead of spinning up and tearing down a decoder, mirroring the WebRTC path. (One dependency: in the content process the remote support query does not yet distinguish HW vs SW decode -- tracked by bug 1754239 -- so the HW-accel signal has to come from the same source the WebRTC path uses, or ride on that bug.)</li>
+<li>Add a configuration-keyed result cache as a complementary safety net, so repeated identical probes (exactly Shaka&#39;s pattern) are effectively free.</li>
+</ol>
+<p>This is a real performance problem worth fixing. Ashley (:az) — adding a needinfo to see whether you&#39;d like to take this, since it sits squarely in your Media Capabilities area. If you don&#39;t have the bandwidth, we can route it to :alwu instead. Keeping S3/P2 — functional, but a meaningful startup-latency regression vs. Chromium on Windows DASH/Shaka.</p></div>
 
   <form class="composer"
-        data-feedback-form="2042862"
-        data-nav-swap="#fbstatus-2042862">
+        data-feedback-form="2043895"
+        data-nav-swap="#fbstatus-2043895">
     <div class="composer-frame">
       <textarea name="feedback" class="composer-input" rows="2"
                 aria-label="Feedback for the AI"
@@ -389,25 +443,25 @@ button:disabled {
       <button type="submit" class="composer-send" disabled>Revise draft</button>
     </div>
   </form>
-  <div id="fbstatus-2042862" class="feedback-status" aria-live="polite"></div>
+  <div id="fbstatus-2043895" class="feedback-status" aria-live="polite"></div>
 
   
 
   <div class="card-foot">
     <div class="diff">
       <span class="pill pill-sev">S3</span>
-      <span class="pill pill-pri">P3</span>
+      <span class="pill pill-pri">P2</span>
       
       
       
         <span class="sep">·</span>
         <span><span class="plus">+</span>blocks
-          <a class="meta" href="https://bugzilla.mozilla.org/show_bug.cgi?id=2023365" target="_blank" rel="noopener">2023365</a>
+          <a class="meta" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1884199" target="_blank" rel="noopener">1884199</a>
         </span>
       
       
         <span class="sep">·</span>
-        <span><span class="plus">+</span>ni alwu@mozilla.com</span>
+        <span><span class="plus">+</span>ni azebrowski@mozilla.com</span>
       
       
         <span class="sep">·</span>
@@ -418,15 +472,15 @@ button:disabled {
     <div class="actions">
       
         <button disabled title="demo — actions disabled" class="btn btn-primary"
-                data-nav-swap="#apply-status-2042862">Apply</button>
+                data-nav-swap="#apply-status-2043895">Apply</button>
       
     </div>
   </div>
-  <div id="apply-status-2042862" class="apply-status-host" aria-live="polite"></div>
+  <div id="apply-status-2043895" class="apply-status-host" aria-live="polite"></div>
 </article>
-        </div>
-      </div>
     </div>
+  </div>
+</div>
   
 
     </div>
@@ -479,20 +533,25 @@ button:disabled {
         break;
       case 'ArrowLeft':
       case 'ArrowRight': {
-        // Switch to prev/next topbar tab. No wrap at edges.
+        // Switch to prev/next topbar tab. No wrap at edges. We own the key
+        // whenever a tab is active, so preventDefault even at the edges so
+        // the arrow never scrolls the page instead. hx-sync on the tabs
+        // makes a new request abort any in-flight one, so rapid presses
+        // can't land out of order (which made selection skip / feel
+        // unstable).
         const tabs = Array.from(document.querySelectorAll('.tab'));
         const idx = tabs.findIndex(t => t.classList.contains('tab--active'));
         if (idx < 0) break;
+        e.preventDefault();
         const target = e.key === 'ArrowLeft' ? idx - 1 : idx + 1;
         if (target >= 0 && target < tabs.length) {
           tabs[target].click();
-          e.preventDefault();
         }
         break;
       }
       case '/':
         {
-          const search = document.querySelector('.rail-search');
+          const search = document.querySelector('.global-search');
           if (search) { search.focus(); search.select(); e.preventDefault(); }
         }
         break;
@@ -500,6 +559,17 @@ button:disabled {
         clickIfActive('.deck-stage .btn-primary, .deck-stage .btn-reassign');
         break;
       case 'Escape':
+        {
+          const search = document.querySelector('.global-search');
+          // Esc in the search box clears it and returns to the tab view.
+          if (search && document.activeElement === search && search.value) {
+            search.value = '';
+            search.dispatchEvent(new Event('search', { bubbles: true }));
+            search.blur();
+            e.preventDefault();
+            break;
+          }
+        }
         if (document.activeElement && 'blur' in document.activeElement) {
           document.activeElement.blur();
         }
@@ -530,15 +600,20 @@ button:disabled {
   // from the URL so the chrome reflects where we just landed.
   document.addEventListener('htmx:afterSwap', () => {
     const params = new URLSearchParams(window.location.search);
-    const activeTab = params.get('tab');
-    if (activeTab) {
-      document.querySelectorAll('.tab').forEach(t => {
-        const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
-        const isActive = slug === activeTab;
-        t.classList.toggle('tab--active', isActive);
-        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
+    const searching = !!params.get('q');
+    // Keep the search box value in sync (e.g. after back/forward nav).
+    const search = document.querySelector('.global-search');
+    if (search && document.activeElement !== search) {
+      search.value = params.get('q') || '';
     }
+    const activeTab = params.get('tab');
+    // In search mode no tab is active; otherwise reflect the URL's tab.
+    document.querySelectorAll('.tab').forEach(t => {
+      const slug = new URL(t.href, window.location.origin).searchParams.get('tab');
+      const isActive = !searching && slug === activeTab;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
     const activeBug = params.get('bug');
     if (!activeBug) return;
     document.querySelectorAll('.rail-item').forEach(el => {
@@ -880,8 +955,85 @@ button:disabled {
     const name = (window.location.pathname.split('/').pop() || 'index.html');
     navigate(name, false);
   });
+
+  // Exposed so the search shim can restore the rail when the query clears.
+  window.__demoNavigate = navigate;
+  window.__demoCurrentFile = () =>
+    (window.location.pathname.split('/').pop() || 'index.html');
 })();
 </script>
 
+<script>window.__TRIAGE_SEARCH__ = [{"id": 2043943, "title": "Defective video processing", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043943.html", "filed": "2026-05-31T21:24:12Z"}, {"id": 2043895, "title": "mediaCapabilities.decodingInfo is still slow", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043895.html", "filed": "2026-05-31T11:15:55Z"}, {"id": 2043826, "title": "RDD process leaks ~24 GB working set after ~45h uptime on Firefox 150.0.1 Windows 10 (about:memory shows only 81 MB)", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2043826.html", "filed": "2026-05-30T13:12:14Z"}, {"id": 2043087, "title": "Non-DRM MSE video intermittently routed to WMF Media Engine CDM utility process causing NS_ERROR_DOM_MEDIA_NOT_SUPPORTED_ERR (0x806e0003)", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2043087.html", "filed": "2026-05-28T01:35:40Z"}, {"id": 2042862, "title": "Autoplay policy ineffective when not `sPOLICY_STICKY_ACTIVATION`", "tags": ["new"], "label": "Analyzed", "file": "triaged-bug-2042862.html", "filed": "2026-05-27T15:22:48Z"}, {"id": 2042812, "title": "Video corruption on YouTube", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042812.html", "filed": "2026-05-27T13:57:20Z"}, {"id": 2042323, "title": "Total audio loss on video streams with file:/// security error in console on build 20260525212335", "tags": ["new"], "label": "Needs Info", "file": "needs-info-bug-2042323.html", "filed": "2026-05-26T08:57:13Z"}, {"id": 2042320, "title": "10bit h264 fails to play on Windows", "tags": ["new"], "label": "Close / Reassign", "file": "close-bug-2042320.html", "filed": "2026-05-26T08:52:53Z"}, {"id": 2041904, "title": "Music controls in the notification drawer STILL fail to work on Android 15", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041904.html", "filed": "2026-05-23T10:54:38Z"}, {"id": 2041883, "title": "On startup, Firefox seems to be creating tons of(50+)  &#34;dav1d-worker&#34; threads. Maybe it shouldnt?", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041883.html", "filed": "2026-05-23T08:04:42Z"}, {"id": 2041545, "title": "wrongly detects &#39;An AudioContext was prevented from starting automatically&#39;", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041545.html", "filed": "2026-05-22T03:26:24Z"}, {"id": 2041202, "title": "When audio playback on webpage is stopped, audio engine is left playing a buzzing/beeping sound", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2041202.html", "filed": "2026-05-21T04:55:05Z"}, {"id": 2041039, "title": "Intel Mac WindowServer crash (SIGSEGV) in CGXRemoveHotKey when closing Firefox or media tabs", "tags": [], "label": "Close / Reassign", "file": "close-bug-2041039.html", "filed": "2026-05-20T16:55:09Z"}, {"id": 2040219, "title": "does not play some amazon videos", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040219.html", "filed": "2026-05-17T12:21:45Z"}, {"id": 2040169, "title": "Continuous memory growth on Twitch when autoplay is blocked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040169.html", "filed": "2026-05-16T22:31:25Z"}, {"id": 2040167, "title": "Twitch player show rapid play/pause until clicked", "tags": [], "label": "Needs Info", "file": "needs-info-bug-2040167.html", "filed": "2026-05-16T22:19:29Z"}];</script>
+<script>
+(function () {
+  const idx = window.__TRIAGE_SEARCH__ || [];
+  const box = document.querySelector('.global-search');
+  if (!box) return;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"]/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function tagSpans(tags) {
+    return (tags || []).map(t =>
+      '<span class="rail-tag rail-tag--' + t + '">' +
+      (t === 'new' ? 'New' : t) + '</span>').join('');
+  }
+  function matches(item, q) {
+    const ql = q.toLowerCase();
+    return String(item.id).includes(q)
+      || (item.title || '').toLowerCase().includes(ql)
+      || (item.tags || []).some(t => t.startsWith(ql));
+  }
+  function resultsRail(hits) {
+    const lis = hits.map(it =>
+      '<li><a class="rail-item" data-bug-id="' + it.id + '" ' +
+        'href="' + it.file + '" data-nav-target="' + it.file + '">' +
+        '<div class="rail-item-row1">' +
+          '<span class="rail-id-group">' +
+            '<span class="rail-bug-id">' + it.id + '</span>' +
+            '<span class="rail-badge">' + esc(it.label) + '</span>' +
+          '</span>' +
+          '<span class="rail-tag-group">' + tagSpans(it.tags) + '</span>' +
+        '</div>' +
+        '<div class="rail-title">' + esc(it.title) + '</div>' +
+      '</a></li>').join('');
+    return '<aside class="rail"><div class="rail-head">' +
+      '<span class="rail-head-title">Results</span>' +
+      '<span class="count">' + hits.length + ' found</span></div>' +
+      '<div class="rail-list-scroll"><ol>' + lis + '</ol></div></aside>';
+  }
+
+  function run(q) {
+    q = (q || '').trim();
+    const host = document.getElementById('rail-host');
+    if (!q) {
+      // Restore the normal rail by reloading the current page's content.
+      if (window.__demoNavigate) window.__demoNavigate(window.__demoCurrentFile(), false);
+      return;
+    }
+    if (!host) return;
+    const hits = idx.filter(it => matches(it, q));
+    if (!hits.length) {
+      const tc = document.getElementById('tab-content');
+      if (tc) tc.innerHTML = '<p class="empty">No bugs match \u201c' + esc(q) + '\u201d.</p>';
+    } else {
+      host.innerHTML = resultsRail(hits);
+    }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+  }
+
+  let timer = null;
+  box.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(box.value), 200);
+  });
+  box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
+  if (box.value) run(box.value);
+})();
+</script>
 </body>
 </html>

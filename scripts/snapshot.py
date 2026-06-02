@@ -28,6 +28,9 @@ REPO = Path(__file__).resolve().parent.parent
 DOCS = REPO / "docs"
 INV_DIR = REPO / "investigations"
 
+# JSON of the global-search index; populated in main(), embedded per page.
+SEARCH_INDEX_JSON = "[]"
+
 # These four tabs cover the entire UI surface today.
 TABS = ["triaged", "needs-info", "close", "watching"]
 DEFAULT_TAB = "triaged"  # index.html will be a copy of this tab's landing
@@ -36,6 +39,70 @@ SEC_KEYWORDS = {
     "sec-critical", "sec-high", "sec-moderate", "sec-low",
     "sec-vector", "sec-other", "sec-audit",
 }
+
+# Tab slug → section badge label, for global-search results (1:1 with the
+# live dashboard's tab labels).
+TAB_LABEL = {
+    "triaged": "Analyzed",
+    "needs-info": "Needs Info",
+    "close": "Close / Reassign",
+}
+
+
+def sync_investigations() -> None:
+    """Copy investigations for the current §1b (analyzed) drafts from the
+    local investigation dir into the repo's investigations/ dir, so they get
+    rendered and sec-checked. §1b = a pending draft with severity or priority
+    set. Without this, a newly-analyzed bug's investigation is missing from
+    the demo until manually copied."""
+    INV_DIR.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for p in (TRIAGE_DIR / "pending").glob("bug-*.json"):
+        try:
+            d = json.loads(p.read_text())
+        except Exception:
+            continue
+        if not (d.get("severity") or d.get("priority")):
+            continue
+        bug = d.get("bug_id")
+        src = INVESTIGATIONS_SRC / f"bug-{bug}-investigation.md"
+        if src.exists():
+            shutil.copyfile(src, INV_DIR / f"bug-{bug}-investigation.md")
+            copied += 1
+    if copied:
+        print(f"  synced {copied} investigation(s) from {INVESTIGATIONS_SRC}")
+
+
+def build_search_index() -> list[dict]:
+    """Build the client-side global-search index from the rendered rail items
+    (so tags are 1:1 with the live dashboard). Each entry: id, title, tags
+    (new/emergency/regression), section label, target file, filed date.
+    Sorted newest-filed-first to mirror the live results order."""
+    items: list[dict] = []
+    for tab in ("triaged", "needs-info", "close"):
+        html = fetch(f"/?tab={tab}")
+        for m in re.finditer(
+            r'<a class="rail-item[^"]*"[^>]*data-bug-id="(\d+)".*?</a>',
+            html, re.S,
+        ):
+            block, bug = m.group(0), int(m.group(1))
+            tm = re.search(r'<div class="rail-title">(.*?)</div>', block, re.S)
+            title = re.sub(r"<[^>]+>", "", tm.group(1)).strip() if tm else ""
+            tags = [t for t in ("new", "emergency", "regression")
+                    if f"rail-tag--{t}" in block]
+            filed = ""
+            try:
+                d = json.loads((TRIAGE_DIR / "pending" / f"bug-{bug}.json").read_text())
+                filed = (d.get("bug_context") or {}).get("filed") or ""
+            except Exception:
+                pass
+            items.append({
+                "id": bug, "title": title, "tags": tags,
+                "label": TAB_LABEL[tab], "file": url_to_filename(tab, bug),
+                "filed": filed,
+            })
+    items.sort(key=lambda x: (x["filed"], x["id"]), reverse=True)
+    return items
 
 
 def fetch(path: str) -> str:
@@ -349,9 +416,91 @@ _FEEDBACK_SHIM = """
     const name = (window.location.pathname.split('/').pop() || 'index.html');
     navigate(name, false);
   });
+
+  // Exposed so the search shim can restore the rail when the query clears.
+  window.__demoNavigate = navigate;
+  window.__demoCurrentFile = () =>
+    (window.location.pathname.split('/').pop() || 'index.html');
 })();
 </script>
 """
+
+
+# Global-search shim: filters an embedded index across ALL sections and
+# renders a flat results rail (1:1 with the live New tag + section badge),
+# wholly client-side. Result clicks reuse the nav shim (data-nav-target).
+_SEARCH_SHIM = """
+<script>
+(function () {
+  const idx = window.__TRIAGE_SEARCH__ || [];
+  const box = document.querySelector('.global-search');
+  if (!box) return;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"]/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function tagSpans(tags) {
+    return (tags || []).map(t =>
+      '<span class="rail-tag rail-tag--' + t + '">' +
+      (t === 'new' ? 'New' : t) + '</span>').join('');
+  }
+  function matches(item, q) {
+    const ql = q.toLowerCase();
+    return String(item.id).includes(q)
+      || (item.title || '').toLowerCase().includes(ql)
+      || (item.tags || []).some(t => t.startsWith(ql));
+  }
+  function resultsRail(hits) {
+    const lis = hits.map(it =>
+      '<li><a class="rail-item" data-bug-id="' + it.id + '" ' +
+        'href="' + it.file + '" data-nav-target="' + it.file + '">' +
+        '<div class="rail-item-row1">' +
+          '<span class="rail-id-group">' +
+            '<span class="rail-bug-id">' + it.id + '</span>' +
+            '<span class="rail-badge">' + esc(it.label) + '</span>' +
+          '</span>' +
+          '<span class="rail-tag-group">' + tagSpans(it.tags) + '</span>' +
+        '</div>' +
+        '<div class="rail-title">' + esc(it.title) + '</div>' +
+      '</a></li>').join('');
+    return '<aside class="rail"><div class="rail-head">' +
+      '<span class="rail-head-title">Results</span>' +
+      '<span class="count">' + hits.length + ' found</span></div>' +
+      '<div class="rail-list-scroll"><ol>' + lis + '</ol></div></aside>';
+  }
+
+  function run(q) {
+    q = (q || '').trim();
+    const host = document.getElementById('rail-host');
+    if (!q) {
+      // Restore the normal rail by reloading the current page's content.
+      if (window.__demoNavigate) window.__demoNavigate(window.__demoCurrentFile(), false);
+      return;
+    }
+    if (!host) return;
+    const hits = idx.filter(it => matches(it, q));
+    if (!hits.length) {
+      const tc = document.getElementById('tab-content');
+      if (tc) tc.innerHTML = '<p class="empty">No bugs match \\u201c' + esc(q) + '\\u201d.</p>';
+    } else {
+      host.innerHTML = resultsRail(hits);
+    }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('tab--active');
+      t.setAttribute('aria-selected', 'false');
+    });
+  }
+
+  let timer = null;
+  box.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(box.value), 200);
+  });
+  box.addEventListener('search', () => run(box.value));   // native clear (x) / Esc
+  if (box.value) run(box.value);
+})();
+</script>"""
 
 _DEMO_CSS = """
 <style>
@@ -724,9 +873,29 @@ def inject_head_and_banner(html: str) -> str:
         html,
         count=1,
     )
-    # Feedback shim before </body>
-    html = html.replace("</body>", _FEEDBACK_SHIM + "\n</body>", 1)
+    # Before </body>: feedback shim (defines window.__demoNavigate), then
+    # the search index, then the search shim (uses both).
+    index_script = (
+        "\n<script>window.__TRIAGE_SEARCH__ = " + SEARCH_INDEX_JSON + ";</script>"
+    )
+    html = html.replace(
+        "</body>",
+        _FEEDBACK_SHIM + index_script + _SEARCH_SHIM + "\n</body>",
+        1,
+    )
     return html
+
+
+def neutralize_search_box(html: str) -> str:
+    """Strip the live htmx attributes from the global-search input so it
+    doesn't fire server requests in the static demo — the search shim drives
+    it client-side via a JS listener instead."""
+    def strip(m: re.Match[str]) -> str:
+        tag = m.group(0)
+        tag = re.sub(r'\s+hx-[a-z:\-]+="[^"]*"', "", tag)
+        tag = re.sub(r'\s+data-nav-[a-z]+="[^"]*"', "", tag)
+        return tag
+    return re.sub(r'<input\b[^>]*\bglobal-search\b[^>]*>', strip, html)
 
 
 def per_bug_fixups(html: str, bug_id: int | None) -> str:
@@ -756,6 +925,7 @@ def transform(html: str, current_tab: str, bug_id: int | None) -> str:
     html = rewire_feedback(html)
     html = disable_mutation_buttons(html)
     html = reset_queue_state(html)
+    html = neutralize_search_box(html)
     html = fix_static_paths(html)
     html = inject_head_and_banner(html)
     html = per_bug_fixups(html, bug_id)
@@ -803,12 +973,19 @@ def main() -> None:
         shutil.rmtree(DOCS)
     DOCS.mkdir(parents=True)
 
+    sync_investigations()
     sec_keyword_check()
     mirror_static()
 
     per_tab = bug_ids_per_tab()
     for tab, ids in per_tab.items():
         print(f"  {tab}: {len(ids)} bug(s)")
+
+    # Build the global-search index once; embedded into every page.
+    global SEARCH_INDEX_JSON
+    index = build_search_index()
+    SEARCH_INDEX_JSON = json.dumps(index, ensure_ascii=False)
+    print(f"  search index: {len(index)} bug(s)")
 
     # Render investigation MDs for analyzed-tab bugs to HTML pages so the
     # "Open full investigation →" link works locally and on GH Pages
